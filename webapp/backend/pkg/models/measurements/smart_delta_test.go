@@ -23,7 +23,7 @@ func TestApplyDeltaEvaluation_UnchangedValue(t *testing.T) {
 				AttributeId:  199,
 				RawValue:     5,
 				Status:       pkg.AttributeStatusWarningScrutiny,
-				StatusReason: "Observed Failure Rate for Non-Critical Attribute is greater than 10%",
+				StatusReason: "非关键属性的观测失败率大于 10%",
 			},
 		},
 	}
@@ -37,7 +37,7 @@ func TestApplyDeltaEvaluation_UnchangedValue(t *testing.T) {
 	// Attribute should be suppressed to passed
 	attr := smart.Attributes["199"].(*measurements.SmartAtaAttribute)
 	require.Equal(t, pkg.AttributeStatusPassed, attr.Status)
-	require.Equal(t, "Cumulative counter unchanged since last measurement", attr.StatusReason)
+	require.Equal(t, "累计计数器自上次测量以来无变化", attr.StatusReason)
 
 	// Device status should also be recalculated to passed
 	require.Equal(t, pkg.DeviceStatusPassed, smart.Status)
@@ -56,7 +56,7 @@ func TestApplyDeltaEvaluation_IncreasedValue(t *testing.T) {
 				AttributeId:  199,
 				RawValue:     6,
 				Status:       pkg.AttributeStatusWarningScrutiny,
-				StatusReason: "Observed Failure Rate for Non-Critical Attribute is greater than 10%",
+				StatusReason: "非关键属性的观测失败率大于 10%",
 			},
 		},
 	}
@@ -70,7 +70,7 @@ func TestApplyDeltaEvaluation_IncreasedValue(t *testing.T) {
 	// Attribute should remain warning - value increased
 	attr := smart.Attributes["199"].(*measurements.SmartAtaAttribute)
 	require.Equal(t, pkg.AttributeStatusWarningScrutiny, attr.Status)
-	require.Contains(t, attr.StatusReason, "Observed Failure Rate")
+	require.Contains(t, attr.StatusReason, "观测失败率")
 }
 
 // TestApplyDeltaEvaluation_NoPreviousData tests that delta evaluation is skipped
@@ -86,7 +86,7 @@ func TestApplyDeltaEvaluation_NoPreviousData(t *testing.T) {
 				AttributeId:  199,
 				RawValue:     5,
 				Status:       pkg.AttributeStatusWarningScrutiny,
-				StatusReason: "Observed Failure Rate for Non-Critical Attribute is greater than 10%",
+				StatusReason: "非关键属性的观测失败率大于 10%",
 			},
 		},
 	}
@@ -113,7 +113,7 @@ func TestApplyDeltaEvaluation_NilPreviousData(t *testing.T) {
 				AttributeId:  199,
 				RawValue:     5,
 				Status:       pkg.AttributeStatusWarningScrutiny,
-				StatusReason: "Observed Failure Rate for Non-Critical Attribute is greater than 10%",
+				StatusReason: "非关键属性的观测失败率大于 10%",
 			},
 		},
 	}

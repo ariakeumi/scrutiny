@@ -165,12 +165,12 @@ func Apply(cfg config.Interface, protocol, attributeId, wwn string) *Result {
 	switch override.Action {
 	case AttributeOverrideActionIgnore:
 		result.ShouldIgnore = true
-		result.StatusReason = "Attribute ignored by user configuration"
+		result.StatusReason = "该属性已被用户配置忽略"
 
 	case AttributeOverrideActionForceStatus:
 		status := override.GetForcedStatus()
 		result.Status = &status
-		result.StatusReason = "Status forced by user configuration"
+		result.StatusReason = "状态已被用户配置强制指定"
 
 	case AttributeOverrideActionAcknowledge:
 		result.AcknowledgedValue = override.PinnedValue
@@ -258,12 +258,12 @@ func ApplyWithOverrides(overrideList []AttributeOverride, protocol, attributeId,
 	switch override.Action {
 	case AttributeOverrideActionIgnore:
 		result.ShouldIgnore = true
-		result.StatusReason = "Attribute ignored by user configuration"
+		result.StatusReason = "该属性已被用户配置忽略"
 
 	case AttributeOverrideActionForceStatus:
 		status := override.GetForcedStatus()
 		result.Status = &status
-		result.StatusReason = "Status forced by user configuration"
+		result.StatusReason = "状态已被用户配置强制指定"
 
 	case AttributeOverrideActionAcknowledge:
 		result.AcknowledgedValue = override.PinnedValue

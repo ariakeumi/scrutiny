@@ -52,14 +52,35 @@
                 <!-- Spacer -->
                 <div class="spacer"></div>
 
+                <!-- Dashboard quick actions (icon only, delegated to the dashboard component) -->
+                @if (isDashboardRoute) {
+                <div class="flex items-center mr-2">
+                    <button
+                        mat-icon-button
+                        matTooltip="已归档设备"
+                        aria-label="已归档设备"
+                        [color]="toolbar.showArchived ? 'primary' : null"
+                        (click)="toolbar.dispatch('toggleArchived')"
+                    >
+                        <mat-icon [svgIcon]="'archive'"></mat-icon>
+                    </button>
+
+                    <button mat-icon-button matTooltip="设置" aria-label="设置" (click)="toolbar.dispatch('openSettings')">
+                        <mat-icon class="rotate-90 mirror" [svgIcon]="'tune'"></mat-icon>
+                    </button>
+
+                    @if (config?.collector_trigger_enabled && !toolbar.isTriggering) {
+                    <button mat-icon-button color="primary" matTooltip="运行采集器" aria-label="运行采集器" (click)="toolbar.dispatch('runCollectors')">
+                        <mat-icon [svgIcon]="'play_arrow'"></mat-icon>
+                    </button>
+                    }
+                </div>
+                }
+
                 <!-- Theme Toggle -->
                 <theme-toggle class="mr-4"></theme-toggle>
 
-                @if (config.server_version) {
-                <a class="version-link" href="https://github.com/Staros-Labs/scrutiny" target="_blank" rel="noopener noreferrer">
-                    <code>{{ config.server_version }}</code>
-                </a>
-                } @if (authEnabled) {
+                @if (authEnabled) {
                 <button mat-icon-button (click)="logout()" matTooltip="退出登录" class="ml-2">
                     <mat-icon svgIcon="heroicons_outline:logout"></mat-icon>
                 </button>

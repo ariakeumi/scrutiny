@@ -98,9 +98,9 @@ func TestSmartAtaDeviceStatAttribute_PopulateAttributeStatus_AtThreshold(t *test
 	attr.PopulateAttributeStatus()
 
 	require.True(t, pkg.AttributeStatusHas(attr.Status, pkg.AttributeStatusFailedScrutiny))
-	require.Contains(t, attr.StatusReason, "Percentage Used Endurance Indicator")
+	require.Contains(t, attr.StatusReason, "耐久度已用百分比指示")
 	require.Contains(t, attr.StatusReason, "100")
-	require.Contains(t, attr.StatusReason, "exceeds threshold")
+	require.Contains(t, attr.StatusReason, "已超过阈值")
 }
 
 func TestSmartAtaDeviceStatAttribute_PopulateAttributeStatus_AboveThreshold(t *testing.T) {
@@ -159,7 +159,7 @@ func TestSmartAtaDeviceStatAttribute_PopulateAttributeStatus_InvalidValue_TooHig
 		"Impossibly high value should be marked as invalid")
 	require.False(t, pkg.AttributeStatusHas(attr.Status, pkg.AttributeStatusFailedScrutiny),
 		"Invalid values should not trigger failure status")
-	require.Contains(t, attr.StatusReason, "exceeds reasonable maximum")
+	require.Contains(t, attr.StatusReason, "超出合理上限")
 }
 
 func TestSmartAtaDeviceStatAttribute_PopulateAttributeStatus_InvalidValue_AtBoundary(t *testing.T) {
@@ -232,7 +232,7 @@ func TestSmartAtaDeviceStatAttribute_PopulateAttributeStatus_ErrorCount_NonZero(
 		"Non-zero error count on critical devstat should warn")
 	require.False(t, pkg.AttributeStatusHas(attr.Status, pkg.AttributeStatusFailedScrutiny),
 		"Error count devstat should NOT fail without a fixed threshold")
-	require.Contains(t, attr.StatusReason, "non-zero error count")
+	require.Contains(t, attr.StatusReason, "错误计数非零")
 }
 
 func TestSmartAtaDeviceStatAttribute_PopulateAttributeStatus_ErrorCount_Zero(t *testing.T) {
@@ -285,7 +285,7 @@ func TestSmartAtaDeviceStatAttribute_PopulateAttributeStatus_Discussion239(t *te
 	attr.PopulateAttributeStatus()
 
 	require.True(t, pkg.AttributeStatusHas(attr.Status, pkg.AttributeStatusFailedScrutiny))
-	require.Contains(t, attr.StatusReason, "Percentage Used Endurance Indicator")
+	require.Contains(t, attr.StatusReason, "耐久度已用百分比指示")
 	require.Contains(t, attr.StatusReason, "118")
 	require.Contains(t, attr.StatusReason, "100")
 }

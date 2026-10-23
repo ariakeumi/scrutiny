@@ -318,21 +318,21 @@ func TestApplyThresholds(t *testing.T) {
 func TestResult_IgnoreAction(t *testing.T) {
 	result := &Result{
 		ShouldIgnore: true,
-		StatusReason: "Attribute ignored by user configuration",
+		StatusReason: "该属性已被用户配置忽略",
 	}
 
 	assert.True(t, result.ShouldIgnore)
-	assert.Equal(t, "Attribute ignored by user configuration", result.StatusReason)
+	assert.Equal(t, "该属性已被用户配置忽略", result.StatusReason)
 }
 
 func TestResult_ForceStatusAction(t *testing.T) {
 	status := pkg.AttributeStatusFailedScrutiny
 	result := &Result{
 		Status:       &status,
-		StatusReason: "Status forced by user configuration",
+		StatusReason: "状态已被用户配置强制指定",
 	}
 
 	assert.NotNil(t, result.Status)
 	assert.Equal(t, pkg.AttributeStatusFailedScrutiny, *result.Status)
-	assert.Equal(t, "Status forced by user configuration", result.StatusReason)
+	assert.Equal(t, "状态已被用户配置强制指定", result.StatusReason)
 }

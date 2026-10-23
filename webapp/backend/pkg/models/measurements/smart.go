@@ -17,8 +17,8 @@ import (
 // Custom threshold status reason strings (S1192: deduplicated string literals)
 const statusReasonWithinThreshold = "Within custom threshold"
 const statusReasonThresholdExceeded = "Custom threshold exceeded"
-const statusReasonAcknowledged = "Acknowledged at value %d"
-const statusReasonAcknowledgementStale = "Acknowledgement no longer applies: value changed from %d to %d"
+const statusReasonAcknowledged = "已确认当前值 %d"
+const statusReasonAcknowledgementStale = "确认已失效：数值从 %d 变为 %d"
 
 // applyOverrideResult applies a parsed override Result to an attribute's status fields.
 // thresholdValue is the value compared against custom WarnAbove/FailAbove thresholds.
@@ -856,7 +856,7 @@ func suppressDeltaIfUnchanged(attr SmartAttribute, previousValues map[string]int
 
 	// The raw value hasn't changed, suppress the warning
 	ataAttr.Status = pkg.AttributeStatusPassed
-	ataAttr.StatusReason = "Cumulative counter unchanged since last measurement"
+	ataAttr.StatusReason = "累计计数器自上次测量以来无变化"
 	return true
 }
 
@@ -992,7 +992,7 @@ func (sm *Smart) rolloverReasonFromHistory(currentPoH int64, previousSmart *Smar
 	if !ok || prevPoH.TransformedValue <= 0 || currentPoH >= prevPoH.TransformedValue {
 		return ""
 	}
-	return fmt.Sprintf("Power-On Hours decreased from %dh to %dh (possible 16-bit counter rollover)", prevPoH.TransformedValue, currentPoH)
+	return fmt.Sprintf("通电时长从 %dh 降至 %dh（可能发生 16 位计数器回绕）", prevPoH.TransformedValue, currentPoH)
 }
 
 // rolloverReasonFromCrossCheck returns a rollover reason when an hours-counter that should never
@@ -1009,9 +1009,9 @@ func (sm *Smart) rolloverReasonFromCrossCheck(currentPoH int64) string {
 	}
 
 	farmSources := []struct{ id, source string }{
-		{"farm_poh", "FARM Power-On Hours"},
-		{"farm_spoh", "FARM Spindle Power-On Hours"},
-		{"farm_head_flight_hours", "FARM Head Flight Hours"},
+		{"farm_poh", "FARM 通电时长"},
+		{"farm_spoh", "FARM 主轴通电时长"},
+		{"farm_head_flight_hours", "FARM 磁头飞行时长"},
 	}
 	for _, c := range farmSources {
 		if farmAttr, ok := sm.Attributes[c.id].(*SmartFarmAttribute); ok {
@@ -1019,11 +1019,11 @@ func (sm *Smart) rolloverReasonFromCrossCheck(currentPoH int64) string {
 		}
 	}
 	if headFlying, ok := sm.Attributes["240"].(*SmartAtaAttribute); ok {
-		consider("Head Flying Hours", parseHoursFromRaw(headFlying.RawValue, headFlying.RawString))
+		consider("磁头飞行时长", parseHoursFromRaw(headFlying.RawValue, headFlying.RawString))
 	}
 
 	if bestHours > currentPoH+rolloverCrossCheckMarginHours {
-		return fmt.Sprintf("Power-On Hours (%dh) is below %s (%dh); possible 16-bit counter rollover", currentPoH, bestSource, bestHours)
+		return fmt.Sprintf("通电时长（%dh）低于 %s（%dh），可能发生 16 位计数器回绕", currentPoH, bestSource, bestHours)
 	}
 	return ""
 }

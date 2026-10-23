@@ -79,7 +79,7 @@ func (sa *SmartScsiAttribute) PopulateAttributeStatus() *SmartScsiAttribute {
 			if (smartMetadata.Ideal == "low" && sa.Value > sa.Threshold) ||
 				(smartMetadata.Ideal == "high" && sa.Value < sa.Threshold) {
 				sa.Status = pkg.AttributeStatusSet(sa.Status, pkg.AttributeStatusFailedScrutiny)
-				sa.StatusReason = "Attribute is failing recommended SMART threshold"
+				sa.StatusReason = "属性未通过建议的 SMART 阈值判定"
 			}
 		}
 	}

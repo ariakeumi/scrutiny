@@ -32,22 +32,26 @@
             </a>
 
             @if (deviceSummary.smart) {
-            <div [ngClass]="classDeviceLastUpdatedOn(deviceSummary)" class="font-medium text-sm">
-                最后更新于
-                {{ deviceSummary.smart.collector_date | date : (config?.time_format === '12' ? 'yyyy年M月d日 - h:mm a' : 'yyyy年M月d日 - HH:mm') }}
-            </div>
-            } @if (deviceSummary.smart?.risk_category && deviceSummary.smart?.risk_category !== 'healthy') {
-            <div class="flex items-center mt-1">
+            <div
+                [ngClass]="classDeviceLastUpdatedOn(deviceSummary)"
+                class="flex flex-wrap items-center font-medium text-sm"
+            >
+                <span>
+                    最后更新于
+                    {{ deviceSummary.smart.collector_date | date : (config?.time_format === '12' ? 'yyyy年M月d日 - h:mm a' : 'yyyy年M月d日 - HH:mm') }}
+                </span>
+                @if (deviceSummary.smart?.risk_category && deviceSummary.smart?.risk_category !== 'healthy') {
                 <span
                     [ngClass]="{
                         'bg-yellow-100 text-yellow-800': deviceSummary.smart.risk_category === 'monitor',
                         'bg-orange-100 text-orange-800': deviceSummary.smart.risk_category === 'plan_replacement',
                         'bg-red-100 text-red-800': deviceSummary.smart.risk_category === 'replace_soon'
                     }"
-                    class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium"
+                    class="inline-flex items-center ml-2 px-2 py-0.5 rounded text-xs font-medium"
                 >
                     {{ riskCategoryLabel(deviceSummary.smart.risk_category) }}
                 </span>
+                }
             </div>
             }
         </div>

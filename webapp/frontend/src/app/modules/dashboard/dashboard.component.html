@@ -2,72 +2,21 @@
 <div>
     <div class="dashboard-page flex flex-col flex-auto w-full p-8 xs:p-2" [class.dashboard-page--compact]="isCompactDashboard()">
         <div class="flex flex-wrap w-full">
-            <!-- Header -->
+            <!-- Countdown display (shown while collectors are running) -->
+            @if (countdown > 0) {
             <div class="flex items-center justify-end w-full my-4 px-4 xs:pr-0">
-                <!-- Action buttons (desktop) -->
-                <div class="flex items-center">
-                    <button class="xs:hidden" mat-stroked-button [color]="showArchived ? 'primary' : null" (click)="toggleArchived()">
-                        <mat-icon class="icon-size-20" [color]="showArchived ? 'primary' : null" [svgIcon]="'archive'"> </mat-icon>
-                        <span class="ml-2">已归档</span>
-                    </button>
-
-                    <button matTooltip="尚未实现" class="ml-2 xs:hidden" mat-stroked-button>
-                        <mat-icon class="icon-size-20" [svgIcon]="'save'"></mat-icon>
-                        <span class="ml-2">导出</span>
-                    </button>
-
-                    <button class="ml-2 xs:hidden" mat-stroked-button (click)="openDialog()">
-                        <mat-icon class="icon-size-20 rotate-90 mirror" [svgIcon]="'tune'"> </mat-icon>
-                        <span class="ml-2">设置</span>
-                    </button>
-
-                    <!-- Run collectors button (Omnibus only) -->
-                    @if (config?.collector_trigger_enabled && !isTriggering) {
-                    <button class="ml-2" mat-flat-button color="primary" (click)="runCollectors()">
-                        <mat-icon class="icon-size-20" [svgIcon]="'play_arrow'"> </mat-icon>
-                        <span class="ml-2">运行采集器</span>
-                    </button>
-                    }
-
-                    <!-- Countdown display -->
-                    @if (countdown > 0) {
-                    <div class="ml-4 flex items-center text-secondary font-medium">
-                        <mat-progress-spinner class="mr-2" [diameter]="20" [mode]="'indeterminate'"> </mat-progress-spinner>
-                        {{ countdown }} 秒后刷新...
-                    </div>
-                    }
-
-                    <!-- Actions menu (mobile) -->
-                    <div class="hidden xs:flex">
-                        <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
-                            <mat-icon [svgIcon]="'more_vert'"></mat-icon>
-                        </button>
-
-                        <mat-menu #actionsMenu="matMenu">
-                            <button mat-menu-item (click)="toggleArchived()">
-                                <mat-icon class="icon-size-20" [color]="showArchived ? 'primary' : null" [svgIcon]="'archive'"> </mat-icon>
-                                <span class="ml-2">已归档</span>
-                            </button>
-
-                            <button mat-menu-item matTooltip="尚未实现">
-                                <mat-icon class="icon-size-20" [svgIcon]="'save'"></mat-icon>
-                                <span class="ml-2">导出</span>
-                            </button>
-
-                            <button mat-menu-item (click)="openDialog()">
-                                <mat-icon class="icon-size-20 rotate-90 mirror" [svgIcon]="'tune'"> </mat-icon>
-                                <span class="ml-2">设置</span>
-                            </button>
-                        </mat-menu>
-                    </div>
+                <div class="flex items-center text-secondary font-medium">
+                    <mat-progress-spinner class="mr-2" [diameter]="20" [mode]="'indeterminate'"> </mat-progress-spinner>
+                    {{ countdown }} 秒后刷新...
                 </div>
             </div>
+            }
 
             <!-- Device Groups -->
             @for (hostId of hostGroups | keyvalue; track hostId) {
             <div class="flex flex-wrap w-full mb-6">
                 @if (hostId.key) {
-                <div class="flex items-center ml-4 gap-3">
+                <div class="flex items-center ml-4 mb-2 gap-3">
                     <h3 class="m-0">{{ hostId.key }}</h3>
                     @if (config?.server_version) {
                     <span class="gt-sm:hidden text-sm px-2 py-0.5 rounded-full text-white bg-gray-500"> 服务器 v{{ config.server_version }} </span>
@@ -91,19 +40,6 @@
                 </div>
             </div>
             }
-
-            <div class="flex w-full justify-end px-4 mb-6">
-                <mat-paginator
-                    [length]="pagination.total_items"
-                    [pageIndex]="pagination.page - 1"
-                    [pageSize]="pagination.page_size"
-                    [pageSizeOptions]="pageSizeOptions"
-                    [showFirstLastButtons]="true"
-                    aria-label="选择 SMART 主机页码"
-                    (page)="onPageChange($event)"
-                >
-                </mat-paginator>
-            </div>
 
             @if (hasFilesystemData()) {
             <div class="flex flex-col w-full mb-6 px-4">

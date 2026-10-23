@@ -1,5 +1,5 @@
 import { Component, HostBinding, OnDestroy, OnInit, ViewEncapsulation, inject, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute, Data, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Data, NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher';
@@ -7,6 +7,7 @@ import { TreoNavigationService } from '@treo/components/navigation';
 import { AuthService } from 'app/core/auth/auth.service';
 import { AppConfig } from 'app/core/config/app.config';
 import { ScrutinyConfigService } from 'app/core/config/scrutiny-config.service';
+import { DashboardToolbarService } from '../../../common/dashboard-toolbar.service';
 import { TreoVerticalNavigationComponent } from '../../../../../@treo/components/navigation/vertical/vertical.component';
 import { ThemeToggleComponent } from '../../../common/theme-toggle/theme-toggle.component';
 import { MatIconButton } from '@angular/material/button';
@@ -29,11 +30,13 @@ export class MaterialLayoutComponent implements OnInit, OnDestroy {
     private readonly _treoMediaWatcherService = inject(TreoMediaWatcherService);
     private readonly _treoNavigationService = inject(TreoNavigationService);
     private readonly _router = inject(Router);
+    readonly toolbar = inject(DashboardToolbarService);
 
     authEnabled: boolean = false;
     config: AppConfig = {};
     data: any;
     isScreenSmall: boolean;
+    isDashboardRoute: boolean = false;
 
     @HostBinding('class.fixed-header')
     fixedHeader: boolean;
@@ -83,6 +86,14 @@ export class MaterialLayoutComponent implements OnInit, OnDestroy {
         // Subscribe to the resolved route data
         this._activatedRoute.data.subscribe((data: Data) => {
             this.data = data.initialData;
+        });
+
+        // Track whether the dashboard quick actions should be shown in the top bar
+        this.isDashboardRoute = this._router.url.startsWith('/dashboard');
+        this._router.events.pipe(takeUntil(this._unsubscribeAll)).subscribe((event) => {
+            if (event instanceof NavigationEnd) {
+                this.isDashboardRoute = event.urlAfterRedirects.startsWith('/dashboard');
+            }
         });
 
         // Subscribe to auth state

@@ -25,6 +25,8 @@ example {
 }
 
 .dashboard-device-grid__item {
+    // 让卡片外壳 (flex-auto) 拉伸填满网格单元格, 同一行卡片保持等高。
+    display: flex;
     min-width: 0;
 }
 

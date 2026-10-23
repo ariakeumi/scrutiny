@@ -105,7 +105,7 @@ type AlertEntry struct {
 	AttributeID   string `json:"attribute_id"`
 	AttributeName string `json:"attribute_name"`
 	Status        string `json:"status"`        // "warning", "failed"
-	StatusReason  string `json:"status_reason"` // "smart" or "scrutiny"
+	StatusReason  string `json:"status_reason"` // "smartctl" 或 "Scrutiny"
 	Value         int64  `json:"value"`
 	Threshold     int64  `json:"threshold"`
 }

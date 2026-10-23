@@ -425,12 +425,17 @@ export class DetailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     getAttributeValueType(attributeData: SmartAttributeModel): string {
+        const displayTypeLabels: { [key: string]: string } = {
+            raw: '原始值',
+            normalized: '标准化值',
+            transformed: '转换值',
+        };
         if (this.isAta()) {
             const attributeMetadata = this.metadata[attributeData.attribute_id];
             if (!attributeMetadata) {
                 return '';
             } else {
-                return attributeMetadata.display_type;
+                return displayTypeLabels[attributeMetadata.display_type] || attributeMetadata.display_type;
             }
         } else {
             return '';
@@ -438,11 +443,16 @@ export class DetailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     getAttributeIdeal(attributeData: SmartAttributeModel): string {
-        if (this.isAta()) {
-            return this.metadata[attributeData.attribute_id]?.display_type === 'raw' ? this.metadata[attributeData.attribute_id]?.ideal : '';
-        } else {
-            return this.metadata[attributeData.attribute_id]?.ideal;
+        const idealLabels: { [key: string]: string } = {
+            low: '低',
+            high: '高',
+        };
+        // ATA 属性仅在按原始值展示时提供理想方向，其余协议始终提供
+        let ideal: string | undefined;
+        if (!this.isAta() || this.metadata[attributeData.attribute_id]?.display_type === 'raw') {
+            ideal = this.metadata[attributeData.attribute_id]?.ideal;
         }
+        return ideal ? (idealLabels[ideal] ?? ideal) : '';
     }
 
     getAttributeWorst(attributeData: SmartAttributeModel): number | string {

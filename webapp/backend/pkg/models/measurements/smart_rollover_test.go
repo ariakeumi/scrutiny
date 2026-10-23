@@ -32,7 +32,7 @@ func TestDetectPowerOnHoursRollover_HistoryDecrease(t *testing.T) {
 
 	attr := current.Attributes["9"].(*measurements.SmartAtaAttribute)
 	require.True(t, pkg.AttributeStatusHas(attr.Status, pkg.AttributeStatusWarningScrutiny))
-	require.Contains(t, attr.StatusReason, "decreased from 65000h to 12h")
+	require.Contains(t, attr.StatusReason, "从 65000h 降至 12h")
 }
 
 // TestDetectPowerOnHoursRollover_FarmExceeds flags a wrap when tamper-proof FARM hours exceed PoH.
@@ -46,7 +46,7 @@ func TestDetectPowerOnHoursRollover_FarmExceeds(t *testing.T) {
 
 	attr := current.Attributes["9"].(*measurements.SmartAtaAttribute)
 	require.True(t, pkg.AttributeStatusHas(attr.Status, pkg.AttributeStatusWarningScrutiny))
-	require.Contains(t, attr.StatusReason, "FARM Power-On Hours (65548h)")
+	require.Contains(t, attr.StatusReason, "FARM 通电时长（65548h）")
 }
 
 // TestDetectPowerOnHoursRollover_HeadFlyingExceeds flags a wrap when Head Flying Hours exceed PoH.
@@ -60,7 +60,7 @@ func TestDetectPowerOnHoursRollover_HeadFlyingExceeds(t *testing.T) {
 
 	attr := current.Attributes["9"].(*measurements.SmartAtaAttribute)
 	require.True(t, pkg.AttributeStatusHas(attr.Status, pkg.AttributeStatusWarningScrutiny))
-	require.Contains(t, attr.StatusReason, "Head Flying Hours (70000h)")
+	require.Contains(t, attr.StatusReason, "磁头飞行时长（70000h）")
 }
 
 // TestDetectPowerOnHoursRollover_NormalIncrease leaves a normally-increasing PoH untouched.
@@ -130,7 +130,7 @@ func TestDetectPowerOnHoursRollover_PreservesExistingReason(t *testing.T) {
 			AttributeId:      9,
 			TransformedValue: 12,
 			Status:           pkg.AttributeStatusWarningScrutiny,
-			StatusReason:     "Attribute has previously failed manufacturer SMART threshold",
+			StatusReason:     "该属性此前未通过厂商 SMART 阈值判定",
 		},
 	})
 	previous := ataSmart(map[string]measurements.SmartAttribute{
@@ -140,6 +140,6 @@ func TestDetectPowerOnHoursRollover_PreservesExistingReason(t *testing.T) {
 	current.DetectPowerOnHoursRollover(&previous)
 
 	attr := current.Attributes["9"].(*measurements.SmartAtaAttribute)
-	require.Contains(t, attr.StatusReason, "Attribute has previously failed manufacturer SMART threshold")
-	require.Contains(t, attr.StatusReason, "possible 16-bit counter rollover")
+	require.Contains(t, attr.StatusReason, "该属性此前未通过厂商 SMART 阈值判定")
+	require.Contains(t, attr.StatusReason, "可能发生 16 位计数器回绕")
 }

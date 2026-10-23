@@ -97,15 +97,15 @@ func (g *Generator) populateAlerts(ctx context.Context, dr *DeviceReport, device
 		switch {
 		case pkg.AttributeStatusHas(status, pkg.AttributeStatusFailedSmart):
 			entry.Status = "failed"
-			entry.StatusReason = "smart"
+			entry.StatusReason = "smartctl"
 			dr.ActiveFailures = append(dr.ActiveFailures, entry)
 		case pkg.AttributeStatusHas(status, pkg.AttributeStatusFailedScrutiny):
 			entry.Status = "failed"
-			entry.StatusReason = "scrutiny"
+			entry.StatusReason = "Scrutiny"
 			dr.ActiveFailures = append(dr.ActiveFailures, entry)
 		case pkg.AttributeStatusHas(status, pkg.AttributeStatusWarningScrutiny):
 			entry.Status = "warning"
-			entry.StatusReason = "scrutiny"
+			entry.StatusReason = "Scrutiny"
 			dr.ActiveFailures = append(dr.ActiveFailures, entry)
 		}
 	}

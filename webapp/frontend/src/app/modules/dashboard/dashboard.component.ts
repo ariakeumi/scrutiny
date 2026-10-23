@@ -5,6 +5,7 @@ import { ApexOptions, ChartComponent } from 'ng-apexcharts';
 import { DashboardService } from 'app/modules/dashboard/dashboard.service';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { DashboardSettingsComponent } from 'app/layout/common/dashboard-settings/dashboard-settings.component';
+import { DashboardToolbarService } from 'app/layout/common/dashboard-toolbar.service';
 import { AppConfig, DashboardColumns, DashboardDensity, DashboardHostPageSize } from 'app/core/config/app.config';
 import { ScrutinyConfigService } from 'app/core/config/scrutiny-config.service';
 import { Router } from '@angular/router';
@@ -79,6 +80,7 @@ const DASHBOARD_SHELL_WIDTHS: Record<DashboardColumns, string> = {
 export class DashboardComponent implements OnInit, OnDestroy {
     private readonly _dashboardService = inject(DashboardService);
     private readonly _configService = inject(ScrutinyConfigService);
+    private readonly _toolbarService = inject(DashboardToolbarService);
     private readonly _changeDetectorRef = inject(ChangeDetectorRef);
     private readonly _document = inject(DOCUMENT);
     dialog = inject(MatDialog);
@@ -132,6 +134,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        // Sync the top-bar quick-action state, then execute actions dispatched from the top bar
+        this._toolbarService.showArchived = this.showArchived;
+        this._toolbarService.isTriggering = this.isTriggering;
+        this._toolbarService.actions$.pipe(takeUntil(this._unsubscribeAll)).subscribe((action) => {
+            if (action === 'toggleArchived') {
+                this.toggleArchived();
+            } else if (action === 'openSettings') {
+                this.openDialog();
+            } else if (action === 'runCollectors') {
+                this.runCollectors();
+            }
+        });
+
         // Subscribe to config changes
         this._configService.config$.pipe(takeUntil(this._unsubscribeAll)).subscribe((config: AppConfig) => {
             // check if the old config and the new config do not match.
@@ -471,6 +486,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     toggleArchived(): void {
         this.showArchived = !this.showArchived;
+        this._toolbarService.showArchived = this.showArchived;
         this.loadSummaryPage(1);
     }
 
@@ -623,6 +639,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
 
         this.isTriggering = true;
+        this._toolbarService.isTriggering = true;
         this._dashboardService.runCollectors().subscribe(
             () => {
                 this.countdown = 15;
@@ -640,6 +657,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             },
             (err) => {
                 this.isTriggering = false;
+                this._toolbarService.isTriggering = false;
                 this._changeDetectorRef.markForCheck();
                 console.error('Failed to trigger collectors', err);
             }

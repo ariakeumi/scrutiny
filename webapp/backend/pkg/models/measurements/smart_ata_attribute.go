@@ -18,7 +18,7 @@ var ataAttributeNameIgnoredTokens = map[string]struct{}{
 	"total": {},
 }
 
-const ataSsdVendorSpecificThresholdSkipReason = "Skipped generic ATA observed-threshold scoring for vendor-specific SSD attribute"
+const ataSsdVendorSpecificThresholdSkipReason = "已跳过厂商特定 SSD 属性的通用 ATA 观测阈值评分"
 
 type SmartAtaAttribute struct {
 	AttributeId int    `json:"attribute_id"`
@@ -112,13 +112,13 @@ func (sa *SmartAtaAttribute) PopulateAttributeStatus(profile *thresholds.Consume
 	if strings.ToUpper(sa.WhenFailed) == pkg.AttributeWhenFailedFailingNow {
 		//this attribute has previously failed
 		sa.Status = pkg.AttributeStatusSet(sa.Status, pkg.AttributeStatusFailedSmart)
-		sa.StatusReason += "Attribute is failing manufacturer SMART threshold"
+		sa.StatusReason += "属性未通过厂商 SMART 阈值判定"
 		//if the Smart Status is failed, we should exit early, no need to look at thresholds.
 		return sa
 
 	} else if strings.ToUpper(sa.WhenFailed) == pkg.AttributeWhenFailedInThePast {
 		sa.Status = pkg.AttributeStatusSet(sa.Status, pkg.AttributeStatusWarningScrutiny)
-		sa.StatusReason += "Attribute has previously failed manufacturer SMART threshold"
+		sa.StatusReason += "该属性此前未通过厂商 SMART 阈值判定"
 	}
 
 	if smartMetadata, ok := thresholds.AtaMetadata[sa.AttributeId]; ok {
@@ -141,7 +141,15 @@ func shouldSkipAtaSsdObservedThresholdScoring(isAtaSsd bool, smartMetadata *thre
 	if !isAtaSsd || smartMetadata == nil || len(smartMetadata.ObservedThresholds) == 0 {
 		return false
 	}
-	return !ataAttributeNamesSemanticallyMatch(attributeName, smartMetadata.DisplayName)
+	// The metadata DisplayName may be localized; also match against the original
+	// English name, since the collector reports smartctl's English attribute names.
+	if ataAttributeNamesSemanticallyMatch(attributeName, smartMetadata.DisplayName) {
+		return false
+	}
+	if original, ok := thresholds.AtaDisplayNameOriginals[smartMetadata.ID]; ok {
+		return !ataAttributeNamesSemanticallyMatch(attributeName, original)
+	}
+	return true
 }
 
 func ataAttributeNamesSemanticallyMatch(reportedName string, metadataName string) bool {
@@ -220,7 +228,7 @@ func (sa *SmartAtaAttribute) ValidateThreshold(smartMetadata thresholds.AtaAttri
 	// no bucket found
 	if smartMetadata.Critical {
 		sa.Status = pkg.AttributeStatusSet(sa.Status, pkg.AttributeStatusWarningScrutiny)
-		sa.StatusReason = "Could not determine Observed Failure Rate for Critical Attribute"
+		sa.StatusReason = "无法确定关键属性的观测失败率"
 	}
 }
 
@@ -260,16 +268,16 @@ func (sa *SmartAtaAttribute) applyFailureRateStatus(critical bool) {
 	if critical {
 		if sa.FailureRate >= 0.10 {
 			sa.Status = pkg.AttributeStatusSet(sa.Status, pkg.AttributeStatusFailedScrutiny)
-			sa.StatusReason += "Observed Failure Rate for Critical Attribute is greater than 10%"
+			sa.StatusReason += "关键属性的观测失败率大于 10%"
 		}
 		return
 	}
 
 	if sa.FailureRate >= 0.20 {
 		sa.Status = pkg.AttributeStatusSet(sa.Status, pkg.AttributeStatusFailedScrutiny)
-		sa.StatusReason += "Observed Failure Rate for Non-Critical Attribute is greater than 20%"
+		sa.StatusReason += "非关键属性的观测失败率大于 20%"
 	} else if sa.FailureRate >= 0.10 {
 		sa.Status = pkg.AttributeStatusSet(sa.Status, pkg.AttributeStatusWarningScrutiny)
-		sa.StatusReason += "Observed Failure Rate for Non-Critical Attribute is greater than 10%"
+		sa.StatusReason += "非关键属性的观测失败率大于 10%"
 	}
 }

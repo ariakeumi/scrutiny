@@ -550,7 +550,7 @@ func TestFromCollectorSmartInfo_ATA_Issue587VendorSpecificSsdAttribute(t *testin
 
 	attr189 := smartMdl.Attributes["189"].(*measurements.SmartAtaAttribute)
 	require.Equal(t, pkg.AttributeStatusPassed, attr189.Status)
-	require.Equal(t, "Skipped generic ATA observed-threshold scoring for vendor-specific SSD attribute", attr189.StatusReason)
+	require.Equal(t, "已跳过厂商特定 SSD 属性的通用 ATA 观测阈值评分", attr189.StatusReason)
 	require.Zero(t, attr189.FailureRate)
 }
 
@@ -1935,7 +1935,7 @@ func TestSmartApplyOverridesProjectsStableDeviceOverride(t *testing.T) {
 
 	attribute := smart.Attributes["media_errors"].(*measurements.SmartNvmeAttribute)
 	require.Equal(t, pkg.AttributeStatusPassed, attribute.Status)
-	require.Equal(t, "Status forced by user configuration", attribute.StatusReason)
+	require.Equal(t, "状态已被用户配置强制指定", attribute.StatusReason)
 }
 
 // acknowledgeOverride builds a device-scoped acknowledge override pinned to value.
@@ -1972,7 +1972,7 @@ func TestSmartApplyOverridesAcknowledgePassesAtPinnedValue(t *testing.T) {
 
 	attribute := smart.Attributes["media_errors"].(*measurements.SmartNvmeAttribute)
 	require.Equal(t, pkg.AttributeStatusPassed, attribute.Status)
-	require.Equal(t, "Acknowledged at value 3", attribute.StatusReason)
+	require.Equal(t, "已确认当前值 3", attribute.StatusReason)
 }
 
 func TestSmartApplyOverridesAcknowledgeRefailsWhenValueChanges(t *testing.T) {
@@ -1984,7 +1984,7 @@ func TestSmartApplyOverridesAcknowledgeRefailsWhenValueChanges(t *testing.T) {
 
 	attribute := smart.Attributes["media_errors"].(*measurements.SmartNvmeAttribute)
 	require.Equal(t, pkg.AttributeStatusFailedScrutiny, attribute.Status)
-	require.Equal(t, "Acknowledgement no longer applies: value changed from 3 to 4", attribute.StatusReason)
+	require.Equal(t, "确认已失效：数值从 3 变为 4", attribute.StatusReason)
 }
 
 func TestSmartApplyOverridesAcknowledgeNeverMasksSmartFailure(t *testing.T) {
