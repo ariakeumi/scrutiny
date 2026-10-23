@@ -87,8 +87,8 @@ export class MDADMDetailComponent implements OnInit, OnDestroy {
             },
             colors: ['#38a169', '#e53e3e'], // Green for active, Red for failed
             series: [
-                { name: 'Active Devices', data: activeData },
-                { name: 'Failed Devices', data: failedData },
+                { name: '活动设备', data: activeData },
+                { name: '故障设备', data: failedData },
             ],
             stroke: {
                 curve: 'smooth',

@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="flex items-center justify-between mb-8">
         <div class="flex items-center">
-            <button mat-icon-button (click)="goBack()" class="mr-4" aria-label="Back to ZFS pools">
+            <button mat-icon-button (click)="goBack()" class="mr-4" aria-label="返回 ZFS 存储池列表">
                 <mat-icon [svgIcon]="'heroicons_outline:arrow-left'"></mat-icon>
             </button>
             <div>
@@ -14,9 +14,9 @@
 
         @if (config?.zfs_pool_modifications_allowed === true) {
         <div class="flex items-center">
-            <button mat-stroked-button data-testid="zfs-pool-mute-toggle" (click)="toggleMuted()" [matTooltip]="pool.muted ? 'Unmute notifications' : 'Mute notifications'">
+            <button mat-stroked-button data-testid="zfs-pool-mute-toggle" (click)="toggleMuted()" [matTooltip]="pool.muted ? '取消静音通知' : '静音通知'">
                 <mat-icon class="icon-size-20" [svgIcon]="pool.muted ? 'notifications_off' : 'notifications'"> </mat-icon>
-                <span class="ml-2">{{ pool.muted ? 'Unmute' : 'Mute' }}</span>
+                <span class="ml-2">{{ pool.muted ? '取消静音' : '静音' }}</span>
             </button>
         </div>
         }
@@ -26,7 +26,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <!-- Status Card -->
         <treo-card class="flex-col p-6">
-            <div class="font-semibold text-xs text-hint uppercase tracking-wider mb-2">Status</div>
+            <div class="font-semibold text-xs text-hint uppercase tracking-wider mb-2">状态</div>
             <div [ngClass]="getStatusDisplayColorClass()" class="font-bold text-3xl">
                 {{ getStatusDisplay() }}
             </div>
@@ -37,7 +37,7 @@
 
         <!-- Capacity Card -->
         <treo-card class="flex-col p-6">
-            <div class="font-semibold text-xs text-hint uppercase tracking-wider mb-2">Capacity</div>
+            <div class="font-semibold text-xs text-hint uppercase tracking-wider mb-2">容量使用</div>
             <div class="font-bold text-3xl">{{ pool.capacity_percent }}%</div>
             <div class="mt-2 h-2 bg-gray-200 rounded overflow-hidden">
                 <div
@@ -53,11 +53,11 @@
             @if (usableSize(pool) > 0) {
             <div class="text-sm text-secondary mt-2">
                 {{ pool.usable_used | fileSize : $safeNavigationMigration(config?.file_size_si_units) }} /
-                {{ usableSize(pool) | fileSize : $safeNavigationMigration(config?.file_size_si_units) }} usable
+                {{ usableSize(pool) | fileSize : $safeNavigationMigration(config?.file_size_si_units) }} 可用
             </div>
             <div class="text-xs text-secondary mt-1">
                 {{ pool.allocated | fileSize : $safeNavigationMigration(config?.file_size_si_units) }} /
-                {{ pool.size | fileSize : $safeNavigationMigration(config?.file_size_si_units) }} raw
+                {{ pool.size | fileSize : $safeNavigationMigration(config?.file_size_si_units) }} 原始
             </div>
             } @else {
             <div class="text-sm text-hint mt-2">
@@ -69,29 +69,29 @@
 
         <!-- Fragmentation Card -->
         <treo-card class="flex-col p-6">
-            <div class="font-semibold text-xs text-hint uppercase tracking-wider mb-2">Fragmentation</div>
+            <div class="font-semibold text-xs text-hint uppercase tracking-wider mb-2">碎片率</div>
             <div class="font-bold text-3xl">{{ pool.fragmentation }}%</div>
         </treo-card>
 
         <!-- Scrub Status Card -->
         <treo-card class="flex-col p-6">
-            <div class="font-semibold text-xs text-hint uppercase tracking-wider mb-2">Last Scrub</div>
+            <div class="font-semibold text-xs text-hint uppercase tracking-wider mb-2">上次 Scrub</div>
             @switch (pool.scrub_state) { @case ('none') {
-            <div class="font-bold text-3xl text-hint">Never</div>
+            <div class="font-bold text-3xl text-hint">从未</div>
             } @case ('scanning') {
-            <div class="font-bold text-3xl text-yellow-600 dark:text-yellow-400">In Progress</div>
-            <div class="text-sm text-hint mt-2">{{ pool.scrub_percent_complete }}% complete</div>
+            <div class="font-bold text-3xl text-yellow-600 dark:text-yellow-400">进行中</div>
+            <div class="text-sm text-hint mt-2">{{ pool.scrub_percent_complete }}% 已完成</div>
             } @case ('finished') {
-            <div class="font-bold text-3xl text-green-600 dark:text-green-400">Completed</div>
-            <div class="text-sm text-hint mt-2">{{ pool.scrub_end_time | date : (config?.time_format === '12' ? 'MMM dd, yyyy h:mm a' : 'MMM dd, yyyy HH:mm') }}</div>
+            <div class="font-bold text-3xl text-green-600 dark:text-green-400">已完成</div>
+            <div class="text-sm text-hint mt-2">{{ pool.scrub_end_time | date : (config?.time_format === '12' ? 'yyyy年M月d日 h:mm a' : 'yyyy年M月d日 HH:mm') }}</div>
             @if (pool.scrub_errors_count > 0) {
-            <div class="text-sm text-red-600 dark:text-red-400 mt-1">{{ pool.scrub_errors_count }} errors found</div>
+            <div class="text-sm text-red-600 dark:text-red-400 mt-1">发现 {{ pool.scrub_errors_count }} 个错误</div>
             } @if (pool.scrub_issued_bytes > 0) {
             <div class="text-sm text-yellow-600 dark:text-yellow-400 mt-1">
-                {{ pool.scrub_issued_bytes | fileSize : $safeNavigationMigration(config?.file_size_si_units) }} repaired
+                {{ pool.scrub_issued_bytes | fileSize : $safeNavigationMigration(config?.file_size_si_units) }} 已修复
             </div>
             } } @case ('canceled') {
-            <div class="font-bold text-3xl text-yellow-600 dark:text-yellow-400">Canceled</div>
+            <div class="font-bold text-3xl text-yellow-600 dark:text-yellow-400">已取消</div>
             } }
         </treo-card>
     </div>
@@ -99,18 +99,18 @@
     <!-- Error Summary -->
     @if (pool.total_read_errors > 0 || pool.total_write_errors > 0 || pool.total_checksum_errors > 0) {
     <treo-card class="p-6 mb-8">
-        <div class="font-semibold text-lg text-red-600 dark:text-red-400 mb-4">Error Summary</div>
+        <div class="font-semibold text-lg text-red-600 dark:text-red-400 mb-4">错误汇总</div>
         <div class="grid grid-cols-3 gap-4">
             <div>
-                <div class="font-semibold text-xs text-hint uppercase tracking-wider">Read Errors</div>
+                <div class="font-semibold text-xs text-hint uppercase tracking-wider">读取错误</div>
                 <div class="font-bold text-2xl text-red-600 dark:text-red-400">{{ pool.total_read_errors }}</div>
             </div>
             <div>
-                <div class="font-semibold text-xs text-hint uppercase tracking-wider">Write Errors</div>
+                <div class="font-semibold text-xs text-hint uppercase tracking-wider">写入错误</div>
                 <div class="font-bold text-2xl text-red-600 dark:text-red-400">{{ pool.total_write_errors }}</div>
             </div>
             <div>
-                <div class="font-semibold text-xs text-hint uppercase tracking-wider">Checksum Errors</div>
+                <div class="font-semibold text-xs text-hint uppercase tracking-wider">校验错误</div>
                 <div class="font-bold text-2xl text-red-600 dark:text-red-400">{{ pool.total_checksum_errors }}</div>
             </div>
         </div>
@@ -119,7 +119,7 @@
 
     <!-- Vdev Tree -->
     <treo-card class="p-6 mb-8">
-        <div class="font-semibold text-lg mb-4">Virtual Device Tree</div>
+        <div class="font-semibold text-lg mb-4">虚拟设备树（vdev）</div>
         @if (pool.vdevs && pool.vdevs.length > 0) {
         <div class="vdev-tree">
             @for (vdev of pool.vdevs; track vdev.id; let i = $index) { @if (i > 0) {
@@ -129,14 +129,14 @@
             }
         </div>
         } @else {
-        <div class="text-hint">No vdev information available</div>
+        <div class="text-hint">暂无 vdev 信息</div>
         }
     </treo-card>
 
     <!-- Capacity History Chart -->
     @if (capacityOptions) {
     <treo-card class="p-6">
-        <div class="font-semibold text-lg mb-4">Capacity History</div>
+        <div class="font-semibold text-lg mb-4">容量历史</div>
         <div class="h-64">
             <apx-chart
                 class="flex-auto w-full h-full"
@@ -156,7 +156,7 @@
 </div>
 } @else {
 <div class="flex items-center justify-center h-full">
-    <div class="text-hint">Loading pool details...</div>
+    <div class="text-hint">正在加载存储池详情...</div>
 </div>
 }
 
@@ -175,7 +175,7 @@
             @if (vdev.path) {
             <div class="text-xs text-hint">{{ vdev.path }}</div>
             } @if (hasErrors(vdev)) {
-            <div class="text-xs text-red-600 dark:text-red-400 mt-1">R: {{ vdev.read_errors }} / W: {{ vdev.write_errors }} / C: {{ vdev.checksum_errors }}</div>
+            <div class="text-xs text-red-600 dark:text-red-400 mt-1">读：{{ vdev.read_errors }} / 写：{{ vdev.write_errors }} / 校验：{{ vdev.checksum_errors }}</div>
             }
         </div>
     </div>

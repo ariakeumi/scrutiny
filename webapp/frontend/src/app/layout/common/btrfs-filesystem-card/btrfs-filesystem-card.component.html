@@ -16,7 +16,7 @@
                 }
             </a>
             <div [ngClass]="classFilesystemLastUpdatedOn(filesystemSummary)" class="font-medium text-sm">
-                Last Updated on {{ filesystemSummary.updated_at | date : (config?.time_format === '12' ? 'MMMM dd, yyyy - h:mm a' : 'MMMM dd, yyyy - HH:mm') }}
+                最后更新于 {{ filesystemSummary.updated_at | date : (config?.time_format === '12' ? 'yyyy年M月d日 - h:mm a' : 'yyyy年M月d日 - HH:mm') }}
             </div>
         </div>
 
@@ -31,19 +31,19 @@
                 <a mat-menu-item [routerLink]="'/btrfs-filesystem/' + filesystemSummary.uuid">
                     <span class="flex items-center">
                         <mat-icon class="icon-size-20 mr-3" [svgIcon]="'assessment'"></mat-icon>
-                        <span>View Details</span>
+                        <span>查看详情</span>
                     </span>
                 </a>
                 <a mat-menu-item (click)="archiveFilesystem()">
                     <span class="flex items-center">
                         <mat-icon class="icon-size-20 mr-3" [svgIcon]="filesystemSummary.archived ? 'unarchive' : 'archive'"></mat-icon>
-                        <span>{{ filesystemSummary.archived ? 'Unarchive' : 'Archive' }} Filesystem</span>
+                        <span>{{ filesystemSummary.archived ? '取消归档文件系统' : '归档文件系统' }}</span>
                     </span>
                 </a>
                 <a mat-menu-item (click)="deleteFilesystem()">
                     <span class="flex items-center">
                         <mat-icon class="icon-size-20 mr-3" [svgIcon]="'delete_forever'"></mat-icon>
-                        <span>Delete Filesystem</span>
+                        <span>删除文件系统</span>
                     </span>
                 </a>
             </mat-menu>
@@ -52,12 +52,12 @@
 
     <div class="flex flex-row flex-wrap mt-4 -mx-6">
         <div class="flex flex-col mx-6 my-3 xs:w-full">
-            <div class="font-semibold text-xs text-hint uppercase tracking-wider">Status</div>
+            <div class="font-semibold text-xs text-hint uppercase tracking-wider">状态</div>
             <div [ngClass]="getStatusColorClass(filesystemSummary.status)" class="mt-2 font-medium text-3xl leading-none">{{ filesystemSummary.status }}</div>
         </div>
 
         <div class="flex flex-col mx-6 my-3 xs:w-full">
-            <div class="font-semibold text-xs text-hint uppercase tracking-wider">Usage</div>
+            <div class="font-semibold text-xs text-hint uppercase tracking-wider">使用率</div>
             <div class="mt-2 font-medium text-3xl leading-none">{{ getUsagePercent(filesystemSummary) }}%</div>
             <div class="mt-1 h-1 w-24 bg-gray-200 rounded overflow-hidden">
                 <div class="h-full" [ngClass]="getUsageClass(getUsagePercent(filesystemSummary))" [style.width.%]="getUsagePercent(filesystemSummary)"></div>
@@ -65,7 +65,7 @@
         </div>
 
         <div class="flex flex-col mx-6 my-3 xs:w-full">
-            <div class="font-semibold text-xs text-hint uppercase tracking-wider">Mount</div>
+            <div class="font-semibold text-xs text-hint uppercase tracking-wider">挂载点</div>
             <div class="mt-2 font-medium text-xl leading-none">{{ filesystemSummary.mount_point }}</div>
         </div>
 
@@ -76,7 +76,7 @@
 
         @if (getErrorCount(filesystemSummary) > 0) {
         <div class="flex flex-col mx-6 my-3 xs:w-full">
-            <div class="font-semibold text-xs text-hint uppercase tracking-wider">Errors</div>
+            <div class="font-semibold text-xs text-hint uppercase tracking-wider">错误数</div>
             <div class="mt-2 font-medium text-3xl leading-none text-red-600 dark:text-red-400">{{ getErrorCount(filesystemSummary) }}</div>
         </div>
         }

@@ -57,6 +57,7 @@ import { DeviceStatusPipe as DeviceStatusPipe_1 } from '../../shared/device-stat
 import { TemperaturePipe } from '../../shared/temperature.pipe';
 import { DeviceHoursPipe } from '../../shared/device-hours.pipe';
 import { LatencyPipe as LatencyPipe_1 } from '../../shared/latency.pipe';
+import { DeviceStatusLabelPipe } from '../../shared/device-status-label.pipe';
 
 // from Constants.go - these must match
 const AttributeStatusPassed = 0;
@@ -113,6 +114,7 @@ const AttributeStatusFailedScrutiny = 4;
         FileSizePipe_1,
         DeviceTitlePipe,
         DeviceStatusPipe_1,
+        DeviceStatusLabelPipe,
         TemperaturePipe,
         DeviceHoursPipe,
         LatencyPipe_1,
@@ -205,6 +207,35 @@ export class DetailComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     get displayedStatus(): string {
         return DeviceStatusPipe.deviceStatusForModelWithThreshold(this.device, !!this.smart_results, this.config?.metrics?.status_threshold);
+    }
+
+    /**
+     * Chinese display label for the header status badge. Keeps the failure reason
+     * (smart/scrutiny) that displayedStatus may carry, e.g. "失败（smartctl）".
+     */
+    get displayedStatusLabel(): string {
+        const status = this.displayedStatus;
+        if (!status) {
+            return '';
+        }
+        if (status.startsWith('failed:')) {
+            const reason = status.split(':')[1]?.trim();
+            const reasonLabels: Record<string, string> = { smart: 'smartctl', scrutiny: 'Scrutiny', both: '两者', override: '手动覆盖' };
+            return `失败${reasonLabels[reason] ? `（${reasonLabels[reason]}）` : ''}`;
+        }
+        const labels: Record<string, string> = { passed: '通过', failed: '失败', unknown: '未知' };
+        return labels[status] ?? status;
+    }
+
+    private static readonly PERF_DURATION_LABELS: { [key: string]: string } = {
+        year: '年',
+        month: '月',
+        week: '周',
+        day: '日',
+    };
+
+    get perfDurationLabel(): string {
+        return DetailComponent.PERF_DURATION_LABELS[this.perfDurationKey] || this.perfDurationKey;
     }
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -347,7 +378,7 @@ export class DetailComponent implements OnInit, AfterViewInit, OnDestroy {
     getAttributeName(attributeData: SmartAttributeModel): string {
         const attributeMetadata = this.metadata[attributeData.attribute_id];
         if (!attributeMetadata) {
-            return 'Unknown Attribute Name';
+            return '未知属性名称';
         } else {
             return attributeMetadata.display_name;
         }
@@ -356,7 +387,7 @@ export class DetailComponent implements OnInit, AfterViewInit, OnDestroy {
     getAttributeDescription(attributeData: SmartAttributeModel): string {
         const attributeMetadata = this.metadata[attributeData.attribute_id];
         if (!attributeMetadata) {
-            return 'Unknown';
+            return '未知';
         } else {
             return attributeMetadata.description;
         }
@@ -495,7 +526,7 @@ export class DetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     updateMaxTBW(): void {
         const currentValue = this.device?.max_tbw != null ? String(this.device.max_tbw) : '';
-        const input = window.prompt('Enter rated TBW for this drive', currentValue);
+        const input = window.prompt('请输入这块硬盘的额定 TBW（TB）', currentValue);
         if (input == null) {
             return;
         }
@@ -802,13 +833,13 @@ export class DetailComponent implements OnInit, AfterViewInit, OnDestroy {
     overrideDescription(override: AttributeOverride): string {
         switch (override.action) {
             case 'ignore':
-                return 'Ignored';
+                return '已忽略';
             case 'acknowledge':
-                return `Acknowledged at ${override.pinned_value}`;
+                return `已确认当前值 ${override.pinned_value}`;
             case 'force_status':
-                return `Forced ${override.status}`;
+                return `强制状态：${override.status === 'passed' ? '通过' : override.status === 'warn' ? '警告' : '失败'}`;
             default:
-                return 'Custom threshold';
+                return '自定义阈值';
         }
     }
 
@@ -849,10 +880,10 @@ export class DetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     riskCategoryLabel(category: RiskCategory): string {
         const labels: Record<RiskCategory, string> = {
-            healthy: 'Healthy',
-            monitor: 'Monitor',
-            plan_replacement: 'Plan Replacement',
-            replace_soon: 'Replace Soon',
+            healthy: '健康',
+            monitor: '持续观察',
+            plan_replacement: '计划更换',
+            replace_soon: '尽快更换',
         };
         return labels[category] ?? category;
     }
@@ -876,15 +907,15 @@ export class DetailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     selfTestAgeTooltip(selfTest: DeviceSelfTestModel): string {
-        const raw = `Controller lifetime: ${selfTest.lifetime_hours} hours.`;
+        const raw = `控制器记录的通电小时数：${selfTest.lifetime_hours} 小时。`;
         if (selfTest.effective_lifetime_hours == null) {
-            return `${raw} Absolute power-on age is unknown because the lifetime counter may have wrapped or power-on context is unavailable.`;
+            return `${raw}绝对通电时长未知，寿命计数器可能已回绕，或缺少通电上下文。`;
         }
-        return `${raw} Resolved power-on age: ${selfTest.effective_lifetime_hours} hours.`;
+        return `${raw}折算后的通电时长：${selfTest.effective_lifetime_hours} 小时。`;
     }
 
     selfTestStatusLabel(selfTest: DeviceSelfTestModel): string {
-        return selfTest.status_passed ? 'Passed' : 'Attention';
+        return selfTest.status_passed ? '通过' : '注意';
     }
 
     selfTestStatusClass(selfTest: DeviceSelfTestModel): Record<string, boolean> {
@@ -1288,8 +1319,8 @@ export class DetailComponent implements OnInit, AfterViewInit, OnDestroy {
             colors: ['#667eea', '#e66a7a'],
             fill: { colors: ['#b2bef4', '#f4b2ba'], opacity: 0.5, type: 'gradient' },
             series: [
-                { name: 'Sequential Read', data: readBwData },
-                { name: 'Sequential Write', data: writeBwData },
+                { name: '顺序读取', data: readBwData },
+                { name: '顺序写入', data: writeBwData },
             ],
             stroke: { curve: 'smooth', width: 2 },
             tooltip: {
@@ -1321,14 +1352,14 @@ export class DetailComponent implements OnInit, AfterViewInit, OnDestroy {
         }));
         const mixedSeries = this.performanceHistory.some((p) => p.mixed_rw_iops > 0);
         const iopsSeries: any[] = [
-            { name: 'Random Read', data: readIopsData },
-            { name: 'Random Write', data: writeIopsData },
+            { name: '随机读取', data: readIopsData },
+            { name: '随机写入', data: writeIopsData },
         ];
         const iopsColors = ['#667eea', '#e66a7a'];
         const iopsFillColors = ['#b2bef4', '#f4b2ba'];
         if (mixedSeries) {
             iopsSeries.push({
-                name: 'Mixed R/W',
+                name: '混合读写',
                 data: this.performanceHistory.map((p) => ({
                     x: new Date(p.date).getTime(),
                     y: p.mixed_rw_iops,
@@ -1381,7 +1412,7 @@ export class DetailComponent implements OnInit, AfterViewInit, OnDestroy {
             colors: ['#667eea', '#e6a23c', '#e66a7a'],
             fill: { colors: ['#b2bef4', '#f4dbb2', '#f4b2ba'], opacity: 0.5, type: 'gradient' },
             series: [
-                { name: 'Avg Latency', data: readLatAvgData },
+                { name: '平均延迟', data: readLatAvgData },
                 { name: 'P95 Latency', data: readLatP95Data },
                 { name: 'P99 Latency', data: readLatP99Data },
             ],

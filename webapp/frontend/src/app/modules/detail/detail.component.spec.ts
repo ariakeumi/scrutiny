@@ -175,15 +175,15 @@ describe('DetailComponent', () => {
         };
 
         it('keeps raw and resolved hours in the tooltip', () => {
-            expect(component.selfTestAgeTooltip(row)).toContain('Controller lifetime: 2464 hours.');
-            expect(component.selfTestAgeTooltip(row)).toContain('Resolved power-on age: 68000 hours.');
+            expect(component.selfTestAgeTooltip(row)).toContain('控制器记录的通电小时数：2464 小时。');
+            expect(component.selfTestAgeTooltip(row)).toContain('折算后的通电时长：68000 小时。');
         });
 
         for (const hours of [null, undefined]) {
             it(`explains ambiguous age for ${hours}`, () => {
                 const tooltip = component.selfTestAgeTooltip({ ...row, effective_lifetime_hours: hours });
-                expect(tooltip).toContain('Absolute power-on age is unknown');
-                expect(tooltip).toContain('2464 hours');
+                expect(tooltip).toContain('绝对通电时长未知');
+                expect(tooltip).toContain('2464 小时');
             });
         }
 
@@ -198,10 +198,10 @@ describe('DetailComponent', () => {
                 fixture.changeDetectorRef.markForCheck();
                 fixture.detectChanges();
                 const text = fixture.nativeElement.textContent;
-                expect(text).toContain('68000 hours');
-                expect(text).toContain('Unknown (may be wrapped)');
-                expect(text).toContain('0 hours');
-                expect(text).not.toContain('2464 hours');
+                expect(text).toContain('68000 小时');
+                expect(text).toContain('未知（可能已回绕）');
+                expect(text).toContain('0 小时');
+                expect(text).not.toContain('2464 小时');
             });
         }
     });
@@ -247,12 +247,12 @@ describe('DetailComponent', () => {
     describe('selfTestStatusLabel', () => {
         it('should return Passed for successful self-tests', () => {
             const selfTest = { status_passed: true } as DeviceSelfTestModel;
-            expect(component.selfTestStatusLabel(selfTest)).toBe('Passed');
+            expect(component.selfTestStatusLabel(selfTest)).toBe('通过');
         });
 
         it('should return Attention for non-passing self-tests', () => {
             const selfTest = { status_passed: false } as DeviceSelfTestModel;
-            expect(component.selfTestStatusLabel(selfTest)).toBe('Attention');
+            expect(component.selfTestStatusLabel(selfTest)).toBe('注意');
         });
     });
 
@@ -793,12 +793,12 @@ describe('DetailComponent', () => {
 
     describe('overrideDescription', () => {
         it('names the pinned value for an acknowledge override', () => {
-            expect(component.overrideDescription({ protocol: 'NVMe', attribute_id: 'media_errors', action: 'acknowledge', pinned_value: 3 })).toBe('Acknowledged at 3');
+            expect(component.overrideDescription({ protocol: 'NVMe', attribute_id: 'media_errors', action: 'acknowledge', pinned_value: 3 })).toBe('已确认当前值 3');
         });
 
         it('distinguishes acknowledge from the permanent force_status override', () => {
-            expect(component.overrideDescription({ protocol: 'NVMe', attribute_id: 'media_errors', action: 'force_status', status: 'passed' })).toBe('Forced passed');
-            expect(component.overrideDescription({ protocol: 'NVMe', attribute_id: 'media_errors', action: 'ignore' })).toBe('Ignored');
+            expect(component.overrideDescription({ protocol: 'NVMe', attribute_id: 'media_errors', action: 'force_status', status: 'passed' })).toBe('强制状态：通过');
+            expect(component.overrideDescription({ protocol: 'NVMe', attribute_id: 'media_errors', action: 'ignore' })).toBe('已忽略');
         });
     });
 });

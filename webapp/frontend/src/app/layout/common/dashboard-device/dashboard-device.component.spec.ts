@@ -269,7 +269,7 @@ describe('DashboardDeviceComponent', () => {
                     percentage_used: 5,
                 },
             } as DeviceSummaryModel;
-            expect(component.getSSDHealthLabel()).toBe('Used');
+            expect(component.getSSDHealthLabel()).toBe('已损耗');
         });
 
         it('should return "Health" for wearout_value', () => {
@@ -279,7 +279,7 @@ describe('DashboardDeviceComponent', () => {
                     wearout_value: 95,
                 },
             } as DeviceSummaryModel;
-            expect(component.getSSDHealthLabel()).toBe('Health');
+            expect(component.getSSDHealthLabel()).toBe('健康度');
         });
     });
 

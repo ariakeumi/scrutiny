@@ -30,12 +30,12 @@ export class MobileTabBarComponent implements OnInit, OnDestroy {
     private _config: AppConfig = {};
 
     tabs: TabItem[] = [
-        { icon: 'home', label: 'Home', route: '/mobile-home', exactMatch: true },
-        { icon: 'storage', label: 'Drives', route: '/mobile-drives', exactMatch: true },
+        { icon: 'home', label: '首页', route: '/mobile-home', exactMatch: true },
+        { icon: 'storage', label: '硬盘', route: '/mobile-drives', exactMatch: true },
         { icon: 'dns', label: 'ZFS', route: '/zfs-pools', exactMatch: true },
         { icon: 'folder', label: 'Btrfs', route: '/btrfs-filesystems', exactMatch: true },
-        { icon: 'speed', label: 'Workload', route: '/workload', exactMatch: true },
-        { icon: 'settings', label: 'Settings', route: '/mobile-settings', exactMatch: true },
+        { icon: 'speed', label: '工作负载', route: '/workload', exactMatch: true },
+        { icon: 'settings', label: '设置', route: '/mobile-settings', exactMatch: true },
     ];
 
     activeRoute: string = '';

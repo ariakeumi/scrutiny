@@ -104,7 +104,7 @@ export class ZFSPoolDetailComponent implements OnInit, OnDestroy {
             },
             series: [
                 {
-                    name: 'Capacity',
+                    name: '容量使用',
                     data: capacityData,
                 },
             ],
@@ -142,7 +142,7 @@ export class ZFSPoolDetailComponent implements OnInit, OnDestroy {
         if (this.pool?.label) {
             return this.pool.label;
         }
-        return this.pool?.name || 'Unknown Pool';
+        return this.pool?.name || '未知存储池';
     }
 
     usableSize = zfsUsableSize;
@@ -166,11 +166,11 @@ export class ZFSPoolDetailComponent implements OnInit, OnDestroy {
     getPresenceLabel(): string {
         switch (this.pool?.presence) {
             case 'missing':
-                return 'Missing from last inventory';
+                return '清单中缺失';
             case 'stale':
-                return 'Collector stale';
+                return '采集器数据过期';
             case 'unknown':
-                return 'Inventory unavailable';
+                return '清单不可用';
             default:
                 return '';
         }
@@ -183,13 +183,13 @@ export class ZFSPoolDetailComponent implements OnInit, OnDestroy {
     getStatusDisplay(): string {
         switch (this.pool?.presence) {
             case 'missing':
-                return 'MISSING';
+                return '缺失';
             case 'stale':
-                return 'STALE';
+                return '过期';
             case 'unknown':
-                return 'UNKNOWN';
+                return '未知';
             default:
-                return this.pool?.status || 'UNKNOWN';
+                return this.pool?.status || '未知';
         }
     }
 

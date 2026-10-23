@@ -22,11 +22,11 @@ export function angularDateFormat(datepart: string, timeFormat: TimeFormat, incl
 }
 
 export function angularLongDateTime(timeFormat: TimeFormat): string {
-    return angularDateFormat('MMMM dd, yyyy -', timeFormat);
+    return angularDateFormat('yyyy年M月d日 -', timeFormat);
 }
 
 export function angularShortDateTime(timeFormat: TimeFormat): string {
-    return angularDateFormat('MMM dd, yyyy', timeFormat);
+    return angularDateFormat('yyyy年M月d日', timeFormat);
 }
 
 export function apexDateFormat(datepart: string, timeFormat: TimeFormat, includeSeconds = false): string {
@@ -35,5 +35,5 @@ export function apexDateFormat(datepart: string, timeFormat: TimeFormat, include
 }
 
 export function apexShortDateTime(timeFormat: TimeFormat, includeSeconds = false): string {
-    return apexDateFormat('MMM dd, yyyy', timeFormat, includeSeconds);
+    return apexDateFormat('yyyy年M月d日', timeFormat, includeSeconds);
 }

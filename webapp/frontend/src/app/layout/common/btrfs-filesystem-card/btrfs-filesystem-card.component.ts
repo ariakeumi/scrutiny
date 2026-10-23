@@ -73,7 +73,7 @@ export class BtrfsFilesystemCardComponent {
     }
 
     deleteFilesystem(): void {
-        if (confirm(`Are you sure you want to delete filesystem "${this.getFilesystemTitle(this.filesystemSummary)}"?`)) {
+        if (confirm(`确定要删除文件系统"${this.getFilesystemTitle(this.filesystemSummary)}"吗？`)) {
             this._btrfsFilesystemsService.deleteFilesystem(this.filesystemSummary.uuid).subscribe(() => this.filesystemDeleted.emit(this.filesystemSummary.uuid));
         }
     }

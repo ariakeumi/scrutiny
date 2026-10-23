@@ -1,14 +1,14 @@
-<h2 mat-dialog-title>Permanently purge {{ data.hostIds.length }} host{{ data.hostIds.length === 1 ? '' : 's' }}?</h2>
+<h2 mat-dialog-title>彻底清除 {{ data.hostIds.length }} 台主机？</h2>
 <mat-dialog-content>
-    <p>This deletes selected hosts, devices, and all matching SMART and temperature history. This cannot be undone.</p>
-    <p><strong>Stop active collectors first.</strong> Any collector still reporting these devices can re-register them after purge.</p>
-    <p>Type <strong>PURGE</strong> to continue.</p>
+    <p>这将删除所选主机、设备及所有对应的 SMART 与温度历史数据。此操作无法撤销。</p>
+    <p><strong>请先停止仍在运行的采集器。</strong>任何仍在上报这些设备的采集器都可能在清除后重新注册它们。</p>
+    <p>输入 <strong>PURGE</strong> 以继续。</p>
     <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Confirmation</mat-label>
+        <mat-label>确认输入</mat-label>
         <input matInput [(ngModel)]="confirmation" autocomplete="off" />
     </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-flat-button color="warn" [disabled]="confirmation !== 'PURGE'" (click)="confirm()">Permanently purge</button>
+    <button mat-button mat-dialog-close>取消</button>
+    <button mat-flat-button color="warn" [disabled]="confirmation !== 'PURGE'" (click)="confirm()">彻底清除</button>
 </mat-dialog-actions>

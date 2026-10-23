@@ -100,9 +100,9 @@ describe('DashboardComponent temperature chart', () => {
     });
 
     it('shows selected drives out of available drives', () => {
-        const driveFilterButton = Array.from<HTMLElement>(fixture.nativeElement.querySelectorAll('button')).find((button) => button.textContent?.includes('Drives ('));
+        const driveFilterButton = Array.from<HTMLElement>(fixture.nativeElement.querySelectorAll('button')).find((button) => button.textContent?.includes('硬盘 ('));
 
-        expect(driveFilterButton?.textContent).toContain('Drives (0/19)');
+        expect(driveFilterButton?.textContent).toContain('硬盘 (0/19)');
         expect(driveFilterButton?.textContent).not.toContain(`/${component.temperatureSelection.maxSelected})`);
     });
 
@@ -160,13 +160,5 @@ describe('DashboardComponent temperature chart', () => {
 
         expect(dashboardService.getSummaryPage.calls.argsFor(0)[0]).toEqual(jasmine.objectContaining({ page: 3 }));
         expect(dashboardService.getSummaryPage.calls.argsFor(1)[0]).toEqual(jasmine.objectContaining({ page: 2 }));
-    });
-
-    it('applies trimmed host search across paginated dashboard results', () => {
-        component.hostSearch = ' host-42 ';
-
-        component.applyHostSearch();
-
-        expect(dashboardService.getSummaryPage).toHaveBeenCalledWith(jasmine.objectContaining({ page: 1, hostSearch: 'host-42' }));
     });
 });

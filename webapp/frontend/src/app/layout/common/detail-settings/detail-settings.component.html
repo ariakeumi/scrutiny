@@ -1,44 +1,44 @@
-<h2 mat-dialog-title>Device Settings</h2>
+<h2 mat-dialog-title>设备设置</h2>
 <mat-dialog-content class="mat-typography">
     <form class="flex flex-col p-8 pb-0">
         <div class="flex flex-col gt-xs:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3">
-                <mat-label>Custom Label</mat-label>
-                <input matInput [(ngModel)]="label" name="label" placeholder="e.g., Parity 1, Data Drive" />
-                <mat-hint>A friendly name to identify this drive</mat-hint>
+                <mat-label>自定义标签</mat-label>
+                <input matInput [(ngModel)]="label" name="label" placeholder="例如：校验盘 1、数据盘" />
+                <mat-hint>用于识别这块硬盘的易记名称</mat-hint>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col gt-xs:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3">
-                <mat-label>Threshold Data</mat-label>
+                <mat-label>阈值数据</mat-label>
                 <mat-select [value]="'scrutiny'">
                     <mat-option value="scrutiny">Scrutiny</mat-option>
-                    <mat-option value="name" disabled>Manufacturer</mat-option>
+                    <mat-option value="name" disabled>厂商</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col gt-xs:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3">
-                <mat-label>Notifications</mat-label>
+                <mat-label>通知</mat-label>
                 <mat-select [(value)]="muted">
-                    <mat-option [value]="false">Enabled</mat-option>
-                    <mat-option [value]="true">Disabled</mat-option>
+                    <mat-option [value]="false">启用</mat-option>
+                    <mat-option [value]="true">禁用</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col gt-xs:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3">
-                <mat-label>Missed Ping Timeout Override (minutes)</mat-label>
+                <mat-label>心跳超时时间覆盖（分钟）</mat-label>
                 <input matInput type="number" [(ngModel)]="missedPingTimeoutOverride" name="missedPingTimeoutOverride" min="0" placeholder="0" />
-                <mat-hint>Override the global missed ping timeout for this device. 0 = use global ({{ data.globalMissedPingTimeout }} min)</mat-hint>
+                <mat-hint>为该设备覆盖全局心跳超时时间。0 = 使用全局值（{{ data.globalMissedPingTimeout }} 分钟）</mat-hint>
             </mat-form-field>
         </div>
     </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="{ muted, label, missedPingTimeoutOverride }" cdkFocusInitial>Save</button>
+    <button mat-button mat-dialog-close>取消</button>
+    <button mat-button [mat-dialog-close]="{ muted, label, missedPingTimeoutOverride }" cdkFocusInitial>保存</button>
 </mat-dialog-actions>

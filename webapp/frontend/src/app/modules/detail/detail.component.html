@@ -2,63 +2,63 @@
     <div class="flex flex-wrap w-full">
         <div class="flex items-center justify-between w-full my-4 px-4 xs:pr-0">
             <!-- Back button (mobile) -->
-            <button class="hidden xs:flex mr-2 -ml-2" mat-icon-button aria-label="Back to dashboard" (click)="goBack()">
+            <button class="hidden xs:flex mr-2 -ml-2" mat-icon-button aria-label="返回仪表盘" (click)="goBack()">
                 <mat-icon [svgIcon]="'arrow_back'"></mat-icon>
             </button>
 
             <!-- Title + status -->
             <div class="mr-6">
                 <h2 class="m-0 flex items-center gap-2">
-                    Drive Details – {{ device | deviceTitle : config.dashboard_display }}
+                    硬盘详情 – {{ device | deviceTitle : config.dashboard_display }}
 
                     @if (device?.muted) {
-                    <mat-icon class="muted-icon" [svgIcon]="'notifications_off'" matTooltip="Notifications muted"></mat-icon>
+                    <mat-icon class="muted-icon" [svgIcon]="'notifications_off'" matTooltip="通知已静音"></mat-icon>
                     }
                 </h2>
 
-                <div class="text-secondary tracking-tight">Dive into S.M.A.R.T data</div>
+                <div class="text-secondary tracking-tight">深入查看 S.M.A.R.T 数据</div>
             </div>
 
             <!-- Action buttons (desktop) -->
             <div class="flex items-center">
-                <button class="ml-2 xs:hidden" mat-stroked-button matTooltip="Export S.M.A.R.T data" disabled>
+                <button class="ml-2 xs:hidden" mat-stroked-button matTooltip="导出 S.M.A.R.T 数据" disabled>
                     <mat-icon class="icon-size-20" [svgIcon]="'save'"></mat-icon>
-                    <span class="ml-2">Export</span>
+                    <span class="ml-2">导出</span>
                 </button>
 
-                <button class="ml-2 xs:hidden" mat-stroked-button (click)="openSettingsDialog()" matTooltip="Device settings">
+                <button class="ml-2 xs:hidden" mat-stroked-button (click)="openSettingsDialog()" matTooltip="设备设置">
                     <mat-icon class="icon-size-20 rotate-90 mirror" [svgIcon]="'tune'"> </mat-icon>
-                    <span class="ml-2">Settings</span>
+                    <span class="ml-2">设置</span>
                 </button>
 
                 @if (device?.device_status !== 0) {
-                <button class="ml-2 xs:hidden" mat-stroked-button (click)="resetDeviceStatus()" matTooltip="Reset device status to passed">
+                <button class="ml-2 xs:hidden" mat-stroked-button (click)="resetDeviceStatus()" matTooltip="将设备状态重置为通过">
                     <mat-icon class="icon-size-20" [svgIcon]="'refresh'"></mat-icon>
-                    <span class="ml-2">Reset Status</span>
+                    <span class="ml-2">重置状态</span>
                 </button>
                 }
 
                 <!-- Actions menu (mobile / xs) -->
                 <div class="hidden xs:flex">
-                    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" aria-label="Open device actions">
+                    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" aria-label="打开设备操作菜单">
                         <mat-icon [svgIcon]="'more_vert'"></mat-icon>
                     </button>
 
                     <mat-menu #actionsMenu="matMenu">
-                        <button mat-menu-item matTooltip="Export S.M.A.R.T data" disabled>
+                        <button mat-menu-item matTooltip="导出 S.M.A.R.T 数据" disabled>
                             <mat-icon class="icon-size-20" [svgIcon]="'save'"></mat-icon>
-                            <span class="ml-2">Export</span>
+                            <span class="ml-2">导出</span>
                         </button>
 
                         <button mat-menu-item (click)="openSettingsDialog()">
                             <mat-icon class="icon-size-20 rotate-90 mirror" [svgIcon]="'tune'"> </mat-icon>
-                            <span class="ml-2">Settings</span>
+                            <span class="ml-2">设置</span>
                         </button>
 
                         @if (device?.device_status !== 0) {
                         <button mat-menu-item (click)="resetDeviceStatus()">
                             <mat-icon class="icon-size-20" [svgIcon]="'refresh'"></mat-icon>
-                            <span class="ml-2">Reset Status</span>
+                            <span class="ml-2">重置状态</span>
                         </button>
                         }
                     </mat-menu>
@@ -81,17 +81,15 @@
                                 }"
                             >
                                 <span class="w-2 h-2 rounded-full mr-2" [ngClass]="{ 'bg-red': displayedStatus === 'failed', 'bg-green': displayedStatus === 'passed' }"></span>
-                                <span class="pr-2px leading-relaxed whitespace-no-wrap">{{
-                                    device | deviceStatus : !!smart_results : config.metrics.status_threshold : true
-                                }}</span>
+                                <span class="pr-2px leading-relaxed whitespace-no-wrap">{{ displayedStatusLabel }}</span>
                             </span>
                         </div>
-                        <div class="text-secondary text-md">Status</div>
+                        <div class="text-secondary text-md">状态</div>
                     </div>
                     } @if (device?.host_id) {
                     <div class="my-2 col-span-1">
                         <div>{{ device?.host_id }}</div>
-                        <div class="text-secondary text-md">Host ID</div>
+                        <div class="text-secondary text-md">主机 ID</div>
                     </div>
                     } @if (device?.collector_version) {
                     <div class="my-2 col-span-1">
@@ -101,74 +99,74 @@
                             <mat-icon
                                 class="text-sm align-middle ml-1"
                                 [svgIcon]="'warning'"
-                                [matTooltip]="'Collector is outdated. Server version: ' + $safeNavigationMigration(config?.server_version)"
+                                [matTooltip]="'采集器版本过旧。服务器版本：' + $safeNavigationMigration(config?.server_version)"
                             >
                             </mat-icon>
                             }
                         </div>
-                        <div class="text-secondary text-md">Collector Version</div>
+                        <div class="text-secondary text-md">采集器版本</div>
                     </div>
                     } @if (device?.device_uuid) {
                     <div class="my-2 col-span-1">
                         <div>{{ device?.device_uuid }}</div>
-                        <div class="text-secondary text-md">Device UUID</div>
+                        <div class="text-secondary text-md">设备 UUID</div>
                     </div>
                     } @if (device?.device_label) {
                     <div class="my-2 col-span-1">
                         <div>{{ device?.device_label }}</div>
-                        <div class="text-secondary text-md">Device Label</div>
+                        <div class="text-secondary text-md">设备标签</div>
                     </div>
                     } @if (device?.device_type && device?.device_type !== 'ata' && device?.device_type !== 'scsi') {
                     <div class="my-2 col-span-1">
                         <div>{{ $safeNavigationMigration(device?.device_type) | uppercase }}</div>
-                        <div class="text-secondary text-md">Device Type</div>
+                        <div class="text-secondary text-md">设备类型</div>
                     </div>
                     } @if (device?.manufacturer) {
                     <div class="my-2 col-span-1">
                         <div>{{ device?.manufacturer }}</div>
-                        <div class="text-secondary text-md">Model Family</div>
+                        <div class="text-secondary text-md">型号家族</div>
                     </div>
                     }
                     <div class="my-2 col-span-1">
                         <div>{{ device?.model_name }}</div>
-                        <div class="text-secondary text-md">Device Model</div>
+                        <div class="text-secondary text-md">设备型号</div>
                     </div>
                     <div class="my-2 col-span-1">
                         <div>{{ device?.serial_number }}</div>
-                        <div class="text-secondary text-md">Serial Number</div>
+                        <div class="text-secondary text-md">序列号</div>
                     </div>
                     <div class="my-2 col-span-1">
                         <div>{{ device?.wwn }}</div>
-                        <div class="text-secondary text-md">LU WWN Device Id</div>
+                        <div class="text-secondary text-md">LU WWN 设备 ID</div>
                     </div>
                     <div class="my-2 col-span-1">
                         <div>{{ device?.firmware }}</div>
-                        <div class="text-secondary text-md">Firmware Version</div>
+                        <div class="text-secondary text-md">固件版本</div>
                     </div>
                     <div class="my-2 col-span-1">
                         <div>{{ $safeNavigationMigration(device?.capacity) | fileSize : config.file_size_si_units }}</div>
-                        <div class="text-secondary text-md">Capacity</div>
+                        <div class="text-secondary text-md">容量</div>
                     </div>
                     @if (device?.rotational_speed) {
                     <div class="my-2 col-span-1">
                         <div>{{ device?.rotational_speed }} RPM</div>
-                        <div class="text-secondary text-md">Rotation Rate</div>
+                        <div class="text-secondary text-md">转速</div>
                     </div>
                     } @if (device?.device_protocol) {
                     <div class="my-2 col-span-1">
                         <div>{{ device?.device_protocol }}</div>
-                        <div class="text-secondary text-md">Protocol</div>
+                        <div class="text-secondary text-md">协议</div>
                     </div>
                     }
                     <div class="my-2 col-span-1">
                         <div>{{ smart_results[0]?.power_cycle_count }}</div>
-                        <div class="text-secondary text-md">Power Cycle Count</div>
+                        <div class="text-secondary text-md">通断电次数</div>
                     </div>
                     @if (smart_results[0]?.power_on_hours) {
                     <div class="my-2 col-span-1">
                         <div
                             matTooltip="{{
-                                humanizeDuration($safeNavigationMigration(smart_results[0]?.power_on_hours) * 60 * 60 * 1000, { conjunction: ' and ', serialComma: false })
+                                humanizeDuration($safeNavigationMigration(smart_results[0]?.power_on_hours) * 60 * 60 * 1000, { language: 'zh_CN', conjunction: ' 和 ', serialComma: false })
                             }}"
                         >
                             {{
@@ -176,27 +174,27 @@
                                     | deviceHours : config.powered_on_hours_unit : { round: true, largest: 1, units: ['y', 'd', 'h'] }
                             }}
                         </div>
-                        <div class="text-secondary text-md">Powered On</div>
+                        <div class="text-secondary text-md">通电时长</div>
                     </div>
                     }
                     <div class="my-2 col-span-1">
                         <div>{{ $safeNavigationMigration(smart_results[0]?.temp) | temperature : config.temperature_unit : true }}</div>
-                        <div class="text-secondary text-md">Temperature</div>
+                        <div class="text-secondary text-md">温度</div>
                     </div>
                     @if (getSSDPercentageUsed() !== null) {
                     <div class="my-2 col-span-1">
                         <div>{{ getSSDPercentageUsed() }}%</div>
-                        <div class="text-secondary text-md">Percentage Used</div>
+                        <div class="text-secondary text-md">已损耗百分比</div>
                     </div>
                     } @else if (getSSDWearoutValue() !== null) {
                     <div class="my-2 col-span-1">
                         <div>{{ getSSDWearoutValue() }}%</div>
-                        <div class="text-secondary text-md">SSD Wearout Health</div>
+                        <div class="text-secondary text-md">SSD 健康度</div>
                     </div>
                     } @if (getTBsWritten() !== null) {
                     <div class="my-2 col-span-1">
                         <div>{{ getTBsWritten() | number : '1.2-2' }} TB</div>
-                        <div class="text-secondary text-md">TBs Written</div>
+                        <div class="text-secondary text-md">已写入 TB 数</div>
                     </div>
                     }
                     <div class="my-2 col-span-1">
@@ -204,16 +202,16 @@
                             <span>{{
                                 $safeNavigationMigration(device?.max_tbw) !== null && $safeNavigationMigration(device?.max_tbw) !== undefined
                                     ? (device.max_tbw | number : '1.0-2') + ' TB'
-                                    : 'Not set'
+                                    : '未设置'
                             }}</span>
-                            <button mat-stroked-button type="button" (click)="updateMaxTBW(); $event.stopPropagation()">Set</button>
+                            <button mat-stroked-button type="button" (click)="updateMaxTBW(); $event.stopPropagation()">设置</button>
                         </div>
-                        <div class="text-secondary text-md">Rated TBW</div>
+                        <div class="text-secondary text-md">额定 TBW</div>
                     </div>
                     @if (getTBsRead() !== null) {
                     <div class="my-2 col-span-1">
                         <div>{{ getTBsRead() | number : '1.2-2' }} TB</div>
-                        <div class="text-secondary text-md">TBs Read</div>
+                        <div class="text-secondary text-md">已读取 TB 数</div>
                     </div>
                     }
                 </div>
@@ -225,7 +223,7 @@
             <treo-card class="flex flex-auto p-4 flex-col">
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-4">
-                    <div class="font-bold text-md text-secondary uppercase tracking-wider">Replacement Risk</div>
+                    <div class="font-bold text-md text-secondary uppercase tracking-wider">更换风险</div>
                     <span
                         class="inline-flex items-center font-bold text-xs px-2 py-2px rounded-full tracking-wide uppercase"
                         [ngClass]="riskCategoryClass(replacementRisk.category)"
@@ -252,17 +250,17 @@
                         ></div>
                     </div>
                     @if (replacementRisk.trend_bonus > 0) {
-                    <span class="text-xs text-secondary whitespace-nowrap" matTooltip="Additional points from rate-of-change analysis over {{ replacementRisk.trend_window }}">
-                        +{{ replacementRisk.trend_bonus | number : '1.0-1' }} trend
+                    <span class="text-xs text-secondary whitespace-nowrap" matTooltip="来自 {{ replacementRisk.trend_window }} 内变化率分析的额外加分">
+                        +{{ replacementRisk.trend_bonus | number : '1.0-1' }} 趋势
                     </span>
                     }
                 </div>
 
                 @if (replacementRisk.device_protocol === 'ATA') {
                 <div class="text-sm text-secondary mb-4">
-                    @if (!replacementRisk.consumer_drive_profiles_enabled) { Using generic ATA rules. Consumer drive profile overrides are disabled in Settings. } @else if
-                    (replacementRisk.consumer_drive_profile_applied) { Using consumer drive profile: {{ replacementRisk.consumer_drive_profile_family }}. } @else { Using generic
-                    ATA rules. No vetted consumer drive profile matched this drive. }
+                    @if (!replacementRisk.consumer_drive_profiles_enabled) { 使用通用 ATA 规则。消费级硬盘档案覆盖已在设置中禁用。 } @else if
+                    (replacementRisk.consumer_drive_profile_applied) { 使用消费级硬盘档案：{{ replacementRisk.consumer_drive_profile_family }}。 } @else { 使用通用
+                    ATA 规则。没有匹配到适用于该硬盘的经过验证的消费级硬盘档案。 }
                 </div>
                 }
 
@@ -272,11 +270,11 @@
                     <table class="w-full text-sm">
                         <thead>
                             <tr class="text-secondary text-xs uppercase tracking-wider border-b">
-                                <th class="text-left pb-2 pr-4 font-medium">Attribute</th>
-                                <th class="text-right pb-2 pr-4 font-medium">Value</th>
-                                <th class="text-right pb-2 pr-4 font-medium">Score</th>
-                                <th class="text-right pb-2 pr-4 font-medium">Trend</th>
-                                <th class="text-right pb-2 font-medium">Weight</th>
+                                <th class="text-left pb-2 pr-4 font-medium">属性</th>
+                                <th class="text-right pb-2 pr-4 font-medium">数值</th>
+                                <th class="text-right pb-2 pr-4 font-medium">得分</th>
+                                <th class="text-right pb-2 pr-4 font-medium">趋势</th>
+                                <th class="text-right pb-2 font-medium">权重</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -294,7 +292,7 @@
                         </tbody>
                     </table>
                     @if (replacementRisk.score === 0) {
-                    <div class="text-secondary text-sm mt-2">No degradation signals detected.</div>
+                    <div class="text-secondary text-sm mt-2">未检测到退化信号。</div>
                     }
                 </div>
                 } @else {
@@ -303,7 +301,7 @@
                     <div class="flex items-center justify-between py-2 border-b border-opacity-50">
                         <div>
                             <div class="text-sm font-medium">{{ contrib.display_name }}</div>
-                            <div class="text-xs text-secondary">value: {{ contrib.value }}</div>
+                            <div class="text-xs text-secondary">数值：{{ contrib.value }}</div>
                         </div>
                         <div class="text-right">
                             <div class="text-sm font-mono">
@@ -316,7 +314,7 @@
                         </div>
                     </div>
                     } } @if (replacementRisk.score === 0) {
-                    <div class="text-secondary text-sm mt-2">No degradation signals detected.</div>
+                    <div class="text-secondary text-sm mt-2">未检测到退化信号。</div>
                     }
                 </div>
                 } }
@@ -330,27 +328,27 @@
             <treo-card class="flex flex-auto p-4 flex-col">
                 <div class="flex items-center justify-between mb-4">
                     <div>
-                        <div class="font-bold text-md text-secondary uppercase tracking-wider">SMART Self-Tests</div>
-                        <div class="text-sm text-secondary">Self-test history from recorded smartctl uploads</div>
+                        <div class="font-bold text-md text-secondary uppercase tracking-wider">SMART 自检</div>
+                        <div class="text-sm text-secondary">来自已记录 smartctl 上报的自检历史</div>
                     </div>
                     @if (!selfTestsLoading && selfTests.length > 0) {
-                    <div class="text-sm text-secondary">{{ selfTests.length }} entries</div>
+                    <div class="text-sm text-secondary">共 {{ selfTests.length }} 条记录</div>
                     }
                 </div>
 
                 @if (selfTestsLoading) {
-                <div class="text-secondary text-sm">Loading self-test history...</div>
+                <div class="text-secondary text-sm">正在加载自检历史...</div>
                 } @else if (selfTestsLoaded && selfTests.length === 0) {
-                <div class="text-secondary text-sm">No self-test history recorded yet.</div>
+                <div class="text-secondary text-sm">暂无自检历史记录。</div>
                 } @else if (!isMobile) {
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm">
                         <thead>
                             <tr class="text-secondary text-xs uppercase tracking-wider border-b">
-                                <th class="text-left pb-2 pr-4 font-medium">Type</th>
-                                <th class="text-left pb-2 pr-4 font-medium">Status</th>
-                                <th class="text-left pb-2 pr-4 font-medium">Detail</th>
-                                <th class="text-right pb-2 font-medium">Power-On Age</th>
+                                <th class="text-left pb-2 pr-4 font-medium">类型</th>
+                                <th class="text-left pb-2 pr-4 font-medium">状态</th>
+                                <th class="text-left pb-2 pr-4 font-medium">详情</th>
+                                <th class="text-right pb-2 font-medium">通电时长</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -370,7 +368,7 @@
                                 <td class="py-2 text-right" [matTooltip]="selfTestAgeTooltip(selfTest)">
                                     @if (selfTest.effective_lifetime_hours !== null && selfTest.effective_lifetime_hours !== undefined) {
                                     {{ selfTest.effective_lifetime_hours | deviceHours : config.powered_on_hours_unit : { round: true, largest: 1, units: ['y', 'd', 'h'] } }}
-                                    } @else { Unknown (may be wrapped) }
+                                    } @else { 未知（可能已回绕） }
                                 </td>
                             </tr>
                             }
@@ -393,7 +391,7 @@
                             <div class="text-xs text-secondary mt-1" [matTooltip]="selfTestAgeTooltip(selfTest)">
                                 @if (selfTest.effective_lifetime_hours !== null && selfTest.effective_lifetime_hours !== undefined) {
                                 {{ selfTest.effective_lifetime_hours | deviceHours : config.powered_on_hours_unit : { round: true, largest: 1, units: ['y', 'd', 'h'] } }}
-                                } @else { Unknown (may be wrapped) }
+                                } @else { 未知（可能已回绕） }
                             </div>
                         </div>
                     </div>
@@ -410,14 +408,14 @@
         <div class="flex flex-col w-full p-4">
             <div class="flex justify-between items-center mb-3">
                 <div>
-                    <div class="font-bold text-md text-secondary uppercase tracking-wider">S.M.A.R.T {{ device?.device_protocol }} Attributes</div>
-                    <div class="text-sm text-hint font-medium">{{ this.smartAttributeDataSource.data.length }} visible, {{ getHiddenAttributes() }} hidden</div>
+                    <div class="font-bold text-md text-secondary uppercase tracking-wider">S.M.A.R.T {{ device?.device_protocol }} 属性</div>
+                    <div class="text-sm text-hint font-medium">显示 {{ this.smartAttributeDataSource.data.length }} 个，隐藏 {{ getHiddenAttributes() }} 个</div>
                 </div>
                 @if (isAta()) {
                 <mat-button-toggle-group [value]="displayMode" (change)="setDisplayMode($event.value)" class="display-mode-toggle">
                     <mat-button-toggle value="scrutiny">Scrutiny</mat-button-toggle>
-                    <mat-button-toggle value="raw">Raw</mat-button-toggle>
-                    <mat-button-toggle value="normalized">Norm</mat-button-toggle>
+                    <mat-button-toggle value="raw">原始值</mat-button-toggle>
+                    <mat-button-toggle value="normalized">标准化</mat-button-toggle>
                 </mat-button-toggle-group>
                 }
             </div>
@@ -448,7 +446,7 @@
                                     'bg-yellow': getAttributeStatusName(attribute.status) === 'warn'
                                 }"
                             ></span>
-                            {{ getAttributeStatusName(attribute.status) }}
+                            {{ getAttributeStatusName(attribute.status) | deviceStatusLabel }}
                         </span>
                         <span class="font-medium text-sm truncate">{{ getAttributeName(attribute) }}</span>
                     </div>
@@ -471,34 +469,34 @@
                 <div class="border-t px-3 py-2 bg-cool-gray-50 dark:bg-cool-gray-800">
                     @if (isAta()) {
                     <div class="grid grid-cols-2 gap-2 text-sm mb-2">
-                        <div><span class="text-hint">ID:</span> {{ formatAttributeId(attribute.attribute_id) }}</div>
-                        <div><span class="text-hint">Worst:</span> {{ getAttributeWorst(attribute) || '--' }}</div>
-                        <div><span class="text-hint">Threshold:</span> {{ getAttributeThreshold(attribute) || '--' }}</div>
-                        <div><span class="text-hint">Ideal:</span> {{ getAttributeIdeal(attribute) || '--' }}</div>
-                        <div><span class="text-hint">Failure Rate:</span> {{ attribute.failure_rate | percent }}</div>
+                        <div><span class="text-hint">ID：</span> {{ formatAttributeId(attribute.attribute_id) }}</div>
+                        <div><span class="text-hint">最差：</span> {{ getAttributeWorst(attribute) || '--' }}</div>
+                        <div><span class="text-hint">阈值：</span> {{ getAttributeThreshold(attribute) || '--' }}</div>
+                        <div><span class="text-hint">理想值：</span> {{ getAttributeIdeal(attribute) || '--' }}</div>
+                        <div><span class="text-hint">失败率：</span> {{ attribute.failure_rate | percent }}</div>
                     </div>
                     } @else {
                     <div class="grid grid-cols-2 gap-2 text-sm mb-2">
-                        <div><span class="text-hint">Threshold:</span> {{ getAttributeThreshold(attribute) || '--' }}</div>
-                        <div><span class="text-hint">Ideal:</span> {{ getAttributeIdeal(attribute) || '--' }}</div>
+                        <div><span class="text-hint">阈值：</span> {{ getAttributeThreshold(attribute) || '--' }}</div>
+                        <div><span class="text-hint">理想值：</span> {{ getAttributeIdeal(attribute) || '--' }}</div>
                     </div>
                     } @if (getAttributeDescription(attribute)) {
                     <div class="text-sm text-secondary mt-1 mb-2">{{ getAttributeDescription(attribute) }}</div>
                     }
                     <div class="flex gap-2 mt-1">
                         <button mat-stroked-button class="text-xs" (click)="openHistoryDialog(attribute, $event)">
-                            <mat-icon class="icon-size-16 mr-1" [svgIcon]="'show_chart'"></mat-icon> History
+                            <mat-icon class="icon-size-16 mr-1" [svgIcon]="'show_chart'"></mat-icon> 历史
                         </button>
                         @if (getOverrideForAttribute(attribute.attribute_id)) {
                         <button mat-stroked-button class="text-xs" (click)="removeOverride(attribute); $event.stopPropagation()">
-                            <mat-icon class="icon-size-16 mr-1" [svgIcon]="'close'"></mat-icon> Remove Override
+                            <mat-icon class="icon-size-16 mr-1" [svgIcon]="'close'"></mat-icon> 移除覆盖
                         </button>
                         } @else if (getAttributeStatusName(attribute.status) !== 'passed') {
                         <button mat-stroked-button class="text-xs" (click)="ignoreAttribute(attribute); $event.stopPropagation()">
-                            <mat-icon class="icon-size-16 mr-1" [svgIcon]="'visibility_off'"></mat-icon> Ignore
+                            <mat-icon class="icon-size-16 mr-1" [svgIcon]="'visibility_off'"></mat-icon> 忽略
                         </button>
                         <button mat-stroked-button class="text-xs" (click)="acknowledgeAttribute(attribute); $event.stopPropagation()">
-                            <mat-icon class="icon-size-16 mr-1" [svgIcon]="'check_circle_outline'"></mat-icon> Acknowledge
+                            <mat-icon class="icon-size-16 mr-1" [svgIcon]="'check_circle_outline'"></mat-icon> 确认
                         </button>
                         }
                     </div>
@@ -509,7 +507,7 @@
 
             <div class="mt-2">
                 <button mat-button (click)="toggleOnlyCritical()" [color]="'primary'">
-                    @if (onlyCritical) { <span>Show all attributes</span> } @if (!onlyCritical) { <span>Show critical attributes</span> }
+                    @if (onlyCritical) { <span>显示全部属性</span> } @if (!onlyCritical) { <span>仅显示关键属性</span> }
                 </button>
             </div>
         </div>
@@ -520,15 +518,15 @@
                 <div class="p-6">
                     <div class="flex justify-between items-start">
                         <div>
-                            <div class="font-bold text-md text-secondary uppercase tracking-wider">S.M.A.R.T {{ device?.device_protocol }} Attributes</div>
-                            <div class="text-sm text-hint font-medium">{{ this.smartAttributeDataSource.data.length }} visible, {{ getHiddenAttributes() }} hidden</div>
+                            <div class="font-bold text-md text-secondary uppercase tracking-wider">S.M.A.R.T {{ device?.device_protocol }} 属性</div>
+                            <div class="text-sm text-hint font-medium">显示 {{ this.smartAttributeDataSource.data.length }} 个，隐藏 {{ getHiddenAttributes() }} 个</div>
                         </div>
                         <!-- Display Mode Toggle - only for ATA devices -->
                         @if (isAta()) {
                         <mat-button-toggle-group [value]="displayMode" (change)="setDisplayMode($event.value)" class="display-mode-toggle">
                             <mat-button-toggle value="scrutiny">Scrutiny</mat-button-toggle>
-                            <mat-button-toggle value="raw">Raw</mat-button-toggle>
-                            <mat-button-toggle value="normalized">Normalized</mat-button-toggle>
+                            <mat-button-toggle value="raw">原始值</mat-button-toggle>
+                            <mat-button-toggle value="normalized">标准化值</mat-button-toggle>
                         </mat-button-toggle-group>
                         }
                     </div>
@@ -538,7 +536,7 @@
                         <!-- Status -->
                         <ng-container matColumnDef="status">
                             <th class="bg-cool-gray-50 dark:bg-cool-gray-700 border-t" mat-header-cell mat-sort-header *matHeaderCellDef>
-                                <span class="whitespace-no-wrap"> Status </span>
+                                <span class="whitespace-no-wrap"> 状态 </span>
                             </th>
                             <td mat-cell *matCellDef="let attribute">
                                 <span
@@ -558,7 +556,7 @@
                                         }"
                                     ></span>
                                     <span class="pr-2px leading-relaxed whitespace-no-wrap" matTooltip="{{ attribute.status_reason }}">{{
-                                        getAttributeStatusName(attribute.status)
+                                        getAttributeStatusName(attribute.status) | deviceStatusLabel
                                     }}</span>
                                 </span>
                             </td>
@@ -579,10 +577,10 @@
                         <!-- Name -->
                         <ng-container matColumnDef="name">
                             <th class="bg-cool-gray-50 dark:bg-cool-gray-700 border-t" mat-header-cell mat-sort-header *matHeaderCellDef>
-                                <span class="whitespace-no-wrap"> Name </span>
+                                <span class="whitespace-no-wrap"> 名称 </span>
                             </th>
                             <td mat-cell *matCellDef="let attribute">
-                                <span class="pr-4" matTooltip="click for more details.">
+                                <span class="pr-4" matTooltip="点击查看详情。">
                                     {{ getAttributeName(attribute) }} @if (getAttributeDescription(attribute)) {
                                     <mat-icon class="icon-size-10" [svgIcon]="'info'"></mat-icon>
                                     }
@@ -593,7 +591,7 @@
                         <!-- Value -->
                         <ng-container matColumnDef="value">
                             <th class="bg-cool-gray-50 dark:bg-cool-gray-700 border-t" mat-header-cell mat-sort-header *matHeaderCellDef>
-                                <span class="whitespace-no-wrap"> Value </span>
+                                <span class="whitespace-no-wrap"> 数值 </span>
                             </th>
                             <td mat-cell *matCellDef="let attribute">
                                 <span class="pr-4 whitespace-no-wrap" matTooltip="{{ getAttributeValueType(attribute) }}">
@@ -605,7 +603,7 @@
                         <!-- Worst -->
                         <ng-container matColumnDef="worst">
                             <th class="bg-cool-gray-50 dark:bg-cool-gray-700 border-t" mat-header-cell mat-sort-header *matHeaderCellDef>
-                                <span class="whitespace-no-wrap"> Worst </span>
+                                <span class="whitespace-no-wrap"> 最差 </span>
                             </th>
                             <td mat-cell *matCellDef="let attribute">
                                 <span class="pr-4 whitespace-no-wrap">
@@ -617,7 +615,7 @@
                         <!-- Threshold -->
                         <ng-container matColumnDef="thresh">
                             <th class="bg-cool-gray-50 dark:bg-cool-gray-700 border-t" mat-header-cell mat-sort-header *matHeaderCellDef>
-                                <span class="whitespace-no-wrap"> Threshold </span>
+                                <span class="whitespace-no-wrap"> 阈值 </span>
                             </th>
                             <td mat-cell *matCellDef="let attribute">
                                 <span class="pr-4 whitespace-no-wrap">
@@ -629,7 +627,7 @@
                         <!-- Ideal -->
                         <ng-container matColumnDef="ideal">
                             <th class="bg-cool-gray-50 dark:bg-cool-gray-700 border-t" mat-header-cell mat-sort-header *matHeaderCellDef>
-                                <span class="whitespace-no-wrap"> Ideal </span>
+                                <span class="whitespace-no-wrap"> 理想值 </span>
                             </th>
                             <td mat-cell *matCellDef="let attribute">
                                 <span class="pr-4 font-medium whitespace-no-wrap">
@@ -643,9 +641,9 @@
                             <th class="bg-cool-gray-50 dark:bg-cool-gray-700 border-t" mat-header-cell mat-sort-header *matHeaderCellDef>
                                 <span
                                     class="whitespace-no-wrap"
-                                    matTooltip="Failure rate is based on data provided by BackBlaze. The current attribute value is matched against the observed failure categories and an annual failure rate is determined."
+                                    matTooltip="失败率基于 BackBlaze 提供的数据。将当前属性值与观测到的故障类别进行匹配，得出年化故障率。"
                                 >
-                                    Failure Rate <mat-icon [svgIcon]="'info'"></mat-icon>
+                                    失败率 <mat-icon [svgIcon]="'info'"></mat-icon>
                                 </span>
                             </th>
                             <td mat-cell *matCellDef="let attribute">
@@ -658,9 +656,9 @@
                         <!-- History -->
                         <ng-container matColumnDef="history">
                             <th class="bg-cool-gray-50 dark:bg-cool-gray-700 border-t" mat-header-cell mat-sort-header *matHeaderCellDef>
-                                <span class="whitespace-no-wrap"> History </span>
+                                <span class="whitespace-no-wrap"> 历史 </span>
                             </th>
-                            <td mat-cell *matCellDef="let attribute" class="cursor-pointer" matTooltip="Click to view history" (click)="openHistoryDialog(attribute, $event)">
+                            <td mat-cell *matCellDef="let attribute" class="cursor-pointer" matTooltip="点击查看历史" (click)="openHistoryDialog(attribute, $event)">
                                 <span class="font-medium whitespace-no-wrap">
                                     <apx-chart
                                         [series]="attribute.chartData"
@@ -681,37 +679,37 @@
                                 <button
                                     mat-icon-button
                                     [matMenuTriggerFor]="overrideMenu"
-                                    matTooltip="Override active"
-                                    aria-label="Open attribute override actions"
+                                    matTooltip="覆盖已生效"
+                                    aria-label="打开属性覆盖操作菜单"
                                     class="override-active-btn"
                                 >
                                     <mat-icon class="icon-size-20" [svgIcon]="'tune'" style="color: #667eea"></mat-icon>
                                 </button>
                                 } @else if (getAttributeStatusName(attribute.status) !== 'passed') {
-                                <button mat-icon-button [matMenuTriggerFor]="overrideMenu" matTooltip="Attribute actions" aria-label="Open attribute actions">
+                                <button mat-icon-button [matMenuTriggerFor]="overrideMenu" matTooltip="属性操作" aria-label="打开属性操作菜单">
                                     <mat-icon class="icon-size-20" [svgIcon]="'more_vert'"></mat-icon>
                                 </button>
                                 }
 
                                 <mat-menu #overrideMenu="matMenu">
                                     @if (getOverrideForAttribute(attribute.attribute_id); as override) {
-                                    <div class="px-4 py-2 text-secondary text-sm" mat-menu-item disabled>Override: {{ overrideDescription(override) }}</div>
+                                    <div class="px-4 py-2 text-secondary text-sm" mat-menu-item disabled>覆盖：{{ overrideDescription(override) }}</div>
                                     <button mat-menu-item (click)="removeOverride(attribute)">
                                         <mat-icon class="icon-size-20" [svgIcon]="'close'"></mat-icon>
-                                        <span>Remove override</span>
+                                        <span>移除覆盖</span>
                                     </button>
                                     } @else {
                                     <button mat-menu-item (click)="ignoreAttribute(attribute)">
                                         <mat-icon class="icon-size-20" [svgIcon]="'visibility_off'"></mat-icon>
-                                        <span>Ignore attribute</span>
+                                        <span>忽略该属性</span>
                                     </button>
                                     <button mat-menu-item (click)="forcePassedAttribute(attribute)">
                                         <mat-icon class="icon-size-20" [svgIcon]="'check_circle'"></mat-icon>
-                                        <span>Force passed</span>
+                                        <span>强制标记为通过</span>
                                     </button>
-                                    <button mat-menu-item (click)="acknowledgeAttribute(attribute)" matTooltip="Passes at the current value only; fails again if the value changes">
+                                    <button mat-menu-item (click)="acknowledgeAttribute(attribute)" matTooltip="仅在当前值下通过；数值变化后再次失败">
                                         <mat-icon class="icon-size-20" [svgIcon]="'check_circle_outline'"></mat-icon>
-                                        <span>Acknowledge current value</span>
+                                        <span>确认当前值</span>
                                     </button>
                                     }
                                 </mat-menu>
@@ -730,10 +728,10 @@
                                     <div class="flex flex-auto w-2/3 min-w-80">
                                         <div class="flex flex-col flex-auto justify-end text-md px-6 pb-3">
                                             <div class="flex items-center justify-between py-3 border-b last:border-b-0 ng-star-inserted">
-                                                <div class="flex items-center w-1/4">Type</div>
-                                                <div class="flex items-center w-1/4">Value</div>
-                                                <div class="flex items-center w-1/4">Worst/Thresh</div>
-                                                <div class="flex items-center w-1/4">Failure %</div>
+                                                <div class="flex items-center w-1/4">类型</div>
+                                                <div class="flex items-center w-1/4">数值</div>
+                                                <div class="flex items-center w-1/4">最差/阈值</div>
+                                                <div class="flex items-center w-1/4">失败率</div>
                                             </div>
 
                                             <div class="flex items-center justify-between py-3 border-b last:border-b-0 ng-star-inserted">
@@ -762,7 +760,7 @@
                                                             'bg-green': getAttributeSmartStatusName(attribute.status) === 'passed'
                                                         }"
                                                     ></div>
-                                                    <div class="truncate">Normalized</div>
+                                                    <div class="truncate">标准化值</div>
                                                 </div>
                                                 <div class="w-1/4 items-center font-medium">{{ attribute.value }}</div>
                                                 <div class="w-1/4 items-center text-secondary">
@@ -774,7 +772,7 @@
                                             <div class="flex items-center justify-between py-3 border-b last:border-b-0 ng-star-inserted">
                                                 <div class="flex items-center w-1/4">
                                                     <div class="flex-shrink-0 w-2 h-2 mr-3 rounded-full"></div>
-                                                    <div class="truncate">Raw</div>
+                                                    <div class="truncate">原始值</div>
                                                 </div>
                                                 <div class="w-1/4 items-center font-medium">{{ attribute.raw_value ?? attribute.value }}</div>
                                                 <div class="w-1/4 items-center text-secondary">--</div>
@@ -791,9 +789,9 @@
                             <td class="px-3 border-none" mat-footer-cell *matFooterCellDef colspan="6">
                                 <button mat-button (click)="toggleOnlyCritical()" [color]="'primary'">
                                     @if (onlyCritical) {
-                                    <span>Show all attributes</span>
+                                    <span>显示全部属性</span>
                                     } @if (!onlyCritical) {
-                                    <span>Show critical attributes</span>
+                                    <span>仅显示关键属性</span>
                                     }
                                 </button>
                             </td>
@@ -825,25 +823,25 @@
                     <div class="flex flex-col p-6 pr-4 pb-4">
                         <div class="flex items-center justify-between">
                             <div class="flex flex-col">
-                                <div class="font-bold text-md text-secondary uppercase tracking-wider mr-4">Performance Benchmarks</div>
+                                <div class="font-bold text-md text-secondary uppercase tracking-wider mr-4">性能基准测试</div>
                                 <div class="text-sm text-hint font-medium">
-                                    Throughput, IOPS, and latency trends @if (performanceBaseline?.sample_count) { &ndash; Baseline from {{ performanceBaseline.sample_count }}
-                                    {{ performanceBaseline.sample_count === 1 ? 'sample' : 'samples' }}
+                                    吞吐、IOPS 与延迟趋势 @if (performanceBaseline?.sample_count) { &ndash; 基线来自 {{ performanceBaseline.sample_count }}
+                                    个样本
                                     }
                                 </div>
                             </div>
 
                             <div class="flex items-center">
                                 <button class="h-8 min-h-8 px-3" mat-stroked-button [matMenuTriggerFor]="perfRangeMenu" [disabled]="performanceLoading">
-                                    <span class="font-medium text-sm capitalize">{{ perfDurationKey }}</span>
+                                    <span class="font-medium text-sm">{{ perfDurationLabel }}</span>
                                     <mat-icon class="icon-size-4 ml-1" [svgIcon]="'expand_more'"></mat-icon>
                                 </button>
 
                                 <mat-menu #perfRangeMenu="matMenu">
-                                    <button mat-menu-item (click)="changePerformanceDuration('year')">year</button>
-                                    <button mat-menu-item (click)="changePerformanceDuration('month')">month</button>
-                                    <button mat-menu-item (click)="changePerformanceDuration('week')">week</button>
-                                    <button mat-menu-item (click)="changePerformanceDuration('day')">day</button>
+                                    <button mat-menu-item (click)="changePerformanceDuration('year')">年</button>
+                                    <button mat-menu-item (click)="changePerformanceDuration('month')">月</button>
+                                    <button mat-menu-item (click)="changePerformanceDuration('week')">周</button>
+                                    <button mat-menu-item (click)="changePerformanceDuration('day')">日</button>
                                 </mat-menu>
                             </div>
                         </div>
@@ -858,7 +856,7 @@
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
                     @if (latest.seq_read_bw_bytes > 0) {
                     <treo-card class="flex-col p-4">
-                        <div class="font-semibold text-xs text-hint uppercase tracking-wider">Seq Read</div>
+                        <div class="font-semibold text-xs text-hint uppercase tracking-wider">顺序读取</div>
                         <div class="font-bold text-2xl my-2">{{ latest.seq_read_bw_bytes | fileSize : $safeNavigationMigration(config?.file_size_si_units) }}/s</div>
                         @if (performanceBaseline?.sample_count > 1) { @if (getBaselineDelta(latest.seq_read_bw_bytes,
                         $safeNavigationMigration(performanceBaseline?.seq_read_bw_bytes), true); as delta) {
@@ -866,13 +864,13 @@
                             <span [ngClass]="{ 'text-green-600': delta.status === 'good', 'text-yellow-600': delta.status === 'warn', 'text-red-600': delta.status === 'bad' }">
                                 {{ delta.percent > 0 ? '+' : '' }}{{ delta.percent }}%
                             </span>
-                            vs baseline
+                            对比基线
                         </div>
                         } }
                     </treo-card>
                     } @if (latest.seq_write_bw_bytes > 0) {
                     <treo-card class="flex-col p-4">
-                        <div class="font-semibold text-xs text-hint uppercase tracking-wider">Seq Write</div>
+                        <div class="font-semibold text-xs text-hint uppercase tracking-wider">顺序写入</div>
                         <div class="font-bold text-2xl my-2">{{ latest.seq_write_bw_bytes | fileSize : $safeNavigationMigration(config?.file_size_si_units) }}/s</div>
                         @if (performanceBaseline?.sample_count > 1) { @if (getBaselineDelta(latest.seq_write_bw_bytes,
                         $safeNavigationMigration(performanceBaseline?.seq_write_bw_bytes), true); as delta) {
@@ -880,13 +878,13 @@
                             <span [ngClass]="{ 'text-green-600': delta.status === 'good', 'text-yellow-600': delta.status === 'warn', 'text-red-600': delta.status === 'bad' }">
                                 {{ delta.percent > 0 ? '+' : '' }}{{ delta.percent }}%
                             </span>
-                            vs baseline
+                            对比基线
                         </div>
                         } }
                     </treo-card>
                     } @if (latest.rand_read_iops > 0) {
                     <treo-card class="flex-col p-4">
-                        <div class="font-semibold text-xs text-hint uppercase tracking-wider">Rand Read IOPS</div>
+                        <div class="font-semibold text-xs text-hint uppercase tracking-wider">随机读取 IOPS</div>
                         <div class="font-bold text-2xl my-2">{{ latest.rand_read_iops | number : '1.0-0' }}</div>
                         @if (performanceBaseline?.sample_count > 1) { @if (getBaselineDelta(latest.rand_read_iops, $safeNavigationMigration(performanceBaseline?.rand_read_iops),
                         true); as delta) {
@@ -894,13 +892,13 @@
                             <span [ngClass]="{ 'text-green-600': delta.status === 'good', 'text-yellow-600': delta.status === 'warn', 'text-red-600': delta.status === 'bad' }">
                                 {{ delta.percent > 0 ? '+' : '' }}{{ delta.percent }}%
                             </span>
-                            vs baseline
+                            对比基线
                         </div>
                         } }
                     </treo-card>
                     } @if (latest.rand_write_iops > 0) {
                     <treo-card class="flex-col p-4">
-                        <div class="font-semibold text-xs text-hint uppercase tracking-wider">Rand Write IOPS</div>
+                        <div class="font-semibold text-xs text-hint uppercase tracking-wider">随机写入 IOPS</div>
                         <div class="font-bold text-2xl my-2">{{ latest.rand_write_iops | number : '1.0-0' }}</div>
                         @if (performanceBaseline?.sample_count > 1) { @if (getBaselineDelta(latest.rand_write_iops, $safeNavigationMigration(performanceBaseline?.rand_write_iops),
                         true); as delta) {
@@ -908,13 +906,13 @@
                             <span [ngClass]="{ 'text-green-600': delta.status === 'good', 'text-yellow-600': delta.status === 'warn', 'text-red-600': delta.status === 'bad' }">
                                 {{ delta.percent > 0 ? '+' : '' }}{{ delta.percent }}%
                             </span>
-                            vs baseline
+                            对比基线
                         </div>
                         } }
                     </treo-card>
                     } @if (latest.rand_read_lat_ns_avg > 0) {
                     <treo-card class="flex-col p-4">
-                        <div class="font-semibold text-xs text-hint uppercase tracking-wider">Read Latency</div>
+                        <div class="font-semibold text-xs text-hint uppercase tracking-wider">读取延迟</div>
                         <div class="font-bold text-2xl my-2">{{ latest.rand_read_lat_ns_avg | latency }}</div>
                         @if (performanceBaseline?.sample_count > 1) { @if (getBaselineDelta(latest.rand_read_lat_ns_avg,
                         $safeNavigationMigration(performanceBaseline?.rand_read_lat_ns_avg), false); as delta) {
@@ -922,13 +920,13 @@
                             <span [ngClass]="{ 'text-green-600': delta.status === 'good', 'text-yellow-600': delta.status === 'warn', 'text-red-600': delta.status === 'bad' }">
                                 {{ delta.percent > 0 ? '+' : '' }}{{ delta.percent }}%
                             </span>
-                            vs baseline
+                            对比基线
                         </div>
                         } }
                     </treo-card>
                     } @if (latest.rand_write_lat_ns_avg > 0) {
                     <treo-card class="flex-col p-4">
-                        <div class="font-semibold text-xs text-hint uppercase tracking-wider">Write Latency</div>
+                        <div class="font-semibold text-xs text-hint uppercase tracking-wider">写入延迟</div>
                         <div class="font-bold text-2xl my-2">{{ latest.rand_write_lat_ns_avg | latency }}</div>
                         @if (performanceBaseline?.sample_count > 1) { @if (getBaselineDelta(latest.rand_write_lat_ns_avg,
                         $safeNavigationMigration(performanceBaseline?.rand_write_lat_ns_avg), false); as delta) {
@@ -936,7 +934,7 @@
                             <span [ngClass]="{ 'text-green-600': delta.status === 'good', 'text-yellow-600': delta.status === 'warn', 'text-red-600': delta.status === 'bad' }">
                                 {{ delta.percent > 0 ? '+' : '' }}{{ delta.percent }}%
                             </span>
-                            vs baseline
+                            对比基线
                         </div>
                         } }
                     </treo-card>
@@ -947,7 +945,7 @@
                 <!-- Charts (only show when 2+ samples exist and data is non-zero) -->
                 @if (hasEnoughSamplesForCharts) { @if (throughputChartOptions && hasThroughputData) {
                 <treo-card class="p-6 mb-4">
-                    <div class="font-semibold text-lg mb-4">Sequential Throughput</div>
+                    <div class="font-semibold text-lg mb-4">顺序吞吐</div>
                     <div class="h-64">
                         <apx-chart
                             class="flex-auto w-full h-full"
@@ -967,7 +965,7 @@
                 </treo-card>
                 } @if (iopsChartOptions && hasIopsData) {
                 <treo-card class="p-6 mb-4">
-                    <div class="font-semibold text-lg mb-4">Random IOPS</div>
+                    <div class="font-semibold text-lg mb-4">随机 IOPS</div>
                     <div class="h-64">
                         <apx-chart
                             class="flex-auto w-full h-full"
@@ -987,7 +985,7 @@
                 </treo-card>
                 } @if (latencyChartOptions && hasLatencyData) {
                 <treo-card class="p-6">
-                    <div class="font-semibold text-lg mb-4">Read Latency</div>
+                    <div class="font-semibold text-lg mb-4">读取延迟</div>
                     <div class="h-64">
                         <apx-chart
                             class="flex-auto w-full h-full"
@@ -1006,9 +1004,9 @@
                     </div>
                 </treo-card>
                 } } @else {
-                <div class="text-sm text-hint text-center py-4">Trend charts will appear after 2 or more benchmark samples are collected.</div>
+                <div class="text-sm text-hint text-center py-4">收集到 2 个及以上基准测试样本后将显示趋势图。</div>
                 } } @else if (!performanceLoading) {
-                <div class="text-sm text-hint text-center py-8">No benchmark data available for this time period. Try selecting a different duration.</div>
+                <div class="text-sm text-hint text-center py-8">该时间段内没有基准测试数据。请尝试选择其他时间范围。</div>
                 }
             </div>
         </div>

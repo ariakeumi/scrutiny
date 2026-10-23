@@ -1,15 +1,15 @@
 <div class="mobile-settings p-4">
-    <h2 class="m-0 mb-4">Settings</h2>
-    <p class="text-secondary mb-4">Application configuration</p>
+    <h2 class="m-0 mb-4">设置</h2>
+    <p class="text-secondary mb-4">应用配置</p>
 
     <button mat-stroked-button class="settings-button" (click)="openSettings()">
         <mat-icon svgIcon="tune" class="icon-size-20 rotate-90 mirror"></mat-icon>
-        <span class="ml-2">Display & Notifications</span>
+        <span class="ml-2">显示与通知</span>
     </button>
 
     <a mat-stroked-button class="settings-button mt-3" routerLink="/hosts">
         <mat-icon class="icon-size-20">dns</mat-icon>
-        <span class="ml-2">SMART Host Management</span>
+        <span class="ml-2">SMART 主机管理</span>
     </a>
 
     @if (config$ | async; as config) { @if (config.server_version; as serverVersion) {

@@ -1,204 +1,204 @@
-<h2 mat-dialog-title>Scrutiny Settings</h2>
+<h2 mat-dialog-title>Scrutiny 设置</h2>
 <mat-dialog-content class="mat-typography">
     <div class="flex flex-col p-8 pb-0">
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Dark Mode</mat-label>
+                <mat-label>深色模式</mat-label>
                 <mat-select [(ngModel)]="theme">
-                    <mat-option value="system">System</mat-option>
-                    <mat-option value="dark">Dark</mat-option>
-                    <mat-option value="light">Light</mat-option>
+                    <mat-option value="system">跟随系统</mat-option>
+                    <mat-option value="dark">深色</mat-option>
+                    <mat-option value="light">浅色</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Display Title</mat-label>
+                <mat-label>显示标题</mat-label>
                 <mat-select [(ngModel)]="dashboardDisplay">
-                    <mat-option value="name">Name</mat-option>
-                    <mat-option value="serial_id">Serial ID</mat-option>
+                    <mat-option value="name">名称</mat-option>
+                    <mat-option value="serial_id">序列号</mat-option>
                     <mat-option value="uuid">UUID</mat-option>
-                    <mat-option value="label">Label</mat-option>
+                    <mat-option value="label">标签</mat-option>
                 </mat-select>
             </mat-form-field>
 
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pl-3">
-                <mat-label>Sort By</mat-label>
+                <mat-label>排序方式</mat-label>
                 <mat-select [(ngModel)]="dashboardSort">
-                    <mat-option value="status_desc">Status (Failed First)</mat-option>
-                    <mat-option value="status_asc">Status (Passed First)</mat-option>
-                    <mat-option value="title_asc">Title (A-Z)</mat-option>
-                    <mat-option value="title_desc">Title (Z-A)</mat-option>
-                    <mat-option value="age_desc">Age (Oldest First)</mat-option>
-                    <mat-option value="age_asc">Age (Newest First)</mat-option>
-                    <mat-option value="capacity_desc">Capacity (Largest First)</mat-option>
-                    <mat-option value="capacity_asc">Capacity (Smallest First)</mat-option>
-                    <mat-option value="temperature_desc">Temperature (Hottest First)</mat-option>
-                    <mat-option value="temperature_asc">Temperature (Coolest First)</mat-option>
+                    <mat-option value="status_desc">状态（失败在前）</mat-option>
+                    <mat-option value="status_asc">状态（通过在前）</mat-option>
+                    <mat-option value="title_asc">标题（A-Z）</mat-option>
+                    <mat-option value="title_desc">标题（Z-A）</mat-option>
+                    <mat-option value="age_desc">使用年限（从旧到新）</mat-option>
+                    <mat-option value="age_asc">使用年限（从新到旧）</mat-option>
+                    <mat-option value="capacity_desc">容量（从大到小）</mat-option>
+                    <mat-option value="capacity_asc">容量（从小到大）</mat-option>
+                    <mat-option value="temperature_desc">温度（从高到低）</mat-option>
+                    <mat-option value="temperature_asc">温度（从低到高）</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Temperature</mat-label>
+                <mat-label>温度单位</mat-label>
                 <mat-select [ngModel]="temperatureUnit" (ngModelChange)="setTemperatureUnit($event)">
-                    <mat-option value="celsius">Celsius</mat-option>
-                    <mat-option value="fahrenheit">Fahrenheit</mat-option>
+                    <mat-option value="celsius">摄氏度 (°C)</mat-option>
+                    <mat-option value="fahrenheit">华氏度 (°F)</mat-option>
                 </mat-select>
             </mat-form-field>
 
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Time Format</mat-label>
+                <mat-label>时间格式</mat-label>
                 <mat-select [(ngModel)]="timeFormat">
-                    <mat-option value="24">24-hour (15:00)</mat-option>
-                    <mat-option value="12">12-hour (3:00 PM)</mat-option>
+                    <mat-option value="24">24 小时制 (15:00)</mat-option>
+                    <mat-option value="12">12 小时制 (3:00 PM)</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Dashboard Columns</mat-label>
+                <mat-label>仪表盘列数</mat-label>
                 <mat-select [(ngModel)]="dashboardColumns">
-                    <mat-option [value]="2">2 Columns</mat-option>
-                    <mat-option [value]="3">3 Columns</mat-option>
-                    <mat-option [value]="4">4 Columns</mat-option>
-                    <mat-option [value]="5">5 Columns</mat-option>
+                    <mat-option [value]="2">2 列</mat-option>
+                    <mat-option [value]="3">3 列</mat-option>
+                    <mat-option [value]="4">4 列</mat-option>
+                    <mat-option [value]="5">5 列</mat-option>
                 </mat-select>
-                <mat-hint>Maximum card columns on wide screens. Smaller widths still step down automatically.</mat-hint>
+                <mat-hint>宽屏下卡片的最大列数。更窄的屏幕会自动减少列数。</mat-hint>
             </mat-form-field>
 
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pl-3">
-                <mat-label>Dashboard Density</mat-label>
+                <mat-label>卡片密度</mat-label>
                 <mat-select [(ngModel)]="dashboardDensity">
-                    <mat-option value="comfortable">Comfortable</mat-option>
-                    <mat-option value="compact">Compact</mat-option>
+                    <mat-option value="comfortable">宽松</mat-option>
+                    <mat-option value="compact">紧凑</mat-option>
                 </mat-select>
-                <mat-hint>Compact reduces dashboard card spacing and padding.</mat-hint>
+                <mat-hint>“紧凑”会减小仪表盘卡片的间距和内边距。</mat-hint>
             </mat-form-field>
 
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pl-3">
-                <mat-label>Hosts Per Page</mat-label>
+                <mat-label>每页主机数</mat-label>
                 <mat-select [(ngModel)]="dashboardHostPageSize">
-                    <mat-option [value]="5">5 Hosts</mat-option>
-                    <mat-option [value]="10">10 Hosts</mat-option>
-                    <mat-option [value]="25">25 Hosts</mat-option>
-                    <mat-option [value]="50">50 Hosts</mat-option>
+                    <mat-option [value]="5">5 台主机</mat-option>
+                    <mat-option [value]="10">10 台主机</mat-option>
+                    <mat-option [value]="25">25 台主机</mat-option>
+                    <mat-option [value]="50">50 台主机</mat-option>
                 </mat-select>
-                <mat-hint>All SMART devices for each host stay together.</mat-hint>
+                <mat-hint>每台主机的所有 SMART 设备始终显示在一起。</mat-hint>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>File Size</mat-label>
+                <mat-label>容量单位</mat-label>
                 <mat-select [(ngModel)]="fileSizeSIUnits">
-                    <mat-option [value]="true">SI Units (GB)</mat-option>
-                    <mat-option [value]="false">Binary Units (GiB)</mat-option>
+                    <mat-option [value]="true">SI 单位 (GB)</mat-option>
+                    <mat-option [value]="false">二进制单位 (GiB)</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Powered On Format</mat-label>
+                <mat-label>通电时长格式</mat-label>
                 <mat-select [(ngModel)]="poweredOnHoursUnit">
-                    <mat-option value="humanize">Humanize</mat-option>
-                    <mat-option value="device_hours">Device Hours</mat-option>
+                    <mat-option value="humanize">人性化显示</mat-option>
+                    <mat-option value="device_hours">原始小时数</mat-option>
                 </mat-select>
             </mat-form-field>
 
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Line stroke</mat-label>
+                <mat-label>折线样式</mat-label>
                 <mat-select [(ngModel)]="lineStroke">
-                    <mat-option value="smooth">Smooth</mat-option>
-                    <mat-option value="straight">Straight</mat-option>
-                    <mat-option value="stepline">Stepline</mat-option>
+                    <mat-option value="smooth">平滑</mat-option>
+                    <mat-option value="straight">直线</mat-option>
+                    <mat-option value="stepline">阶梯</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Device Status - Thresholds</mat-label>
+                <mat-label>设备状态阈值</mat-label>
                 <mat-select [(ngModel)]="statusThreshold">
                     <mat-option [value]="1">Smart</mat-option>
                     <mat-option [value]="2">Scrutiny</mat-option>
-                    <mat-option [value]="3">Both</mat-option>
+                    <mat-option [value]="3">两者</mat-option>
                 </mat-select>
-                <mat-hint>Smart = manufacturer failures, Scrutiny = threshold failures, Both = either</mat-hint>
+                <mat-hint>Smart = 厂商报告的故障，Scrutiny = 阈值判定故障，两者 = 任一触发</mat-hint>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Notify - Level</mat-label>
+                <mat-label>通知级别</mat-label>
                 <mat-select [(ngModel)]="notifyLevel">
-                    <mat-option [value]="1">Warn</mat-option>
-                    <mat-option [value]="2">Fail</mat-option>
+                    <mat-option [value]="1">警告</mat-option>
+                    <mat-option [value]="2">失败</mat-option>
                 </mat-select>
-                <mat-hint>Warn = notify on warnings and failures, Fail = notify on failures only</mat-hint>
+                <mat-hint>“警告”= 警告和失败均通知，“失败”= 仅失败时通知</mat-hint>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Notify - Filter Attributes</mat-label>
+                <mat-label>通知过滤属性</mat-label>
                 <mat-select [(ngModel)]="statusFilterAttributes">
-                    <mat-option [value]="0">All</mat-option>
-                    <mat-option [value]="1">Critical</mat-option>
+                    <mat-option [value]="0">全部</mat-option>
+                    <mat-option [value]="1">仅关键属性</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Repeat Notifications</mat-label>
+                <mat-label>重复通知</mat-label>
                 <mat-select [(ngModel)]="repeatNotifications">
-                    <mat-option [value]="true">Always</mat-option>
-                    <mat-option [value]="false">Only when the value has changed</mat-option>
+                    <mat-option [value]="true">始终发送</mat-option>
+                    <mat-option [value]="false">仅数值变化时发送</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Retrieve SCT Temperature History</mat-label>
+                <mat-label>获取 SCT 温度历史</mat-label>
                 <mat-select [(ngModel)]="retrieveSCTTemperatureHistory">
-                    <mat-option [value]="true">Enabled</mat-option>
-                    <mat-option [value]="false">Disabled</mat-option>
+                    <mat-option [value]="true">启用</mat-option>
+                    <mat-option [value]="false">禁用</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Store Temperature History</mat-label>
+                <mat-label>存储温度历史</mat-label>
                 <mat-select [(ngModel)]="storeTemperatureHistory">
-                    <mat-option [value]="true">Enabled</mat-option>
-                    <mat-option [value]="false">Disabled</mat-option>
+                    <mat-option [value]="true">启用</mat-option>
+                    <mat-option [value]="false">禁用</mat-option>
                 </mat-select>
-                <mat-hint>Disabling stops new temperature history points. Existing history and current dashboard temperatures remain available.</mat-hint>
+                <mat-hint>禁用后将不再记录新的温度历史点。已有的历史数据和仪表盘当前温度仍可查看。</mat-hint>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Consumer Drive Profiles</mat-label>
+                <mat-label>消费级硬盘档案</mat-label>
                 <mat-select [(ngModel)]="consumerDriveProfilesEnabled">
-                    <mat-option [value]="true">Enabled</mat-option>
-                    <mat-option [value]="false">Disabled</mat-option>
+                    <mat-option [value]="true">启用</mat-option>
+                    <mat-option [value]="false">禁用</mat-option>
                 </mat-select>
                 <mat-hint>
-                    Apply vetted ATA consumer drive model or family overrides to SMART status evaluation and replacement-risk scoring. Disable to use generic ATA rules only.
+                    将经过验证的 ATA 消费级硬盘型号/家族覆盖规则应用于 SMART 状态评估和更换风险评分。禁用后仅使用通用 ATA 规则。
                     <a
                         href="https://github.com/Staros-Labs/scrutiny/blob/master/docs/CONSUMER_DRIVE_PROFILES.md"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="text-blue-500 underline hover:text-blue-700"
-                        >Learn more</a
+                        >了解更多</a
                     >
                 </mat-hint>
             </mat-form-field>
@@ -207,10 +207,10 @@
         @if (consumerDriveProfilesEnabled) {
             <div class="flex flex-col mt-5 gt-md:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                    <mat-label>Consumer Drive Profile Denylist</mat-label>
-                    <input matInput [(ngModel)]="consumerDriveProfilesDenylist" placeholder="e.g. Seagate Barracuda 7200.14 (AF), Crucial MX500" />
+                    <mat-label>消费级硬盘档案黑名单</mat-label>
+                    <input matInput [(ngModel)]="consumerDriveProfilesDenylist" placeholder="例如：Seagate Barracuda 7200.14 (AF), Crucial MX500" />
                     <mat-hint>
-                        Comma-separated profile families that should never be applied. Matching drives fall back to generic ATA rules. Leave empty to allow all vetted profiles.
+                        以逗号分隔、永不套用的档案家族。匹配的硬盘将回退到通用 ATA 规则。留空表示允许所有经过验证的档案。
                     </mat-hint>
                 </mat-form-field>
             </div>
@@ -219,48 +219,48 @@
         <!-- Collector Error Notifications -->
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Notify on Collector smartctl Errors</mat-label>
+                <mat-label>采集器 smartctl 出错时通知</mat-label>
                 <mat-select [(ngModel)]="notifyOnCollectorError">
-                    <mat-option [value]="true">Enabled</mat-option>
-                    <mat-option [value]="false">Disabled</mat-option>
+                    <mat-option [value]="true">启用</mat-option>
+                    <mat-option [value]="false">禁用</mat-option>
                 </mat-select>
-                <mat-hint>Alert when smartctl encounters errors during device scan or data collection</mat-hint>
+                <mat-hint>当 smartctl 在设备扫描或数据采集过程中出现错误时发送告警</mat-hint>
             </mat-form-field>
         </div>
 
         <!-- Missed Collector Ping Notifications -->
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Notify on Missed Collector Ping</mat-label>
+                <mat-label>采集器心跳丢失时通知</mat-label>
                 <mat-select [(ngModel)]="notifyOnMissedPing">
-                    <mat-option [value]="true">Enabled</mat-option>
-                    <mat-option [value]="false">Disabled</mat-option>
+                    <mat-option [value]="true">启用</mat-option>
+                    <mat-option [value]="false">禁用</mat-option>
                 </mat-select>
-                <mat-hint>Alert when a collector stops sending data</mat-hint>
+                <mat-hint>当采集器停止上报数据时发送告警</mat-hint>
             </mat-form-field>
         </div>
 
         @if (notifyOnMissedPing) {
             <div class="flex flex-col mt-5 gt-md:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                    <mat-label>Missed Ping Timeout (minutes)</mat-label>
+                    <mat-label>心跳超时时间（分钟）</mat-label>
                     <input matInput type="number" [(ngModel)]="missedPingTimeoutMinutes" min="1" />
-                    <mat-hint>Minutes before alerting (default: 60)</mat-hint>
+                    <mat-hint>超过该分钟数后告警（默认：60）</mat-hint>
                 </mat-form-field>
 
                 <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pl-3">
-                    <mat-label>Check Interval (minutes)</mat-label>
+                    <mat-label>检查间隔（分钟）</mat-label>
                     <input matInput type="number" [(ngModel)]="missedPingCheckIntervalMins" min="1" />
-                    <mat-hint>How often to check (default: 5)</mat-hint>
+                    <mat-hint>检查频率（默认：5）</mat-hint>
                 </mat-form-field>
             </div>
         }
         @if (notifyOnMissedPing) {
             <div class="flex flex-col mt-5 gt-md:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                    <mat-label>Repeat Notification Cooldown (minutes)</mat-label>
+                    <mat-label>重复通知冷却时间（分钟）</mat-label>
                     <input matInput type="number" [(ngModel)]="missedPingCooldownMinutes" min="0" />
-                    <mat-hint>Minimum time between repeat notifications per device (0 = use timeout)</mat-hint>
+                    <mat-hint>同一设备两次重复通知的最小间隔（0 = 使用超时时间）</mat-hint>
                 </mat-form-field>
             </div>
         }
@@ -268,18 +268,18 @@
         <!-- Temperature Notifications -->
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Temperature Notifications</mat-label>
+                <mat-label>温度通知</mat-label>
                 <mat-select [(ngModel)]="notifyOnTemperature">
-                    <mat-option [value]="true">Enabled</mat-option>
-                    <mat-option [value]="false">Disabled</mat-option>
+                    <mat-option [value]="true">启用</mat-option>
+                    <mat-option [value]="false">禁用</mat-option>
                 </mat-select>
-                <mat-hint>Alert once when a drive stays hot</mat-hint>
+                <mat-hint>当硬盘持续高温时发送一次告警</mat-hint>
             </mat-form-field>
         </div>
         @if (notifyOnTemperature) {
             <div class="flex flex-col mt-5 gt-md:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                    <mat-label>Temperature Threshold ({{ temperatureUnit === 'fahrenheit' ? '°F' : '°C' }})</mat-label>
+                    <mat-label>温度阈值（{{ temperatureUnit === 'fahrenheit' ? '°F' : '°C' }}）</mat-label>
                     <input
                         matInput
                         type="number"
@@ -290,18 +290,18 @@
                         step="any"
                         required
                     />
-                    <mat-hint>Stored to the nearest whole degree Celsius</mat-hint>
+                    <mat-hint>实际保存时按整摄氏度取整</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pl-3">
-                    <mat-label>Sustained Duration (minutes)</mat-label>
+                    <mat-label>持续时长（分钟）</mat-label>
                     <input matInput type="number" [(ngModel)]="temperatureDurationMinutes" min="0" [max]="maxTemperatureDurationMinutes" step="1" required />
-                    <mat-hint>0 = notify on the first reading at or above the threshold</mat-hint>
+                    <mat-hint>0 = 首次达到或超过阈值即通知</mat-hint>
                 </mat-form-field>
             </div>
             @if (temperatureSettingsInvalid) {
                 <p role="alert" class="mt-5">
-                    Enter a threshold between {{ temperatureThresholdMin }} and {{ temperatureThresholdMax }} and a whole-minute duration between 0 and
-                    {{ maxTemperatureDurationMinutes }}.
+                    请输入 {{ temperatureThresholdMin }} 到 {{ temperatureThresholdMax }} 之间的阈值，以及 0 到
+                    {{ maxTemperatureDurationMinutes }} 之间的整数分钟持续时长。
                 </p>
             }
         }
@@ -309,44 +309,44 @@
         <!-- Notification Rate Limiting -->
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Notification Rate Limit (per hour)</mat-label>
+                <mat-label>每小时通知上限</mat-label>
                 <input matInput type="number" [(ngModel)]="notificationRateLimit" min="0" />
-                <mat-hint>Maximum notifications per hour across all types (0 = unlimited)</mat-hint>
+                <mat-hint>每小时所有类型通知的最大数量（0 = 不限制）</mat-hint>
             </mat-form-field>
         </div>
 
         <!-- Quiet Hours -->
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Quiet Hours Start</mat-label>
+                <mat-label>免打扰开始时间</mat-label>
                 <input matInput type="time" [(ngModel)]="notificationQuietStart" />
-                <mat-hint>Stop sending notifications at this time (leave empty to disable)</mat-hint>
+                <mat-hint>到该时间后停止发送通知（留空则禁用）</mat-hint>
             </mat-form-field>
 
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pl-3">
-                <mat-label>Quiet Hours End</mat-label>
+                <mat-label>免打扰结束时间</mat-label>
                 <input matInput type="time" [(ngModel)]="notificationQuietEnd" />
-                <mat-hint>Resume and send queued digest at this time</mat-hint>
+                <mat-hint>到该时间后恢复发送，并补发排队中的摘要</mat-hint>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Heartbeat Notifications</mat-label>
+                <mat-label>心跳通知</mat-label>
                 <mat-select [(ngModel)]="heartbeatEnabled">
-                    <mat-option [value]="true">Enabled</mat-option>
-                    <mat-option [value]="false">Disabled</mat-option>
+                    <mat-option [value]="true">启用</mat-option>
+                    <mat-option [value]="false">禁用</mat-option>
                 </mat-select>
-                <mat-hint>Periodic "all drives healthy" notification</mat-hint>
+                <mat-hint>定期发送“所有硬盘均健康”的通知</mat-hint>
             </mat-form-field>
         </div>
 
         @if (heartbeatEnabled) {
             <div class="flex flex-col mt-5 gt-md:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                    <mat-label>Heartbeat Interval (hours)</mat-label>
+                    <mat-label>心跳间隔（小时）</mat-label>
                     <input matInput type="number" [(ngModel)]="heartbeatIntervalHours" min="1" />
-                    <mat-hint>Hours between heartbeat notifications (default: 24)</mat-hint>
+                    <mat-hint>心跳通知的间隔小时数（默认：24）</mat-hint>
                 </mat-form-field>
             </div>
         }
@@ -354,12 +354,12 @@
         <!-- Uptime Kuma Push Monitor -->
         <div class="flex flex-col mt-5 gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                <mat-label>Uptime Kuma Push Monitor</mat-label>
+                <mat-label>Uptime Kuma 推送监控</mat-label>
                 <mat-select [(ngModel)]="uptimeKumaEnabled">
-                    <mat-option [value]="true">Enabled</mat-option>
-                    <mat-option [value]="false">Disabled</mat-option>
+                    <mat-option [value]="true">启用</mat-option>
+                    <mat-option [value]="false">禁用</mat-option>
                 </mat-select>
-                <mat-hint>Push health status to Uptime Kuma</mat-hint>
+                <mat-hint>将健康状态推送到 Uptime Kuma</mat-hint>
             </mat-form-field>
         </div>
 
@@ -367,17 +367,17 @@
             <div>
                 <div class="flex flex-col mt-5 gt-md:flex-row">
                     <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                        <mat-label>Push URL</mat-label>
+                        <mat-label>推送 URL</mat-label>
                         <input matInput [(ngModel)]="uptimeKumaPushURL" placeholder="https://kuma.example.com/api/push/YOUR_TOKEN" />
-                        <mat-hint>Uptime Kuma Push Monitor URL (can also be set in scrutiny.yaml)</mat-hint>
+                        <mat-hint>Uptime Kuma 推送监控 URL（也可在 scrutiny.yaml 中设置）</mat-hint>
                     </mat-form-field>
                 </div>
 
                 <div class="flex flex-col mt-5 gt-md:flex-row items-center">
                     <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                        <mat-label>Push Interval (seconds)</mat-label>
+                        <mat-label>推送间隔（秒）</mat-label>
                         <input matInput type="number" [(ngModel)]="uptimeKumaIntervalSeconds" min="10" />
-                        <mat-hint>Seconds between health pushes (default: 60)</mat-hint>
+                        <mat-hint>健康状态推送间隔秒数（默认：60）</mat-hint>
                     </mat-form-field>
 
                     <button mat-stroked-button class="ml-3" (click)="testUptimeKuma()" [disabled]="uptimeKumaTestLoading || !uptimeKumaPushURL">
@@ -387,15 +387,15 @@
                         @if (uptimeKumaTestLoading) {
                             <mat-icon>hourglass_empty</mat-icon>
                         }
-                        <span class="ml-1">Test Push</span>
+                        <span class="ml-1">测试推送</span>
                     </button>
                 </div>
 
                 @if (uptimeKumaTestResult === 'success') {
-                    <div class="mt-2 text-green-600 text-sm">Test push sent successfully.</div>
+                    <div class="mt-2 text-green-600 text-sm">测试推送发送成功。</div>
                 }
                 @if (uptimeKumaTestResult === 'error') {
-                    <div class="mt-2 text-red-600 text-sm">Test push failed. Check the push URL and try again.</div>
+                    <div class="mt-2 text-red-600 text-sm">测试推送失败。请检查推送 URL 后重试。</div>
                 }
             </div>
         }
@@ -403,19 +403,19 @@
         <!-- Scheduled Reports Section -->
         <mat-expansion-panel class="mt-5">
             <mat-expansion-panel-header>
-                <mat-panel-title>Scheduled Reports</mat-panel-title>
-                <mat-panel-description> Configure automated health report delivery </mat-panel-description>
+                <mat-panel-title>定时报告</mat-panel-title>
+                <mat-panel-description> 配置自动发送健康报告 </mat-panel-description>
             </mat-expansion-panel-header>
 
             <div class="flex flex-col p-4">
                 <div class="flex flex-col gt-md:flex-row">
                     <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                        <mat-label>Scheduled Reports</mat-label>
+                        <mat-label>定时报告</mat-label>
                         <mat-select [(ngModel)]="reportEnabled">
-                            <mat-option [value]="true">Enabled</mat-option>
-                            <mat-option [value]="false">Disabled</mat-option>
+                            <mat-option [value]="true">启用</mat-option>
+                            <mat-option [value]="false">禁用</mat-option>
                         </mat-select>
-                        <mat-hint>Master toggle for all scheduled reports</mat-hint>
+                        <mat-hint>所有定时报告的总开关</mat-hint>
                     </mat-form-field>
                 </div>
 
@@ -423,48 +423,48 @@
                     <div>
                         <div class="flex flex-col mt-5 gt-md:flex-row">
                             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                                <mat-label>Daily Report</mat-label>
+                                <mat-label>每日报告</mat-label>
                                 <mat-select [(ngModel)]="reportDailyEnabled">
-                                    <mat-option [value]="true">Enabled</mat-option>
-                                    <mat-option [value]="false">Disabled</mat-option>
+                                    <mat-option [value]="true">启用</mat-option>
+                                    <mat-option [value]="false">禁用</mat-option>
                                 </mat-select>
                             </mat-form-field>
 
                             @if (reportDailyEnabled) {
                                 <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pl-3">
-                                    <mat-label>Daily Report Time</mat-label>
+                                    <mat-label>每日报告时间</mat-label>
                                     <input matInput type="time" [(ngModel)]="reportDailyTime" />
-                                    <mat-hint>Time of day to send (24h format)</mat-hint>
+                                    <mat-hint>发送时间（24 小时制）</mat-hint>
                                 </mat-form-field>
                             }
                         </div>
 
                         <div class="flex flex-col mt-5 gt-md:flex-row">
                             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                                <mat-label>Weekly Report</mat-label>
+                                <mat-label>每周报告</mat-label>
                                 <mat-select [(ngModel)]="reportWeeklyEnabled">
-                                    <mat-option [value]="true">Enabled</mat-option>
-                                    <mat-option [value]="false">Disabled</mat-option>
+                                    <mat-option [value]="true">启用</mat-option>
+                                    <mat-option [value]="false">禁用</mat-option>
                                 </mat-select>
                             </mat-form-field>
 
                             @if (reportWeeklyEnabled) {
                                 <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pl-3">
-                                    <mat-label>Day of Week</mat-label>
+                                    <mat-label>星期</mat-label>
                                     <mat-select [(ngModel)]="reportWeeklyDay">
-                                        <mat-option [value]="0">Sunday</mat-option>
-                                        <mat-option [value]="1">Monday</mat-option>
-                                        <mat-option [value]="2">Tuesday</mat-option>
-                                        <mat-option [value]="3">Wednesday</mat-option>
-                                        <mat-option [value]="4">Thursday</mat-option>
-                                        <mat-option [value]="5">Friday</mat-option>
-                                        <mat-option [value]="6">Saturday</mat-option>
+                                        <mat-option [value]="0">星期日</mat-option>
+                                        <mat-option [value]="1">星期一</mat-option>
+                                        <mat-option [value]="2">星期二</mat-option>
+                                        <mat-option [value]="3">星期三</mat-option>
+                                        <mat-option [value]="4">星期四</mat-option>
+                                        <mat-option [value]="5">星期五</mat-option>
+                                        <mat-option [value]="6">星期六</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             }
                             @if (reportWeeklyEnabled) {
                                 <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pl-3">
-                                    <mat-label>Weekly Report Time</mat-label>
+                                    <mat-label>每周报告时间</mat-label>
                                     <input matInput type="time" [(ngModel)]="reportWeeklyTime" />
                                 </mat-form-field>
                             }
@@ -472,23 +472,23 @@
 
                         <div class="flex flex-col mt-5 gt-md:flex-row">
                             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                                <mat-label>Monthly Report</mat-label>
+                                <mat-label>每月报告</mat-label>
                                 <mat-select [(ngModel)]="reportMonthlyEnabled">
-                                    <mat-option [value]="true">Enabled</mat-option>
-                                    <mat-option [value]="false">Disabled</mat-option>
+                                    <mat-option [value]="true">启用</mat-option>
+                                    <mat-option [value]="false">禁用</mat-option>
                                 </mat-select>
                             </mat-form-field>
 
                             @if (reportMonthlyEnabled) {
                                 <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pl-3">
-                                    <mat-label>Day of Month</mat-label>
+                                    <mat-label>每月日期</mat-label>
                                     <input matInput type="number" [(ngModel)]="reportMonthlyDay" min="1" max="28" />
                                     <mat-hint>1-28</mat-hint>
                                 </mat-form-field>
                             }
                             @if (reportMonthlyEnabled) {
                                 <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pl-3">
-                                    <mat-label>Monthly Report Time</mat-label>
+                                    <mat-label>每月报告时间</mat-label>
                                     <input matInput type="time" [(ngModel)]="reportMonthlyTime" />
                                 </mat-form-field>
                             }
@@ -496,19 +496,19 @@
 
                         <div class="flex flex-col mt-5 gt-md:flex-row">
                             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                                <mat-label>PDF Generation</mat-label>
+                                <mat-label>PDF 生成</mat-label>
                                 <mat-select [(ngModel)]="reportPDFEnabled">
-                                    <mat-option [value]="true">Enabled</mat-option>
-                                    <mat-option [value]="false">Disabled</mat-option>
+                                    <mat-option [value]="true">启用</mat-option>
+                                    <mat-option [value]="false">禁用</mat-option>
                                 </mat-select>
-                                <mat-hint>Save PDF reports to disk</mat-hint>
+                                <mat-hint>将 PDF 报告保存到磁盘</mat-hint>
                             </mat-form-field>
 
                             @if (reportPDFEnabled) {
                                 <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pl-3">
-                                    <mat-label>PDF Save Directory</mat-label>
+                                    <mat-label>PDF 保存目录</mat-label>
                                     <input matInput [(ngModel)]="reportPDFPath" />
-                                    <mat-hint>Directory to save PDF reports</mat-hint>
+                                    <mat-hint>保存 PDF 报告的目录</mat-hint>
                                 </mat-form-field>
                             }
                         </div>
@@ -520,8 +520,8 @@
         <!-- SMART Attribute Overrides Section -->
         <mat-expansion-panel class="mt-5">
             <mat-expansion-panel-header>
-                <mat-panel-title>SMART Attribute Overrides</mat-panel-title>
-                <mat-panel-description> Configure ignored attributes and custom thresholds </mat-panel-description>
+                <mat-panel-title>SMART 属性覆盖</mat-panel-title>
+                <mat-panel-description> 配置忽略的属性和自定义阈值 </mat-panel-description>
             </mat-expansion-panel-header>
 
             <div class="flex flex-col p-4">
@@ -529,30 +529,30 @@
                 @if (overrides.length > 0) {
                     <table mat-table [dataSource]="overrides" class="w-full scrutiny-dark-table">
                         <ng-container matColumnDef="protocol">
-                            <th mat-header-cell *matHeaderCellDef>Protocol</th>
+                            <th mat-header-cell *matHeaderCellDef>协议</th>
                             <td mat-cell *matCellDef="let override">{{ override.protocol }}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="attribute_id">
-                            <th mat-header-cell *matHeaderCellDef>Attribute ID</th>
+                            <th mat-header-cell *matHeaderCellDef>属性 ID</th>
                             <td mat-cell *matCellDef="let override">{{ override.attribute_id }}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="device">
-                            <th mat-header-cell *matHeaderCellDef>Device</th>
+                            <th mat-header-cell *matHeaderCellDef>设备</th>
                             <td mat-cell *matCellDef="let override">{{ overrideDeviceLabel(override) }}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef>Action</th>
+                            <th mat-header-cell *matHeaderCellDef>操作</th>
                             <td mat-cell *matCellDef="let override">{{ getActionLabel(override.action) }}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="source">
-                            <th mat-header-cell *matHeaderCellDef>Source</th>
+                            <th mat-header-cell *matHeaderCellDef>来源</th>
                             <td mat-cell *matCellDef="let override">
                                 <span class="px-2 py-1 text-xs rounded" [class.bg-blue-100]="override.source === 'ui'" [class.bg-gray-100]="override.source === 'config'">
-                                    {{ override.source }}
+                                    {{ override.source === 'ui' ? '界面' : '配置文件' }}
                                 </span>
                             </td>
                         </ng-container>
@@ -564,7 +564,7 @@
                                     mat-icon-button
                                     (click)="removeOverride(override)"
                                     [disabled]="override.source === 'config'"
-                                    matTooltip="Config file overrides cannot be deleted from UI"
+                                    matTooltip="配置文件中的覆盖项无法在界面中删除"
                                 >
                                     <mat-icon>delete</mat-icon>
                                 </button>
@@ -576,16 +576,16 @@
                     </table>
                 }
                 @if (overrides.length === 0) {
-                    <p class="text-gray-500 italic my-4">No attribute overrides configured</p>
+                    <p class="text-gray-500 italic my-4">尚未配置任何属性覆盖</p>
                 }
 
                 <!-- Add new override form -->
                 <div class="mt-4 p-4 border rounded">
-                    <h4 class="mb-4 font-medium">Add New Override</h4>
+                    <h4 class="mb-4 font-medium">新增覆盖</h4>
 
                     <div class="flex flex-wrap gap-4">
                         <mat-form-field class="field-sm">
-                            <mat-label>Protocol</mat-label>
+                            <mat-label>协议</mat-label>
                             <mat-select [(ngModel)]="newOverride.protocol">
                                 @for (p of protocols; track p) {
                                     <mat-option [value]="p">{{ p }}</mat-option>
@@ -594,12 +594,12 @@
                         </mat-form-field>
 
                         <mat-form-field class="field-md">
-                            <mat-label>Attribute ID</mat-label>
-                            <input matInput [(ngModel)]="newOverride.attribute_id" placeholder="e.g., 5, media_errors" />
+                            <mat-label>属性 ID</mat-label>
+                            <input matInput [(ngModel)]="newOverride.attribute_id" placeholder="例如：5、media_errors" />
                         </mat-form-field>
 
                         <mat-form-field class="field-sm">
-                            <mat-label>Action</mat-label>
+                            <mat-label>操作</mat-label>
                             <mat-select [(ngModel)]="newOverride.action">
                                 @for (a of actions; track a.value) {
                                     <mat-option [value]="a.value">{{ a.label }}</mat-option>
@@ -609,7 +609,7 @@
 
                         @if (newOverride.action === 'force_status') {
                             <mat-form-field class="field-sm">
-                                <mat-label>Status</mat-label>
+                                <mat-label>状态</mat-label>
                                 <mat-select [(ngModel)]="newOverride.status">
                                     @for (s of statuses; track s) {
                                         <mat-option [value]="s">{{ s }}</mat-option>
@@ -619,28 +619,28 @@
                         }
                         @if (newOverride.action === '') {
                             <mat-form-field class="field-xs">
-                                <mat-label>Warn Above</mat-label>
+                                <mat-label>警告阈值（高于）</mat-label>
                                 <input matInput type="number" [(ngModel)]="newOverride.warn_above" />
                             </mat-form-field>
                         }
                         @if (newOverride.action === '') {
                             <mat-form-field class="field-xs">
-                                <mat-label>Fail Above</mat-label>
+                                <mat-label>失败阈值（高于）</mat-label>
                                 <input matInput type="number" [(ngModel)]="newOverride.fail_above" />
                             </mat-form-field>
                         }
 
                         <mat-form-field class="field-lg">
-                            <mat-label>Device (optional)</mat-label>
+                            <mat-label>设备（可选）</mat-label>
                             <mat-select [(ngModel)]="newOverride.device_id">
-                                <mat-option value="">All devices</mat-option>
+                                <mat-option value="">所有设备</mat-option>
                                 @for (device of overrideDevices; track device.device_id) {
                                     <mat-option [value]="device.device_id"
                                         >{{ device.model_name }} ({{ device.serial_number || device.device_name || device.device_id }})</mat-option
                                     >
                                 }
                             </mat-select>
-                            <mat-hint>Uses stable Scrutiny device identity.</mat-hint>
+                            <mat-hint>使用 Scrutiny 稳定的设备标识。</mat-hint>
                         </mat-form-field>
                     </div>
 
@@ -648,8 +648,7 @@
                         <p class="text-red-600 mt-2" role="alert" aria-live="assertive">{{ overrideError }}</p>
                     }
                     <p id="override-form-hint" class="text-gray-500 mt-2">
-                        Choose a protocol and attribute ID. Custom thresholds need at least one value. Acknowledge needs a device: it pins the pass to that device's current value
-                        and fails again if the value changes.
+                        选择协议和属性 ID。自定义阈值至少需要填写一个值。“确认（acknowledge）”必须选择设备：它会将正常状态固定为该设备当前值，数值变化后将再次标记为失败。
                     </p>
 
                     <button
@@ -668,7 +667,7 @@
                             (newOverride.action === 'acknowledge' && !newOverride.device_id)
                         "
                     >
-                        Add Override
+                        添加覆盖
                     </button>
                 </div>
             </div>
@@ -678,13 +677,13 @@
         <mat-expansion-panel class="mt-5">
             <mat-expansion-panel-header>
                 <mat-panel-title class="flex items-center gap-1">
-                    Notification Channels
+                    通知渠道
                     <app-help-link-icon
                         href="https://github.com/Staros-Labs/scrutiny/blob/master/docs/TROUBLESHOOTING_NOTIFICATIONS.md"
-                        tooltip="Notification channel documentation"
+                        tooltip="通知渠道文档"
                     ></app-help-link-icon>
                 </mat-panel-title>
-                <mat-panel-description> Configure where notifications are sent </mat-panel-description>
+                <mat-panel-description> 配置通知的发送目标 </mat-panel-description>
             </mat-expansion-panel-header>
 
             <div class="flex flex-col p-4">
@@ -692,9 +691,9 @@
                 @if (notifyUrls.length > 0) {
                     <table mat-table [dataSource]="notifyUrls" class="w-full scrutiny-dark-table">
                         <ng-container matColumnDef="label">
-                            <th mat-header-cell *matHeaderCellDef>Label</th>
+                            <th mat-header-cell *matHeaderCellDef>标签</th>
                             <td mat-cell *matCellDef="let entry">
-                                {{ entry.label || '(no label)' }}
+                                {{ entry.label || '（无标签）' }}
                             </td>
                         </ng-container>
 
@@ -706,16 +705,16 @@
                         </ng-container>
 
                         <ng-container matColumnDef="source">
-                            <th mat-header-cell *matHeaderCellDef>Source</th>
+                            <th mat-header-cell *matHeaderCellDef>来源</th>
                             <td mat-cell *matCellDef="let entry">
                                 <span class="px-2 py-1 text-xs rounded" [class.bg-blue-100]="entry.source === 'ui'" [class.bg-gray-100]="entry.source !== 'ui'">
-                                    {{ entry.source }}
+                                    {{ entry.source === 'ui' ? '界面' : '配置文件' }}
                                 </span>
                             </td>
                         </ng-container>
 
                         <ng-container matColumnDef="heartbeat">
-                            <th mat-header-cell *matHeaderCellDef>Heartbeat</th>
+                            <th mat-header-cell *matHeaderCellDef>心跳</th>
                             <td mat-cell *matCellDef="let entry">
                                 <mat-slide-toggle [checked]="entry.heartbeatEnabled" [disabled]="entry.source !== 'ui'" (change)="toggleHeartbeat(entry)" color="primary">
                                 </mat-slide-toggle>
@@ -729,7 +728,7 @@
                                     mat-icon-button
                                     (click)="testNotifyUrl(entry)"
                                     [disabled]="entry.source !== 'ui' || testingUrlId === entry.id"
-                                    matTooltip="Send test notification"
+                                    matTooltip="发送测试通知"
                                 >
                                     @if (testingUrlId !== entry.id) {
                                         <mat-icon>send</mat-icon>
@@ -742,7 +741,7 @@
                                     mat-icon-button
                                     (click)="deleteNotifyUrl(entry)"
                                     [disabled]="entry.source !== 'ui'"
-                                    [matTooltip]="entry.source !== 'ui' ? 'Config/env URLs cannot be removed from UI' : 'Remove'"
+                                    [matTooltip]="entry.source !== 'ui' ? '配置文件/环境变量中的 URL 无法在界面中删除' : '删除'"
                                 >
                                     <mat-icon>delete</mat-icon>
                                 </button>
@@ -754,27 +753,27 @@
                     </table>
                 }
                 @if (notifyUrls.length === 0) {
-                    <p class="text-gray-500 italic my-4">No notification channels configured. Add one below, or configure notify.urls in scrutiny.yaml.</p>
+                    <p class="text-gray-500 italic my-4">尚未配置任何通知渠道。请在下方添加，或在 scrutiny.yaml 中配置 notify.urls。</p>
                 }
 
                 <!-- Add URL button -->
                 <button mat-stroked-button class="mt-4" (click)="showAddUrlForm = !showAddUrlForm">
                     <mat-icon>add</mat-icon>
-                    <span class="ml-1">Add Notification Channel</span>
+                    <span class="ml-1">添加通知渠道</span>
                 </button>
 
                 <!-- Add URL form -->
                 @if (showAddUrlForm) {
                     <div class="mt-4 p-4 border rounded">
-                        <h4 class="mb-4 font-medium">Add Notification Channel</h4>
+                        <h4 class="mb-4 font-medium">添加通知渠道</h4>
 
                         <mat-form-field class="w-full mb-2">
-                            <mat-label>Label (optional)</mat-label>
-                            <input matInput [(ngModel)]="newUrlLabel" placeholder="e.g. My Discord Server" />
+                            <mat-label>标签（可选）</mat-label>
+                            <input matInput [(ngModel)]="newUrlLabel" placeholder="例如：我的 Discord 服务器" />
                         </mat-form-field>
 
                         <mat-form-field class="w-full mb-2">
-                            <mat-label>Engine</mat-label>
+                            <mat-label>引擎</mat-label>
                             <mat-select [(ngModel)]="selectedEngine">
                                 <mat-option value="shoutrrr">Shoutrrr</mat-option>
                                 <mat-option value="apprise">Apprise</mat-option>
@@ -782,11 +781,11 @@
                         </mat-form-field>
 
                         <mat-form-field class="w-full mb-2">
-                            <mat-label>Service</mat-label>
+                            <mat-label>服务</mat-label>
                             @if (selectedEngine === 'shoutrrr') {
                                 <mat-select [(ngModel)]="selectedShoutrrrService">
-                                    <mat-option value="custom">Custom Shoutrrr URL</mat-option>
-                                    <mat-option value="smtp">SMTP Email</mat-option>
+                                    <mat-option value="custom">自定义 Shoutrrr URL</mat-option>
+                                    <mat-option value="smtp">SMTP 邮件</mat-option>
                                     <mat-option value="discord">Discord</mat-option>
                                     <mat-option value="slack">Slack</mat-option>
                                     <mat-option value="telegram">Telegram</mat-option>
@@ -794,8 +793,8 @@
                             }
                             @if (selectedEngine === 'apprise') {
                                 <mat-select [(ngModel)]="selectedAppriseService">
-                                    <mat-option value="custom">Custom Apprise URL</mat-option>
-                                    <mat-option value="email">Email</mat-option>
+                                    <mat-option value="custom">自定义 Apprise URL</mat-option>
+                                    <mat-option value="email">邮件</mat-option>
                                     <mat-option value="discord">Discord</mat-option>
                                     <mat-option value="slack">Slack</mat-option>
                                     <mat-option value="telegram">Telegram</mat-option>
@@ -807,8 +806,8 @@
                             <div>
                                 <mat-form-field class="w-full">
                                     <mat-label>Shoutrrr URL</mat-label>
-                                    <input matInput [(ngModel)]="newUrlRaw" placeholder="e.g. discord://token@webhookid" />
-                                    <mat-hint>Full Shoutrrr-format URL. See shoutrrr docs for supported services.</mat-hint>
+                                    <input matInput [(ngModel)]="newUrlRaw" placeholder="例如：discord://token@webhookid" />
+                                    <mat-hint>完整的 Shoutrrr 格式 URL。支持的服务请参阅 shoutrrr 文档。</mat-hint>
                                 </mat-form-field>
                             </div>
                         }
@@ -816,38 +815,38 @@
                             <div>
                                 <mat-form-field class="w-full">
                                     <mat-label>Apprise URL</mat-label>
-                                    <input matInput [(ngModel)]="newAppriseUrlRaw" placeholder="e.g. mailto://example.com?to=alerts@example.com" />
-                                    <mat-hint>Enter a raw Apprise target URL. Scrutiny stores it with an explicit apprise+ prefix.</mat-hint>
+                                    <input matInput [(ngModel)]="newAppriseUrlRaw" placeholder="例如：mailto://example.com?to=alerts@example.com" />
+                                    <mat-hint>输入原始的 Apprise 目标 URL。Scrutiny 保存时会加上明确的 apprise+ 前缀。</mat-hint>
                                 </mat-form-field>
                             </div>
                         }
                         @if ((selectedEngine === 'shoutrrr' && selectedShoutrrrService === 'smtp') || (selectedEngine === 'apprise' && selectedAppriseService === 'email')) {
                             <div class="flex flex-wrap gap-4">
                                 <mat-form-field class="field-lg">
-                                    <mat-label>SMTP Host</mat-label>
+                                    <mat-label>SMTP 主机</mat-label>
                                     <input matInput [(ngModel)]="smtpHost" placeholder="smtp.gmail.com" />
                                 </mat-form-field>
                                 <mat-form-field class="w-24">
-                                    <mat-label>Port</mat-label>
+                                    <mat-label>端口</mat-label>
                                     <input matInput type="number" [(ngModel)]="smtpPort" />
                                 </mat-form-field>
                                 <mat-form-field class="field-md">
-                                    <mat-label>Username</mat-label>
+                                    <mat-label>用户名</mat-label>
                                     <input matInput [(ngModel)]="smtpUsername" />
                                 </mat-form-field>
                                 <mat-form-field class="field-md">
-                                    <mat-label>Password</mat-label>
+                                    <mat-label>密码</mat-label>
                                     <input matInput type="password" [(ngModel)]="smtpPassword" />
                                 </mat-form-field>
                                 <mat-form-field class="field-lg">
-                                    <mat-label>From Address</mat-label>
+                                    <mat-label>发件地址</mat-label>
                                     <input matInput [(ngModel)]="smtpFrom" placeholder="alerts@example.com" />
                                 </mat-form-field>
                                 <mat-form-field class="field-lg">
-                                    <mat-label>To Address</mat-label>
+                                    <mat-label>收件地址</mat-label>
                                     <input matInput [(ngModel)]="smtpTo" placeholder="admin@example.com" />
                                     @if (selectedEngine === 'apprise') {
-                                        <mat-hint>Scrutiny generates an explicit apprise+mailtos:// URL using these values.</mat-hint>
+                                        <mat-hint>Scrutiny 会用这些信息生成明确的 apprise+mailtos:// URL。</mat-hint>
                                     }
                                 </mat-form-field>
                             </div>
@@ -858,10 +857,10 @@
                                     <mat-label>Discord Webhook URL</mat-label>
                                     <input matInput [(ngModel)]="discordWebhookUrl" placeholder="https://discord.com/api/webhooks/..." />
                                     @if (selectedEngine === 'shoutrrr') {
-                                        <mat-hint>Paste the full Discord webhook URL from channel settings</mat-hint>
+                                        <mat-hint>从频道设置中粘贴完整的 Discord webhook URL</mat-hint>
                                     }
                                     @if (selectedEngine === 'apprise') {
-                                        <mat-hint>Apprise accepts the Discord webhook URL directly. Scrutiny stores it as apprise+https://...</mat-hint>
+                                        <mat-hint>Apprise 可直接使用 Discord webhook URL。Scrutiny 会将其保存为 apprise+https://...</mat-hint>
                                     }
                                 </mat-form-field>
                             </div>
@@ -872,10 +871,10 @@
                                     <mat-label>Slack Webhook URL</mat-label>
                                     <input matInput [(ngModel)]="slackWebhookUrl" placeholder="https://hooks.slack.com/services/..." />
                                     @if (selectedEngine === 'shoutrrr') {
-                                        <mat-hint>Paste the full Slack incoming webhook URL</mat-hint>
+                                        <mat-hint>粘贴完整的 Slack incoming webhook URL</mat-hint>
                                     }
                                     @if (selectedEngine === 'apprise') {
-                                        <mat-hint>Apprise accepts the Slack webhook URL directly. Scrutiny stores it as apprise+https://...</mat-hint>
+                                        <mat-hint>Apprise 可直接使用 Slack webhook URL。Scrutiny 会将其保存为 apprise+https://...</mat-hint>
                                     }
                                 </mat-form-field>
                             </div>
@@ -883,14 +882,14 @@
                         @if ((selectedEngine === 'shoutrrr' && selectedShoutrrrService === 'telegram') || (selectedEngine === 'apprise' && selectedAppriseService === 'telegram')) {
                             <div class="flex flex-wrap gap-4">
                                 <mat-form-field class="field-lg">
-                                    <mat-label>Bot Token</mat-label>
+                                    <mat-label>机器人 Token</mat-label>
                                     <input matInput [(ngModel)]="telegramToken" placeholder="123456789:AABBccddEEff..." />
                                 </mat-form-field>
                                 <mat-form-field class="field-md">
-                                    <mat-label>Chat ID</mat-label>
+                                    <mat-label>聊天 ID</mat-label>
                                     <input matInput [(ngModel)]="telegramChatId" placeholder="-1001234567890" />
                                     @if (selectedEngine === 'apprise') {
-                                        <mat-hint>Scrutiny generates an explicit apprise+tgram:// URL for Telegram.</mat-hint>
+                                        <mat-hint>Scrutiny 会为 Telegram 生成明确的 apprise+tgram:// URL。</mat-hint>
                                     }
                                 </mat-form-field>
                             </div>
@@ -898,13 +897,13 @@
 
                         <div class="mt-4">
                             <mat-slide-toggle [(ngModel)]="newUrlHeartbeatEnabled" color="primary" name="newUrlHeartbeatEnabled">
-                                Send heartbeat pings to this URL
+                                向此 URL 发送心跳
                             </mat-slide-toggle>
                         </div>
 
                         <div class="flex gap-2 mt-4">
-                            <button mat-raised-button color="primary" (click)="addNotifyUrl()" [disabled]="!buildNotifyUrl()">Save</button>
-                            <button mat-button (click)="showAddUrlForm = false; resetAddForm()">Cancel</button>
+                            <button mat-raised-button color="primary" (click)="addNotifyUrl()" [disabled]="!buildNotifyUrl()">保存</button>
+                            <button mat-button (click)="showAddUrlForm = false; resetAddForm()">取消</button>
                         </div>
                     </div>
                 }
@@ -913,36 +912,36 @@
 
         <mat-expansion-panel>
             <mat-expansion-panel-header>
-                <mat-panel-title>Navigation</mat-panel-title>
-                <mat-panel-description>Show or hide navigation links</mat-panel-description>
+                <mat-panel-title>导航</mat-panel-title>
+                <mat-panel-description>显示或隐藏导航链接</mat-panel-description>
             </mat-expansion-panel-header>
             <div class="flex flex-col mt-5 gt-md:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                    <mat-label>ZFS Pools</mat-label>
+                    <mat-label>ZFS 存储池</mat-label>
                     <mat-select [(ngModel)]="showZFSPools">
-                        <mat-option [value]="true">Show</mat-option>
-                        <mat-option [value]="false">Hide</mat-option>
+                        <mat-option [value]="true">显示</mat-option>
+                        <mat-option [value]="false">隐藏</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
                     <mat-label>MDADM RAID</mat-label>
                     <mat-select [(ngModel)]="showMDADM">
-                        <mat-option [value]="true">Show</mat-option>
-                        <mat-option [value]="false">Hide</mat-option>
+                        <mat-option [value]="true">显示</mat-option>
+                        <mat-option [value]="false">隐藏</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
                     <mat-label>Btrfs</mat-label>
                     <mat-select [(ngModel)]="showBtrfs">
-                        <mat-option [value]="true">Show</mat-option>
-                        <mat-option [value]="false">Hide</mat-option>
+                        <mat-option [value]="true">显示</mat-option>
+                        <mat-option [value]="false">隐藏</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pr-3">
-                    <mat-label>Workload</mat-label>
+                    <mat-label>工作负载</mat-label>
                     <mat-select [(ngModel)]="showWorkload">
-                        <mat-option [value]="true">Show</mat-option>
-                        <mat-option [value]="false">Hide</mat-option>
+                        <mat-option [value]="true">显示</mat-option>
+                        <mat-option [value]="false">隐藏</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -950,6 +949,6 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button mat-dialog-close (click)="saveSettings()" [disabled]="temperatureSettingsInvalid" cdkFocusInitial>Save</button>
+    <button mat-button mat-dialog-close>取消</button>
+    <button mat-button mat-dialog-close (click)="saveSettings()" [disabled]="temperatureSettingsInvalid" cdkFocusInitial>保存</button>
 </mat-dialog-actions>

@@ -34,8 +34,10 @@ func maybeNotifyReplacementRisk(
 		notifyCategory = "replace_soon"
 	}
 
-	// Retrieve oldest snapshot over the 30-day trend window (best-effort).
-	history, err := deviceRepo.GetSmartAttributeHistory(c, device.DeviceID, "month", 0, 0, nil)
+	// Only the first entry of the result is consumed (and GetSmartAttributeHistory is
+	// newest-first), so selectEntries=1 returns the same data as an unbounded window load
+	// at a fraction of the decoded rows. This runs on every collector upload.
+	history, err := deviceRepo.GetSmartAttributeHistory(c, device.DeviceID, "month", 1, 0, nil)
 	if err != nil {
 		logger.Warnf("Could not retrieve SMART history for replacement risk notification: %v", err)
 	}

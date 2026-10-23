@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>{{ data.attributeName }} History</h2>
+<h2 mat-dialog-title>{{ data.attributeName }} 历史记录</h2>
 <mat-dialog-content>
     <div class="chart-container mb-4">
         <apx-chart
@@ -17,9 +17,9 @@
         <table class="w-full text-sm">
             <thead>
                 <tr class="border-b">
-                    <th class="text-left py-2 px-3 font-medium">Date</th>
-                    <th class="text-right py-2 px-3 font-medium">Value</th>
-                    <th class="text-center py-2 px-3 font-medium">Status</th>
+                    <th class="text-left py-2 px-3 font-medium">日期</th>
+                    <th class="text-right py-2 px-3 font-medium">数值</th>
+                    <th class="text-center py-2 px-3 font-medium">状态</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,7 +44,7 @@
                                     'text-green-600': item.status === 'passed',
                                     'text-yellow-600': item.status === 'warn'
                                 }"
-                                >{{ item.status }}</span
+                                >{{ item.status | deviceStatusLabel }}</span
                             >
                         </span>
                     </td>
@@ -55,5 +55,5 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button (click)="close()">Close</button>
+    <button mat-button (click)="close()">关闭</button>
 </mat-dialog-actions>

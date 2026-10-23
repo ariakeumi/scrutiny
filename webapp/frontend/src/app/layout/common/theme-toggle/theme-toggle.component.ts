@@ -49,13 +49,13 @@ export class ThemeToggleComponent implements OnInit, OnDestroy {
     get currentLabel(): string {
         switch (this.currentTheme) {
             case 'light':
-                return 'Light';
+                return '浅色';
             case 'dark':
-                return 'Dark';
+                return '深色';
             case 'system':
-                return 'System';
+                return '跟随系统';
             default:
-                return 'Light';
+                return '浅色';
         }
     }
 

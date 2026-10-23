@@ -4,6 +4,7 @@ import { ApexOptions, ChartComponent } from 'ng-apexcharts';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { NgClass } from '@angular/common';
 import { MatButton } from '@angular/material/button';
+import { DeviceStatusLabelPipe } from 'app/shared/device-status-label.pipe';
 
 export interface AttributeHistoryData {
     attributeName: string;
@@ -19,7 +20,7 @@ export interface AttributeHistoryData {
     templateUrl: './attribute-history-dialog.component.html',
     styleUrls: ['./attribute-history-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatDialogTitle, CdkScrollable, MatDialogContent, ChartComponent, NgClass, MatDialogActions, MatButton],
+    imports: [MatDialogTitle, CdkScrollable, MatDialogContent, ChartComponent, NgClass, DeviceStatusLabelPipe, MatDialogActions, MatButton],
 })
 export class AttributeHistoryDialogComponent implements OnInit {
     dialogRef = inject<MatDialogRef<AttributeHistoryDialogComponent>>(MatDialogRef);

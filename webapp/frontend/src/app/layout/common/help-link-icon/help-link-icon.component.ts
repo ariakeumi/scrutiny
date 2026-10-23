@@ -11,5 +11,5 @@ import { MatTooltip } from '@angular/material/tooltip';
 })
 export class HelpLinkIconComponent {
     @Input() href: string = '';
-    @Input() tooltip: string = 'View documentation';
+    @Input() tooltip: string = '查看文档';
 }

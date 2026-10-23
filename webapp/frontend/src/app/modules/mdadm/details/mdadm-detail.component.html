@@ -25,10 +25,10 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Overview Card -->
             <div class="md:col-span-1 flex flex-col bg-card shadow rounded-2xl p-6">
-                <div class="text-lg font-bold mb-4">Overview</div>
+                <div class="text-lg font-bold mb-4">概览</div>
                 <div class="space-y-4">
                     <div class="flex justify-between border-b pb-2">
-                        <span class="text-secondary">Level</span>
+                        <span class="text-secondary">级别</span>
                         <span class="font-medium uppercase">{{ array?.level }}</span>
                     </div>
                     <div class="flex justify-between border-b pb-2">
@@ -36,30 +36,30 @@
                         <span class="font-mono text-xs uppercase">{{ array?.uuid }}</span>
                     </div>
                     <div class="flex justify-between border-b pb-2">
-                        <span class="text-secondary">Status</span>
+                        <span class="text-secondary">状态</span>
                         <span class="font-bold uppercase px-2 py-1 rounded text-xs tracking-wide" [ngClass]="latestStatusColorClass()">
-                            {{ latestMetrics?.state || 'ACTIVE' }}
+                            {{ latestMetrics?.state || '活跃' }}
                         </span>
                     </div>
                     @if (latestMetrics?.sync_progress > 0 && latestMetrics?.sync_progress < 100) {
                     <div class="flex justify-between border-b pb-2">
-                        <span class="text-secondary">Sync Progress</span>
+                        <span class="text-secondary">同步进度</span>
                         <span class="font-medium text-blue-500">{{ latestMetrics?.sync_progress }}%</span>
                     </div>
                     } @if (latestMetrics?.array_size) {
                     <div class="flex justify-between border-b pb-2">
-                        <span class="text-secondary">Array Size</span>
+                        <span class="text-secondary">阵列容量</span>
                         <span class="font-medium">{{ $safeNavigationMigration(latestMetrics?.array_size) | fileSize : $safeNavigationMigration(config?.file_size_si_units) }}</span>
                     </div>
                     } @if ($safeNavigationMigration(latestMetrics?.used_bytes) !== undefined && $safeNavigationMigration(latestMetrics?.used_bytes) !== null) {
                     <div class="flex justify-between border-b pb-2">
-                        <span class="text-secondary">Used</span>
+                        <span class="text-secondary">已用</span>
                         <span class="font-medium">{{ $safeNavigationMigration(latestMetrics?.used_bytes) | fileSize : $safeNavigationMigration(config?.file_size_si_units) }}</span>
                     </div>
                     }
                 </div>
 
-                <div class="mt-8 text-lg font-bold mb-4">Member Devices</div>
+                <div class="mt-8 text-lg font-bold mb-4">成员设备</div>
                 <div class="space-y-2">
                     @for (dev of array?.devices; track dev) {
                     <div class="flex items-center p-3 rounded-lg bg-gray-50 dark:bg-gray-800 border">
@@ -72,7 +72,7 @@
 
             <!-- Chart Card -->
             <div class="md:col-span-2 flex flex-col bg-card shadow rounded-2xl p-6">
-                <div class="text-lg font-bold mb-4">Health History</div>
+                <div class="text-lg font-bold mb-4">健康历史</div>
                 <div class="flex-auto h-80">
                     @if (chartOptions && history?.length > 0) {
                     <apx-chart
@@ -87,9 +87,9 @@
                     >
                     </apx-chart>
                     } @if (!chartOptions && history === null) {
-                    <div class="flex items-center justify-center h-full text-secondary">Loading history data...</div>
+                    <div class="flex items-center justify-center h-full text-secondary">正在加载历史数据...</div>
                     } @if (history?.length === 0) {
-                    <div class="flex items-center justify-center h-full text-secondary">Insufficient history data. Check back later once more data points are collected!</div>
+                    <div class="flex items-center justify-center h-full text-secondary">历史数据不足。等采集到更多数据点后再来看看！</div>
                     }
                 </div>
             </div>
@@ -98,7 +98,7 @@
         <!-- Hardware Status (mdstat) -->
         @if (latestMetrics?.raw_mdstat) {
         <div class="mt-8 flex flex-col bg-card shadow rounded-2xl p-6">
-            <div class="text-lg font-bold mb-4">Hardware Status (mdstat)</div>
+            <div class="text-lg font-bold mb-4">硬件状态（mdstat）</div>
             <pre class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm font-mono whitespace-pre-wrap">{{ latestMetrics.raw_mdstat }}</pre>
         </div>
         }

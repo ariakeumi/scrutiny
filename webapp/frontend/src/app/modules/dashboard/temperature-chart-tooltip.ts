@@ -28,7 +28,7 @@ export function createTemperatureChartTooltip(document: Document, temperatureUni
         if (Number.isFinite(timestamp)) {
             const title = document.createElement('div');
             title.className = 'apexcharts-tooltip-title';
-            title.textContent = formatDate(timestamp, angularDateFormat('MMM dd, yyyy', timeFormat, true), 'en-US');
+            title.textContent = formatDate(timestamp, angularDateFormat('yyyy年M月d日', timeFormat, true), 'en-US');
             content.appendChild(title);
         }
 

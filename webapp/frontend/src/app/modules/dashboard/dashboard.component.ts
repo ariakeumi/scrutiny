@@ -95,8 +95,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     temperatureDeviceSearch = '';
     temperatureHistory: { [deviceID: string]: SmartTemperatureModel[] } = {};
     readonly temperatureSelection = this._dashboardService.temperatureSelection;
-    hostSearch = '';
-    appliedHostSearch = '';
     isTriggering: boolean = false;
     countdown: number = 0;
     pagination: DeviceSummaryPagination = {
@@ -449,33 +447,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         return 'bg-green-500';
     }
 
-    /**
-     * Get the collector version for a host group (from first device in group)
-     */
-    getCollectorVersionForHost(hostGroupWWNs: string[]): string | null {
-        for (const wwn of hostGroupWWNs) {
-            const version = this.summaryData[wwn]?.device?.collector_version;
-            if (version) {
-                return version;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Check if host's collector version is older than server version
-     */
-    isHostCollectorOutdated(hostGroupWWNs: string[]): boolean {
-        const collectorVersion = this.getCollectorVersionForHost(hostGroupWWNs);
-        const serverVersion = this.config?.server_version;
-
-        if (!collectorVersion || !serverVersion) {
-            return false;
-        }
-
-        return collectorVersion < serverVersion;
-    }
-
     openDialog(): void {
         const dialogRef = this.dialog.open(DashboardSettingsComponent, { width: '800px', maxWidth: '95vw' });
 
@@ -512,17 +483,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.loadSummaryPage(event.pageIndex + 1, pageSize);
     }
 
-    applyHostSearch(): void {
-        this.appliedHostSearch = this.hostSearch.trim();
-        this.loadSummaryPage(1);
-    }
-
-    clearHostSearch(): void {
-        this.hostSearch = '';
-        this.appliedHostSearch = '';
-        this.loadSummaryPage(1);
-    }
-
     private loadSummaryPage(page: number, pageSize?: DashboardHostPageSize): void {
         const effectivePageSize = pageSize ?? this.config?.dashboard_host_page_size ?? 10;
         this._dashboardService
@@ -533,7 +493,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 archived: this.showArchived,
                 sort: this.config?.dashboard_sort,
                 display: this.config?.dashboard_display,
-                hostSearch: this.appliedHostSearch,
             })
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response) => {
@@ -575,7 +534,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     temperatureDeviceTitle(device?: TemperatureDeviceOption): string {
         if (!device) {
-            return 'Unknown drive';
+            return '未知硬盘';
         }
         const title = device.label || [device.device_name ? `/dev/${device.device_name.replace(/^\/dev\//, '')}` : '', device.model_name].filter(Boolean).join(' - ');
         return device.host_id ? `${device.host_id}: ${title || device.serial_number || device.device_id}` : title || device.serial_number || device.device_id;
@@ -605,6 +564,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     changeSummaryTempDuration(durationKey: string): void {
         this.tempDurationKey = durationKey;
         this.loadSelectedTemperatureHistory();
+    }
+
+    private static readonly TEMP_DURATION_LABELS: { [key: string]: string } = {
+        forever: '全部',
+        year: '年',
+        month: '月',
+        week: '周',
+        day: '日',
+    };
+
+    get tempDurationLabel(): string {
+        return DashboardComponent.TEMP_DURATION_LABELS[this.tempDurationKey] || this.tempDurationKey;
     }
 
     private loadSelectedTemperatureHistory(): void {

@@ -211,12 +211,17 @@ func (p *Publisher) fetchLatestSmartData(deviceRepo database.DeviceRepo, ctx con
 	smartDataMap := make(map[string][]measurements.Smart)
 	var wg sync.WaitGroup
 	var mu sync.Mutex
+	// Bound concurrent InfluxDB lookups: each one is a multi-bucket history scan, and this
+	// runs on every MQTT (re)connect.
+	historySem := make(chan struct{}, 4)
 
 	for _, deviceSummary := range summary {
 		device := deviceSummary.Device
 		wg.Add(1)
 		go func(deviceID string) {
 			defer wg.Done()
+			historySem <- struct{}{}
+			defer func() { <-historySem }()
 			smarts, err := deviceRepo.GetSmartAttributeHistory(ctx, deviceID, "forever", 1, 0, nil)
 			if err == nil && len(smarts) > 0 {
 				mu.Lock()

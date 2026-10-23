@@ -103,11 +103,11 @@ export class ZFSPoolCardComponent {
     getPresenceLabel(pool: ZFSPoolModel): string {
         switch (pool?.presence) {
             case 'missing':
-                return 'Missing from last inventory';
+                return '清单中缺失';
             case 'stale':
-                return 'Collector stale';
+                return '采集器数据过期';
             case 'unknown':
-                return 'Inventory unavailable';
+                return '清单不可用';
             default:
                 return '';
         }
@@ -127,13 +127,13 @@ export class ZFSPoolCardComponent {
     getStatusDisplay(pool: ZFSPoolModel): string {
         switch (pool?.presence) {
             case 'missing':
-                return 'MISSING';
+                return '缺失';
             case 'stale':
-                return 'STALE';
+                return '过期';
             case 'unknown':
-                return 'UNKNOWN';
+                return '未知';
             default:
-                return pool?.status || 'UNKNOWN';
+                return pool?.status || '未知';
         }
     }
 
@@ -169,20 +169,20 @@ export class ZFSPoolCardComponent {
     getScrubStatusText(pool: ZFSPoolModel): string {
         switch (pool.scrub_state) {
             case 'none':
-                return 'Never';
+                return '从未';
             case 'scanning':
-                return `In Progress (${pool.scrub_percent_complete}%)`;
+                return `进行中 (${pool.scrub_percent_complete}%)`;
             case 'finished': {
                 const timeAgo = dayjs(pool.scrub_end_time).fromNow();
                 if (pool.scrub_issued_bytes > 0) {
-                    return `${timeAgo} (repaired)`;
+                    return `${timeAgo}（已修复）`;
                 }
                 return timeAgo;
             }
             case 'canceled':
-                return 'Canceled';
+                return '已取消';
             default:
-                return 'Unknown';
+                return '未知';
         }
     }
 
@@ -199,7 +199,7 @@ export class ZFSPoolCardComponent {
     }
 
     deletePool(): void {
-        if (confirm(`Are you sure you want to delete pool "${this.getPoolTitle(this.poolSummary)}"?`)) {
+        if (confirm(`确定要删除存储池"${this.getPoolTitle(this.poolSummary)}"吗？`)) {
             this._zfsPoolsService.deletePool(this.poolSummary.guid).subscribe(() => {
                 this.poolDeleted.emit(this.poolSummary.guid);
             });

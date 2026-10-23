@@ -170,6 +170,16 @@ func openSQLiteDatabase(appConfig config.Interface, globalLogger logrus.FieldLog
 		return nil, fmt.Errorf("Failed to connect to database! - %v", err)
 	}
 	globalLogger.Infof("Successfully connected to scrutiny sqlite db: %s\n", appConfig.GetString(cfgDatabaseLocation))
+
+	// Cap the connection pool: unlike Postgres, every open SQLite connection carries its
+	// own page cache, so an uncapped pool multiplies cached pages under concurrent load.
+	sqlDB, err := database.DB()
+	if err != nil {
+		return nil, fmt.Errorf("Failed to access sqlite database handle! - %v", err)
+	}
+	sqlDB.SetMaxOpenConns(appConfig.GetInt(cfgDatabaseMaxOpenConns))
+	sqlDB.SetMaxIdleConns(appConfig.GetInt(cfgDatabaseMaxIdleConns))
+
 	return database, nil
 }
 
@@ -554,12 +564,15 @@ func findBucketInOrg(ctx context.Context, bucketsAPI api.BucketsAPI, orgName, bu
 // DeviceSummary
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// get a map of all devices and associated SMART data
+// get a map of all devices and associated SMART data. Temperature history is not
+// included; clients fetch it from /api/summary/temp for the durations they need
+// (attaching the forever-range series here cost ~1 day-resolution point per hour
+// of history per device on every summary load).
 func (sr *scrutinyRepository) GetSummary(ctx context.Context) (map[string]*models.DeviceSummary, error) {
-	return sr.getSummary(ctx, true)
+	return sr.getSummary(ctx)
 }
 
-func (sr *scrutinyRepository) getSummary(ctx context.Context, includeTemperatureHistory bool) (map[string]*models.DeviceSummary, error) {
+func (sr *scrutinyRepository) getSummary(ctx context.Context) (map[string]*models.DeviceSummary, error) {
 	devices, err := sr.GetDevices(ctx)
 	if err != nil {
 		return nil, err
@@ -585,10 +598,6 @@ func (sr *scrutinyRepository) getSummary(ctx context.Context, includeTemperature
 	// as healthy-but-quiet instead of as a failure (#995).
 	if result.Err() != nil {
 		return nil, fmt.Errorf("device summary query failed: %w", result.Err())
-	}
-
-	if includeTemperatureHistory {
-		sr.attachTemperatureHistory(ctx, summaries)
 	}
 
 	return summaries, nil
@@ -758,19 +767,6 @@ func asInt64Ptr(val interface{}) *int64 {
 		return &intVal
 	}
 	return nil
-}
-
-// attachTemperatureHistory loads forever-range temperature history and attaches it to each summary.
-func (sr *scrutinyRepository) attachTemperatureHistory(ctx context.Context, summaries map[string]*models.DeviceSummary) {
-	deviceTempHistory, err := sr.GetSmartTemperatureHistory(ctx, DURATION_KEY_FOREVER)
-	if err != nil {
-		sr.logger.Errorf("Error getting temperature history: %v", err)
-	}
-	for devID, tempHistory := range deviceTempHistory {
-		if summary, exists := summaries[devID]; exists {
-			summary.TempHistory = tempHistory
-		}
-	}
 }
 
 // GetDevicesLastSeenTimes returns a map of device_id to the timestamp of the device's last SMART submission.

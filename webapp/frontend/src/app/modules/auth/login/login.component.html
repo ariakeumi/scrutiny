@@ -6,7 +6,7 @@
             <img src="assets/images/logo/scrutiny-logo-white-text.png" class="logo-dark" alt="Scrutiny" />
         </div>
 
-        <h2 class="login-title">Sign in</h2>
+        <h2 class="login-title">登录</h2>
 
         <!-- Loading bar -->
         @if (isLoading) {
@@ -24,38 +24,38 @@
         <!-- Login tabs -->
         <mat-tab-group [selectedIndex]="0" animationDuration="200ms">
             <!-- Token tab -->
-            <mat-tab label="Token">
+            <mat-tab label="令牌">
                 <form [formGroup]="tokenForm" (ngSubmit)="onTokenLogin()" class="login-form">
                     <mat-form-field appearance="outline" class="login-field">
                         <mat-label>API Token</mat-label>
-                        <input matInput formControlName="token" [type]="hideToken ? 'password' : 'text'" placeholder="Enter your API token" autocomplete="off" />
+                        <input matInput formControlName="token" [type]="hideToken ? 'password' : 'text'" placeholder="请输入你的 API Token" autocomplete="off" />
                         <button mat-icon-button matSuffix type="button" (click)="hideToken = !hideToken">
                             <mat-icon>{{ hideToken ? 'visibility_off' : 'visibility' }}</mat-icon>
                         </button>
                     </mat-form-field>
 
-                    <button mat-flat-button color="primary" type="submit" class="login-button" [disabled]="tokenForm.invalid || isLoading">Sign in with Token</button>
+                    <button mat-flat-button color="primary" type="submit" class="login-button" [disabled]="tokenForm.invalid || isLoading">使用 Token 登录</button>
                 </form>
             </mat-tab>
 
             <!-- Password tab (only if enabled) -->
             @if (showPasswordTab) {
-            <mat-tab label="Password">
+            <mat-tab label="密码">
                 <form [formGroup]="passwordForm" (ngSubmit)="onPasswordLogin()" class="login-form">
                     <mat-form-field appearance="outline" class="login-field">
-                        <mat-label>Username</mat-label>
-                        <input matInput formControlName="username" type="text" placeholder="Enter your username" autocomplete="username" />
+                        <mat-label>用户名</mat-label>
+                        <input matInput formControlName="username" type="text" placeholder="请输入用户名" autocomplete="username" />
                     </mat-form-field>
 
                     <mat-form-field appearance="outline" class="login-field">
-                        <mat-label>Password</mat-label>
-                        <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" placeholder="Enter your password" autocomplete="current-password" />
+                        <mat-label>密码</mat-label>
+                        <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" placeholder="请输入密码" autocomplete="current-password" />
                         <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
                             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
                         </button>
                     </mat-form-field>
 
-                    <button mat-flat-button color="primary" type="submit" class="login-button" [disabled]="passwordForm.invalid || isLoading">Sign in with Password</button>
+                    <button mat-flat-button color="primary" type="submit" class="login-button" [disabled]="passwordForm.invalid || isLoading">使用密码登录</button>
                 </form>
             </mat-tab>
             }

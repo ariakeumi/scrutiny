@@ -76,7 +76,7 @@ export class BtrfsFilesystemDetailComponent implements OnInit, OnDestroy {
             },
             colors: ['#22c55e'],
             fill: { colors: ['#bbf7d0'], opacity: 0.5, type: 'gradient' },
-            series: [{ name: 'Usage', data: usageData }],
+            series: [{ name: '使用量', data: usageData }],
             stroke: { curve: 'smooth', width: 2 },
             tooltip: { theme: 'dark', x: { format: apexShortDateTime(this.config.time_format, true) }, y: { formatter: (value) => `${value}%` } },
             xaxis: { type: 'datetime', labels: { datetimeUTC: false } },
@@ -94,7 +94,7 @@ export class BtrfsFilesystemDetailComponent implements OnInit, OnDestroy {
     }
 
     getFilesystemTitle(): string {
-        return this.filesystem?.label || this.filesystem?.mount_point || this.filesystem?.uuid || 'Unknown Filesystem';
+        return this.filesystem?.label || this.filesystem?.mount_point || this.filesystem?.uuid || '未知文件系统';
     }
 
     getErrorCount(device: BtrfsDeviceModel): number {

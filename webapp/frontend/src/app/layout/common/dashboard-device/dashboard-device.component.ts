@@ -9,9 +9,10 @@ import { DashboardDeviceDeleteDialogComponent } from 'app/layout/common/dashboar
 import { DeviceTitlePipe } from 'app/shared/device-title.pipe';
 import { DeviceSummaryModel } from 'app/core/models/device-summary-model';
 import { DeviceStatusPipe } from 'app/shared/device-status.pipe';
+import { DeviceStatusLabelPipe } from 'app/shared/device-status-label.pipe';
 import { DashboardDeviceArchiveDialogComponent } from '../dashboard-device-archive-dialog/dashboard-device-archive-dialog.component';
 import { DashboardDeviceArchiveDialogService } from '../dashboard-device-archive-dialog/dashboard-device-archive-dialog.service';
-import { NgClass, TitleCasePipe, DatePipe } from '@angular/common';
+import { NgClass, DatePipe } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { MatIconButton } from '@angular/material/button';
@@ -35,7 +36,7 @@ import { DeviceHoursPipe } from '../../../shared/device-hours.pipe';
         MenuTriggerRestoreFocusDirective,
         MatMenu,
         MatMenuItem,
-        TitleCasePipe,
+        DeviceStatusLabelPipe,
         DatePipe,
         FileSizePipe,
         TemperaturePipe,
@@ -143,11 +144,11 @@ export class DashboardDeviceComponent implements OnInit {
     riskCategoryLabel(category: string): string {
         switch (category) {
             case 'monitor':
-                return 'Monitor';
+                return '持续观察';
             case 'plan_replacement':
-                return 'Plan Replacement';
+                return '计划更换';
             case 'replace_soon':
-                return 'Replace Soon';
+                return '尽快更换';
             default:
                 return '';
         }
@@ -192,7 +193,7 @@ export class DashboardDeviceComponent implements OnInit {
         if (!health) {
             return '';
         }
-        return health.isRemaining ? 'Health' : 'Used';
+        return health.isRemaining ? '健康度' : '已损耗';
     }
 
     /**

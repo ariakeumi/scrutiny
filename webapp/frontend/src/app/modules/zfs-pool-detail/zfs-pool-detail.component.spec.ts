@@ -84,7 +84,7 @@ describe('ZFSPoolDetailComponent', () => {
         fixture.detectChanges();
 
         const text = fixture.nativeElement.textContent as string;
-        expect(text).toContain('MISSING');
-        expect(text).toContain('Missing from last inventory');
+        expect(text).toContain('缺失');
+        expect(text).toContain('清单中缺失');
     });
 });

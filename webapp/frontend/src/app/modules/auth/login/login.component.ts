@@ -75,12 +75,12 @@ export class LoginComponent implements OnInit {
                 if (res.success && res.token) {
                     this._router.navigateByUrl(this.returnUrl);
                 } else if (!res.success) {
-                    this.errorMessage = res.error || 'Login failed. Please try again.';
+                    this.errorMessage = res.error || '登录失败，请重试。';
                 }
             },
             error: (err) => {
                 this.isLoading = false;
-                this.errorMessage = err.error?.error || 'Login failed. Please try again.';
+                this.errorMessage = err.error?.error || '登录失败，请重试。';
             },
         });
     }
@@ -100,12 +100,12 @@ export class LoginComponent implements OnInit {
                 if (res.success && res.token) {
                     this._router.navigateByUrl(this.returnUrl);
                 } else if (!res.success) {
-                    this.errorMessage = res.error || 'Login failed. Please try again.';
+                    this.errorMessage = res.error || '登录失败，请重试。';
                 }
             },
             error: (err) => {
                 this.isLoading = false;
-                this.errorMessage = err.error?.error || 'Login failed. Please try again.';
+                this.errorMessage = err.error?.error || '登录失败，请重试。';
             },
         });
     }

@@ -159,12 +159,17 @@ func (mc *Collector) LoadInitialData(deviceRepo database.DeviceRepo, ctx context
 	selfTestHealthMap := make(map[string]models.DeviceSelfTestHealth)
 	var wg sync.WaitGroup
 	var mapMu sync.Mutex
+	// Bound concurrent InfluxDB lookups: each one is a multi-bucket history scan, and an
+	// unbounded goroutine-per-device fan-out spikes query memory with fleet size.
+	historySem := make(chan struct{}, 4)
 
 	for _, deviceSummary := range summary {
 		wg.Add(1)
 		deviceID := deviceSummary.Device.DeviceID
 		go func(deviceID string) {
 			defer wg.Done()
+			historySem <- struct{}{}
+			defer func() { <-historySem }()
 			smarts, historyErr := deviceRepo.GetSmartAttributeHistory(ctx, deviceID, "forever", 1, 0, nil)
 			if historyErr == nil && len(smarts) > 0 {
 				mapMu.Lock()

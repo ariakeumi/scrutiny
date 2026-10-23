@@ -72,7 +72,7 @@ export class HostsComponent implements OnInit {
                     this.selectedHostIds = new Set([...this.selectedHostIds].filter((hostId) => availableHostIds.has(hostId)));
                 },
                 error: () => {
-                    this.loadError = 'Could not load SMART hosts.';
+                    this.loadError = '无法加载 SMART 主机列表。';
                 },
             });
     }
@@ -158,7 +158,7 @@ export class HostsComponent implements OnInit {
                         host_id: hostId,
                         success: false,
                         device_count: 0,
-                        error: 'Request failed before host result was returned.',
+                        error: '请求在返回该主机结果前失败。',
                     }));
                 },
             });

@@ -167,6 +167,21 @@ export class WorkloadComponent implements OnInit, AfterViewInit, OnDestroy {
         this.router.navigate(['/device', deviceId]);
     }
 
+    intensityLabel(intensity: string): string {
+        switch (intensity) {
+            case 'idle':
+                return '闲置';
+            case 'light':
+                return '轻度';
+            case 'medium':
+                return '中度';
+            case 'heavy':
+                return '重度';
+            default:
+                return intensity;
+        }
+    }
+
     intensityColor(intensity: string): string {
         switch (intensity) {
             case 'idle':
@@ -193,10 +208,10 @@ export class WorkloadComponent implements OnInit, AfterViewInit, OnDestroy {
             return '-';
         }
         if (row.daily_write_bytes <= 0 && row.daily_read_bytes > 0) {
-            return 'Read-only';
+            return '只读';
         }
         if (row.daily_read_bytes <= 0 && row.daily_write_bytes > 0) {
-            return 'Write-only';
+            return '只写';
         }
         const ratio = row.read_write_ratio;
         if (ratio > 1000) {
@@ -212,9 +227,9 @@ export class WorkloadComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!days || days <= 0) return '-';
         if (days >= 365) {
             const years = (days / 365).toFixed(1);
-            return `${years} yr`;
+            return `${years} 年`;
         }
-        return `${days} d`;
+        return `${days} 天`;
     }
 
     getDeviceDisplayTitle(insight: WorkloadInsightModel): string {

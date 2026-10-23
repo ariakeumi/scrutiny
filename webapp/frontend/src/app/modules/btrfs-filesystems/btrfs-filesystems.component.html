@@ -3,13 +3,13 @@
     <div class="flex flex-wrap w-full">
         <div class="flex items-center justify-between w-full my-4 px-4 xs:pr-0">
             <div class="mr-6">
-                <h2 class="m-0">Btrfs Filesystems</h2>
-                <div class="text-secondary tracking-tight">Btrfs filesystem health and topology</div>
+                <h2 class="m-0">Btrfs 文件系统</h2>
+                <div class="text-secondary tracking-tight">Btrfs 文件系统健康状况与拓扑</div>
             </div>
             <div class="flex items-center">
                 <button class="xs:hidden" mat-stroked-button [color]="showArchived ? 'primary' : null" (click)="showArchived = !showArchived">
                     <mat-icon class="icon-size-20" [color]="showArchived ? 'primary' : null" [svgIcon]="'archive'"></mat-icon>
-                    <span class="ml-2">Archived</span>
+                    <span class="ml-2">已归档</span>
                 </button>
             </div>
         </div>
@@ -40,8 +40,8 @@
 } @else {
 <div class="dashboard-placeholder content-layout fullwidth-basic-content-scroll">
     <img class="image" src="/assets/images/dashboard-placeholder.png" />
-    <h1>No Btrfs Filesystems Detected!</h1>
-    <p style="max-width: 700px">Run the Btrfs collector on hosts with mounted Btrfs filesystems, then refresh this page.</p>
+    <h1>未检测到任何 Btrfs 文件系统！</h1>
+    <p style="max-width: 700px">在挂载了 Btrfs 文件系统的主机上运行 Btrfs 采集器，然后刷新本页面。</p>
     <code>scrutiny-collector-btrfs run</code>
 </div>
 }

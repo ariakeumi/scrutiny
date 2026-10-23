@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"io"
-	"io/ioutil"
 	"math"
 	"net/http"
 	"os"
@@ -36,12 +35,21 @@ func LoggerMiddleware(logger *logrus.Entry) gin.HandlerFunc {
 	}
 
 	return func(c *gin.Context) {
-		reqBody := cloneRequestBody(c)
+		// Bodies are only ever emitted by logAPIBodies at Debug level. Skip the request-body
+		// copy and the response buffering otherwise, so large API payloads are never held
+		// in memory just for logging.
+		captureBodies := logger.Logger.IsLevelEnabled(logrus.DebugLevel)
 
-		// other handler can change c.Path so:
+		var reqBody string
+		var bodyWriter *responseBodyLogWriter
+		if captureBodies {
+			reqBody = cloneRequestBody(c)
+			// other handler can change c.Path so:
+			bodyWriter = &responseBodyLogWriter{body: &bytes.Buffer{}, ResponseWriter: c.Writer}
+			c.Writer = bodyWriter
+		}
+
 		path := c.Request.URL.Path
-		blw := &responseBodyLogWriter{body: &bytes.Buffer{}, ResponseWriter: c.Writer}
-		c.Writer = blw
 		c.Set("LOGGER", logger)
 		start := time.Now()
 		c.Next()
@@ -70,7 +78,9 @@ func LoggerMiddleware(logger *logrus.Entry) gin.HandlerFunc {
 		//nolint:gocritic // fixed access-log format; %q would change the quoting/escaping
 		msg := fmt.Sprintf("%s - %s [%s] \"%s %s\" %d %d \"%s\" \"%s\" (%dms)", clientIP, hostname, time.Now().Format(timeFormat), c.Request.Method, path, statusCode, respLength, referer, clientUserAgent, latency)
 		logRequestResult(c, entry, msg, statusCode)
-		logAPIBodies(entry, path, reqBody, blw.body.String())
+		if captureBodies {
+			logAPIBodies(entry, path, reqBody, bodyWriter.body.String())
+		}
 	}
 }
 
@@ -80,10 +90,10 @@ func cloneRequestBody(c *gin.Context) string {
 	if c.Request.Body == nil {
 		return ""
 	}
-	buf, _ := ioutil.ReadAll(c.Request.Body)
+	buf, _ := io.ReadAll(c.Request.Body)
 	// We have to create a new Buffer because the read reader will be consumed.
-	c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(buf))
-	return readBody(ioutil.NopCloser(bytes.NewBuffer(buf)))
+	c.Request.Body = io.NopCloser(bytes.NewBuffer(buf))
+	return string(buf)
 }
 
 // logRequestResult logs the request at the level appropriate for its status code, or logs the
@@ -124,14 +134,4 @@ type responseBodyLogWriter struct {
 func (w responseBodyLogWriter) Write(b []byte) (int, error) {
 	w.body.Write(b)
 	return w.ResponseWriter.Write(b)
-}
-
-// Request Logging
-
-func readBody(reader io.Reader) string {
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(reader)
-
-	s := buf.String()
-	return s
 }

@@ -5,15 +5,15 @@
             <!-- Header -->
             <div class="flex items-center justify-between w-full my-4 px-4 xs:pr-0">
                 <div class="mr-6">
-                    <h2 class="m-0">ZFS Pools</h2>
-                    <div class="text-secondary tracking-tight">ZFS pool health at a glance</div>
+                    <h2 class="m-0">ZFS 存储池</h2>
+                    <div class="text-secondary tracking-tight">ZFS 存储池健康状况一目了然</div>
                 </div>
 
                 <!-- Action buttons (desktop) -->
                 <div class="flex items-center">
                     <button class="xs:hidden" mat-stroked-button [color]="showArchived ? 'primary' : null" (click)="showArchived = !showArchived">
                         <mat-icon class="icon-size-20" [color]="showArchived ? 'primary' : null" [svgIcon]="'archive'"> </mat-icon>
-                        <span class="ml-2">Archived</span>
+                        <span class="ml-2">已归档</span>
                     </button>
 
                     <!-- Actions menu (mobile) -->
@@ -25,7 +25,7 @@
                         <mat-menu #actionsMenu="matMenu">
                             <button mat-menu-item (click)="showArchived = !showArchived">
                                 <mat-icon class="icon-size-20" [color]="showArchived ? 'primary' : null" [svgIcon]="'archive'"> </mat-icon>
-                                <span class="ml-2">Archived</span>
+                                <span class="ml-2">已归档</span>
                             </button>
                         </mat-menu>
                     </div>
@@ -61,16 +61,15 @@
 <div class="dashboard-placeholder content-layout fullwidth-basic-content-scroll">
     <img class="image" src="/assets/images/dashboard-placeholder.png" />
 
-    <h1>No ZFS Pools Detected!</h1>
+    <h1>未检测到任何 ZFS 存储池！</h1>
 
     <p style="max-width: 700px">
-        Scrutiny includes a ZFS Collector agent that you must run on systems with ZFS pools. The ZFS Collector is responsible for detecting ZFS pools and collecting health metrics
-        on a configurable schedule.
+        Scrutiny 自带一个 ZFS Collector 采集器，你需要在带有 ZFS 存储池的系统上运行它。ZFS Collector 负责检测 ZFS 存储池，并按可配置的计划采集健康指标。
     </p>
 
     <p>
         <br />
-        You can trigger the ZFS Collector manually by running the following command, then refreshing this page:
+        你可以运行以下命令手动触发 ZFS Collector，然后刷新本页面：
     </p>
 
     <code>scrutiny-collector-zfs run</code>

@@ -3,34 +3,29 @@
     <div class="dashboard-page flex flex-col flex-auto w-full p-8 xs:p-2" [class.dashboard-page--compact]="isCompactDashboard()">
         <div class="flex flex-wrap w-full">
             <!-- Header -->
-            <div class="flex items-center justify-between w-full my-4 px-4 xs:pr-0">
-                <div class="mr-6">
-                    <h2 class="m-0">Dashboard</h2>
-                    <div class="text-secondary tracking-tight">Drive health at a glance</div>
-                </div>
-
+            <div class="flex items-center justify-end w-full my-4 px-4 xs:pr-0">
                 <!-- Action buttons (desktop) -->
                 <div class="flex items-center">
                     <button class="xs:hidden" mat-stroked-button [color]="showArchived ? 'primary' : null" (click)="toggleArchived()">
                         <mat-icon class="icon-size-20" [color]="showArchived ? 'primary' : null" [svgIcon]="'archive'"> </mat-icon>
-                        <span class="ml-2">Archived</span>
+                        <span class="ml-2">已归档</span>
                     </button>
 
-                    <button matTooltip="not yet implemented" class="ml-2 xs:hidden" mat-stroked-button>
+                    <button matTooltip="尚未实现" class="ml-2 xs:hidden" mat-stroked-button>
                         <mat-icon class="icon-size-20" [svgIcon]="'save'"></mat-icon>
-                        <span class="ml-2">Export</span>
+                        <span class="ml-2">导出</span>
                     </button>
 
                     <button class="ml-2 xs:hidden" mat-stroked-button (click)="openDialog()">
                         <mat-icon class="icon-size-20 rotate-90 mirror" [svgIcon]="'tune'"> </mat-icon>
-                        <span class="ml-2">Settings</span>
+                        <span class="ml-2">设置</span>
                     </button>
 
                     <!-- Run collectors button (Omnibus only) -->
                     @if (config?.collector_trigger_enabled && !isTriggering) {
                     <button class="ml-2" mat-flat-button color="primary" (click)="runCollectors()">
                         <mat-icon class="icon-size-20" [svgIcon]="'play_arrow'"> </mat-icon>
-                        <span class="ml-2">Run collectors</span>
+                        <span class="ml-2">运行采集器</span>
                     </button>
                     }
 
@@ -38,7 +33,7 @@
                     @if (countdown > 0) {
                     <div class="ml-4 flex items-center text-secondary font-medium">
                         <mat-progress-spinner class="mr-2" [diameter]="20" [mode]="'indeterminate'"> </mat-progress-spinner>
-                        Refreshing in {{ countdown }}s...
+                        {{ countdown }} 秒后刷新...
                     </div>
                     }
 
@@ -51,34 +46,22 @@
                         <mat-menu #actionsMenu="matMenu">
                             <button mat-menu-item (click)="toggleArchived()">
                                 <mat-icon class="icon-size-20" [color]="showArchived ? 'primary' : null" [svgIcon]="'archive'"> </mat-icon>
-                                <span class="ml-2">Archived</span>
+                                <span class="ml-2">已归档</span>
                             </button>
 
-                            <button mat-menu-item matTooltip="not yet implemented">
+                            <button mat-menu-item matTooltip="尚未实现">
                                 <mat-icon class="icon-size-20" [svgIcon]="'save'"></mat-icon>
-                                <span class="ml-2">Export</span>
+                                <span class="ml-2">导出</span>
                             </button>
 
                             <button mat-menu-item (click)="openDialog()">
                                 <mat-icon class="icon-size-20 rotate-90 mirror" [svgIcon]="'tune'"> </mat-icon>
-                                <span class="ml-2">Settings</span>
+                                <span class="ml-2">设置</span>
                             </button>
                         </mat-menu>
                     </div>
                 </div>
             </div>
-
-            <form class="flex flex-wrap items-center gap-3 w-full px-4 mb-4" (ngSubmit)="applyHostSearch()">
-                <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-full max-w-80">
-                    <mat-label>Search hosts</mat-label>
-                    <mat-icon matPrefix aria-hidden="true">search</mat-icon>
-                    <input matInput type="search" name="hostSearch" [(ngModel)]="hostSearch" autocomplete="off" />
-                </mat-form-field>
-                <button mat-flat-button color="primary" type="submit">Search</button>
-                @if (hostSearch || appliedHostSearch) {
-                <button mat-button type="button" (click)="clearHostSearch()">Clear</button>
-                }
-            </form>
 
             <!-- Device Groups -->
             @for (hostId of hostGroups | keyvalue; track hostId) {
@@ -86,16 +69,8 @@
                 @if (hostId.key) {
                 <div class="flex items-center ml-4 gap-3">
                     <h3 class="m-0">{{ hostId.key }}</h3>
-                    @if (getCollectorVersionForHost(hostId.value); as version) {
-                    <span
-                        class="text-sm px-2 py-0.5 rounded-full text-white"
-                        [class.bg-yellow-600]="isHostCollectorOutdated(hostId.value)"
-                        [class.bg-gray-500]="!isHostCollectorOutdated(hostId.value)"
-                    >
-                        collector v{{ version }}
-                    </span>
-                    } @if (config?.server_version) {
-                    <span class="gt-sm:hidden text-sm px-2 py-0.5 rounded-full text-white bg-gray-500"> server v{{ config.server_version }} </span>
+                    @if (config?.server_version) {
+                    <span class="gt-sm:hidden text-sm px-2 py-0.5 rounded-full text-white bg-gray-500"> 服务器 v{{ config.server_version }} </span>
                     }
                 </div>
                 }
@@ -124,7 +99,7 @@
                     [pageSize]="pagination.page_size"
                     [pageSizeOptions]="pageSizeOptions"
                     [showFirstLastButtons]="true"
-                    aria-label="Select SMART host page"
+                    aria-label="选择 SMART 主机页码"
                     (page)="onPageChange($event)"
                 >
                 </mat-paginator>
@@ -133,8 +108,8 @@
             @if (hasFilesystemData()) {
             <div class="flex flex-col w-full mb-6 px-4">
                 <div class="mb-4">
-                    <div class="font-bold text-md text-secondary uppercase tracking-wider">Filesystem Capacity</div>
-                    <div class="text-sm text-hint font-medium">Logical filesystem free space reported by the collector</div>
+                    <div class="font-bold text-md text-secondary uppercase tracking-wider">文件系统容量</div>
+                    <div class="text-sm text-hint font-medium">采集器上报的逻辑文件系统剩余空间</div>
                 </div>
 
                 @for (hostId of filesystemHosts(); track hostId) {
@@ -144,10 +119,10 @@
                             <div class="font-bold text-md">{{ hostId }}</div>
                             @if (filesystemStatusForHost(hostId)?.updated_at) {
                             <div class="text-sm text-hint">
-                                Updated
+                                更新于
                                 {{
                                     $safeNavigationMigration(filesystemStatusForHost(hostId)?.updated_at)
-                                        | date : (config?.time_format === '12' ? 'MMMM dd, yyyy - h:mm a' : 'MMMM dd, yyyy - HH:mm')
+                                        | date : (config?.time_format === '12' ? 'yyyy年M月d日 - h:mm a' : 'yyyy年M月d日 - HH:mm')
                                 }}
                             </div>
                             }
@@ -157,16 +132,16 @@
                             [class.bg-gray-500]="filesystemStatusForHost(hostId)?.status === 'available'"
                             [class.bg-yellow-600]="filesystemStatusForHost(hostId)?.status === 'unavailable'"
                         >
-                            {{ $safeNavigationMigration(filesystemStatusForHost(hostId)?.status) | titlecase }}
+                            {{ $safeNavigationMigration(filesystemStatusForHost(hostId)?.status) === 'available' ? '可用' : '不可用' }}
                         </div>
                     </div>
 
                     @if (filesystemStatusForHost(hostId)?.status === 'unavailable') {
                     <div class="text-sm text-hint">
-                        {{ filesystemStatusForHost(hostId)?.reason || 'Collector cannot inspect host mounts for this host.' }}
+                        {{ filesystemStatusForHost(hostId)?.reason || '采集器无法检查该主机的挂载点。' }}
                     </div>
                     } @else if (filesystemsForHost(hostId).length === 0) {
-                    <div class="text-sm text-hint">No eligible filesystems were reported for this host.</div>
+                    <div class="text-sm text-hint">该主机未上报任何符合条件的文件系统。</div>
                     } @else {
                     <div class="flex flex-wrap -mx-3">
                         @for (filesystem of filesystemsForHost(hostId); track filesystem.mount_point) {
@@ -181,14 +156,14 @@
                                         <div class="font-semibold text-lg">
                                             {{ filesystem.available_bytes | fileSize : $safeNavigationMigration(config?.file_size_si_units) }}
                                         </div>
-                                        <div class="text-sm text-hint">free</div>
+                                        <div class="text-sm text-hint">可用</div>
                                     </div>
                                 </div>
 
                                 <div class="mt-4">
                                     <div class="flex justify-between text-sm mb-1">
-                                        <span>{{ filesystem.used_percent | number : '1.0-1' }}% used</span>
-                                        <span>{{ filesystem.total_bytes | fileSize : $safeNavigationMigration(config?.file_size_si_units) }} total</span>
+                                        <span>已用 {{ filesystem.used_percent | number : '1.0-1' }}%</span>
+                                        <span>总计 {{ filesystem.total_bytes | fileSize : $safeNavigationMigration(config?.file_size_si_units) }}</span>
                                     </div>
                                     <div class="h-2 w-full bg-gray-200 rounded overflow-hidden">
                                         <div class="h-full" [ngClass]="filesystemUsageClass(filesystem)" [style.width.%]="filesystem.used_percent"></div>
@@ -210,35 +185,35 @@
                     <div class="flex flex-col flex-none p-6 pr-4 pb-4">
                         <div class="flex items-center justify-between">
                             <div class="flex flex-col">
-                                <div class="font-bold text-md text-secondary uppercase tracking-wider mr-4">Temperature</div>
-                                <div class="text-sm text-hint font-medium">Temperature history for each device</div>
+                                <div class="font-bold text-md text-secondary uppercase tracking-wider mr-4">温度</div>
+                                <div class="text-sm text-hint font-medium">各设备的温度历史</div>
                             </div>
 
                             <div class="flex items-center">
                                 <button class="h-8 min-h-8 px-3" mat-stroked-button [matMenuTriggerFor]="tempRangeMenu">
-                                    <span class="font-medium text-sm capitalize">
-                                        {{ tempDurationKey }}
+                                    <span class="font-medium text-sm">
+                                        {{ tempDurationLabel }}
                                     </span>
                                     <mat-icon class="icon-size-4 ml-1" [svgIcon]="'expand_more'"></mat-icon>
                                 </button>
 
                                 <mat-menu #tempRangeMenu="matMenu">
-                                    <button mat-menu-item (click)="changeSummaryTempDuration('forever')">forever</button>
-                                    <button mat-menu-item (click)="changeSummaryTempDuration('year')">year</button>
-                                    <button mat-menu-item (click)="changeSummaryTempDuration('month')">month</button>
-                                    <button mat-menu-item (click)="changeSummaryTempDuration('week')">week</button>
-                                    <button mat-menu-item (click)="changeSummaryTempDuration('day')">day</button>
+                                    <button mat-menu-item (click)="changeSummaryTempDuration('forever')">全部</button>
+                                    <button mat-menu-item (click)="changeSummaryTempDuration('year')">年</button>
+                                    <button mat-menu-item (click)="changeSummaryTempDuration('month')">月</button>
+                                    <button mat-menu-item (click)="changeSummaryTempDuration('week')">周</button>
+                                    <button mat-menu-item (click)="changeSummaryTempDuration('day')">日</button>
                                 </mat-menu>
 
                                 <button class="h-8 min-h-8 px-3 ml-2" mat-stroked-button [matMenuTriggerFor]="driveFilterMenu">
                                     <mat-icon class="icon-size-4" [svgIcon]="'filter_list'"></mat-icon>
-                                    <span class="font-medium text-sm ml-1">Drives ({{ temperatureSelection.ids.length }}/{{ temperatureDevices.length }})</span>
+                                    <span class="font-medium text-sm ml-1">硬盘 ({{ temperatureSelection.ids.length }}/{{ temperatureDevices.length }})</span>
                                     <mat-icon class="icon-size-4 ml-1" [svgIcon]="'expand_more'"></mat-icon>
                                 </button>
 
                                 <mat-menu #driveFilterMenu="matMenu">
                                     <div class="px-3 py-2" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
-                                        <input matInput type="search" placeholder="Search host, drive, model, or serial" [(ngModel)]="temperatureDeviceSearch" />
+                                        <input matInput type="search" placeholder="搜索主机、硬盘、型号或序列号" [(ngModel)]="temperatureDeviceSearch" />
                                     </div>
                                     <mat-divider></mat-divider>
                                     @for (device of filteredTemperatureDevices(); track device.device_id) {
@@ -263,7 +238,7 @@
 
                     <div class="flex flex-col flex-auto min-h-0 temp-chart-wrapper">
                         @if (temperatureSelection.ids.length === 0) {
-                        <div class="flex flex-auto items-center justify-center text-secondary p-8">Select up to 20 drives to load temperature history.</div>
+                        <div class="flex flex-auto items-center justify-center text-secondary p-8">最多选择 20 块硬盘以加载温度历史。</div>
                         } @else if (temperatureOptions) {
                         <apx-chart
                             #tempChart
@@ -293,16 +268,15 @@
 <div class="dashboard-placeholder content-layout fullwidth-basic-content-scroll">
     <img class="image" src="assets/images/dashboard-placeholder.png" />
 
-    <h1>No Devices Detected!</h1>
+    <h1>未检测到任何设备！</h1>
 
     <p style="max-width: 700px">
-        Scrutiny includes a Collector agent that you must run on all of your systems. The Collector is responsible for detecting connected storage devices and collecting S.M.A.R.T
-        data on a configurable schedule.
+        Scrutiny 自带一个 Collector 采集器代理，你需要在所有系统上运行它。Collector 负责检测已连接的存储设备，并按可配置的计划采集 S.M.A.R.T 数据。
     </p>
 
     <p>
         <br />
-        You can trigger the Collector manually by running the following command, then refreshing this page:
+        你可以运行以下命令手动触发 Collector，然后刷新本页面：
     </p>
 
     <code>scrutiny-collector-metrics run</code>

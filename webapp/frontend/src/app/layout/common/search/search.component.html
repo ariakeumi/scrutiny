@@ -10,17 +10,17 @@
 <div class="search-container" [@.disabled]="appearance === 'basic'" @slideInTop @slideOutTop>
     <mat-form-field class="treo-mat-no-subscript search-input" #searchInput>
         <mat-icon matPrefix [svgIcon]="'search'"></mat-icon>
-        <input matInput [formControl]="searchControl" [placeholder]="'Search for a page or a contact'" [matAutocomplete]="matAutocomplete" (keydown)="onKeydown($event)" />
+        <input matInput [formControl]="searchControl" [placeholder]="'搜索页面'" [matAutocomplete]="matAutocomplete" (keydown)="onKeydown($event)" />
     </mat-form-field>
     <mat-autocomplete [class]="'search-results search-results-appearance-' + appearance" #matAutocomplete="matAutocomplete" [disableRipple]="true">
         @if (results && !results.length) {
-        <mat-option class="no-results"> No results found! </mat-option>
+        <mat-option class="no-results"> 未找到匹配结果 </mat-option>
         } @for (result of results; track result) {
         <mat-option [routerLink]="result.link">
             <!-- Page result -->
             @if (result.resultType === 'page') {
             <div class="result page-result">
-                <div class="badge">Page</div>
+                <div class="badge">页面</div>
                 <div class="title">
                     <span [innerHTML]="result.title"></span>
                     <span class="link" [routerLink]="result.link">{{ result.link }}</span>
@@ -30,7 +30,7 @@
             <!-- Contact result -->
             @if (result.resultType === 'contact') {
             <div class="result contact-result">
-                <div class="badge">Contact</div>
+                <div class="badge">联系人</div>
                 <div class="title">
                     <span [innerHTML]="result.title"></span>
                 </div>

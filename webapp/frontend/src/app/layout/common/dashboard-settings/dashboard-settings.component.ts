@@ -232,10 +232,10 @@ export class DashboardSettingsComponent implements OnInit {
     displayedColumns: string[] = ['protocol', 'attribute_id', 'device', 'action', 'source', 'actions'];
     protocols: OverrideProtocol[] = ['ATA', 'NVMe', 'SCSI'];
     actions: { value: OverrideAction; label: string }[] = [
-        { value: 'ignore', label: 'Ignore' },
-        { value: 'force_status', label: 'Force Status' },
-        { value: 'acknowledge', label: 'Acknowledge Current Value' },
-        { value: '', label: 'Custom Threshold' },
+        { value: 'ignore', label: '忽略' },
+        { value: 'force_status', label: '强制状态' },
+        { value: 'acknowledge', label: '确认当前值' },
+        { value: '', label: '自定义阈值' },
     ];
     statuses: OverrideStatus[] = ['passed', 'warn', 'failed'];
 
@@ -424,7 +424,7 @@ export class DashboardSettingsComponent implements OnInit {
                     this.newOverride = { protocol: 'ATA', attribute_id: '', action: 'ignore' };
                 },
                 error: (error) => {
-                    this.overrideError = error?.error?.error || 'Could not save override.';
+                    this.overrideError = error?.error?.error || '保存覆盖项失败。';
                 },
             });
     }
@@ -434,7 +434,7 @@ export class DashboardSettingsComponent implements OnInit {
         if (device) {
             return `${device.model_name} (${device.serial_number || device.device_name || device.device_id})`;
         }
-        return override.wwn ? `Legacy WWN: ${override.wwn}` : 'All devices';
+        return override.wwn ? `旧 WWN：${override.wwn}` : '所有设备';
     }
 
     removeOverride(override: AttributeOverride): void {
@@ -452,7 +452,7 @@ export class DashboardSettingsComponent implements OnInit {
 
     getActionLabel(action: string): string {
         const found = this.actions.find((a) => a.value === action);
-        return found ? found.label : 'Custom Threshold';
+        return found ? found.label : '自定义阈值';
     }
 
     // Notification URL methods

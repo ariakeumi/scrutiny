@@ -40,13 +40,13 @@ describe('MobileTabBarComponent', () => {
     });
 
     it('should use the dedicated mobile drives route', () => {
-        const drivesTab = component.tabs.find((tab) => tab.label === 'Drives');
+        const drivesTab = component.tabs.find((tab) => tab.label === '硬盘');
 
         expect(drivesTab?.route).toBe('/mobile-drives');
     });
 
     it('should navigate to the dedicated mobile drives route', () => {
-        const drivesTab = component.tabs.find((tab) => tab.label === 'Drives');
+        const drivesTab = component.tabs.find((tab) => tab.label === '硬盘');
 
         expect(drivesTab).toBeDefined();
 

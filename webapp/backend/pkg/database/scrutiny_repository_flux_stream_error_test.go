@@ -46,7 +46,7 @@ func TestGetSummaryPropagatesStreamErrors(t *testing.T) {
 	}).Error)
 	repo.influxQueryApi = &streamErrorQuery{}
 
-	summaries, err := repo.getSummary(context.Background(), false)
+	summaries, err := repo.getSummary(context.Background())
 
 	require.Error(t, err)
 	require.Nil(t, summaries)

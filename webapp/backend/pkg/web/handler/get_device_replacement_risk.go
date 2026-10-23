@@ -56,18 +56,18 @@ func GetDeviceReplacementRisk(c *gin.Context) {
 		latestAttrs = latestResults[0].Attributes
 	}
 
-	// Historical snapshots over the trend window for rate-of-change analysis.
-	// We request all entries so we can compare oldest vs. newest within the window.
+	// Historical snapshot over the trend window for rate-of-change analysis. Only the first
+	// entry of the result is consumed (and GetSmartAttributeHistory is newest-first), so
+	// selectEntries=1 returns the same data as an unbounded window load at a fraction of
+	// the decoded rows.
 	durationKey := trendWindowToDurationKey(trendWindow)
-	history, err := deviceRepo.GetSmartAttributeHistory(c, device.DeviceID, durationKey, 0, 0, nil)
+	history, err := deviceRepo.GetSmartAttributeHistory(c, device.DeviceID, durationKey, 1, 0, nil)
 	if err != nil {
 		// Non-fatal: trend analysis is best-effort; proceed with static score only.
 		logger.Warnf("Could not retrieve SMART history for trend analysis: %v", err)
 		history = nil
 	}
 
-	// Build oldest-attribute lookup from the first entry in the history slice.
-	// GetSmartAttributeHistory returns entries ordered oldest-first.
 	var oldestAttrs map[string]measurements.SmartAttribute
 	if len(history) > 0 {
 		oldestAttrs = history[0].Attributes
