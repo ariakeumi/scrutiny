@@ -26,8 +26,8 @@
             <mat-form-field class="flex-auto gt-xs:pr-3 gt-md:pl-3">
                 <mat-label>排序方式</mat-label>
                 <mat-select [(ngModel)]="dashboardSort">
-                    <mat-option value="status_desc">状态（失败在前）</mat-option>
-                    <mat-option value="status_asc">状态（通过在前）</mat-option>
+                    <mat-option value="status_desc">状态（警告在前）</mat-option>
+                    <mat-option value="status_asc">状态（安全在前）</mat-option>
                     <mat-option value="title_asc">标题（A-Z）</mat-option>
                     <mat-option value="title_desc">标题（Z-A）</mat-option>
                     <mat-option value="age_desc">使用年限（从旧到新）</mat-option>
@@ -648,7 +648,7 @@
                         <p class="text-red-600 mt-2" role="alert" aria-live="assertive">{{ overrideError }}</p>
                     }
                     <p id="override-form-hint" class="text-gray-500 mt-2">
-                        选择协议和属性 ID。自定义阈值至少需要填写一个值。“确认（acknowledge）”必须选择设备：它会将正常状态固定为该设备当前值，数值变化后将再次标记为失败。
+                        选择协议和属性 ID。自定义阈值至少需要填写一个值。“确认（acknowledge）”必须选择设备：它会将正常状态固定为该设备当前值，数值变化后将再次标记为警告。
                     </p>
 
                     <button

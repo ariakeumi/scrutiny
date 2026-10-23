@@ -797,7 +797,7 @@ describe('DetailComponent', () => {
         });
 
         it('distinguishes acknowledge from the permanent force_status override', () => {
-            expect(component.overrideDescription({ protocol: 'NVMe', attribute_id: 'media_errors', action: 'force_status', status: 'passed' })).toBe('强制状态：通过');
+            expect(component.overrideDescription({ protocol: 'NVMe', attribute_id: 'media_errors', action: 'force_status', status: 'passed' })).toBe('强制状态：安全');
             expect(component.overrideDescription({ protocol: 'NVMe', attribute_id: 'media_errors', action: 'ignore' })).toBe('已忽略');
         });
     });

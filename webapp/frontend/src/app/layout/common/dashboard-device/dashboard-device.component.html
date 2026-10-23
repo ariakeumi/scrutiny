@@ -93,48 +93,48 @@
         }
     </div>
 
-    <!-- Metrics -->
-    <div class="dashboard-device-metrics flex flex-row flex-wrap mt-4 -mx-6">
+    <!-- Metrics: 网格布局, 换行后各列严格对齐 (见 dashboard-device.component.scss) -->
+    <div class="dashboard-device-metrics">
         <!-- Status -->
-        <div class="dashboard-device-metric flex flex-col mx-6 my-3 xs:w-full">
+        <div class="dashboard-device-metric">
             <div class="dashboard-device-metric-label font-semibold text-xs text-hint uppercase tracking-wider">状态</div>
 
             @if (deviceSummary.smart?.collector_date) {
-            <div class="dashboard-device-metric-value mt-2 font-medium text-3xl leading-none">
+            <div class="dashboard-device-metric-value font-medium text-3xl leading-none">
                 {{ deviceStatusForModelWithThreshold(deviceSummary.device, !!deviceSummary.smart, config.metrics.status_threshold) | deviceStatusLabel }}
             </div>
             } @else {
-            <div class="dashboard-device-metric-value mt-2 font-medium text-3xl leading-none">暂无数据</div>
+            <div class="dashboard-device-metric-value font-medium text-3xl leading-none">暂无数据</div>
             }
         </div>
 
         <!-- Temperature -->
-        <div class="dashboard-device-metric flex flex-col mx-6 my-3 xs:w-full">
+        <div class="dashboard-device-metric">
             <div class="dashboard-device-metric-label font-semibold text-xs text-hint uppercase tracking-wider">温度</div>
 
             @if (deviceSummary.smart?.collector_date) {
-            <div class="dashboard-device-metric-value mt-2 font-medium text-3xl leading-none">
+            <div class="dashboard-device-metric-value font-medium text-3xl leading-none">
                 {{ $safeNavigationMigration(deviceSummary.smart?.temp) | temperature : config.temperature_unit : true }}
             </div>
             } @else {
-            <div class="dashboard-device-metric-value mt-2 font-medium text-3xl leading-none">--</div>
+            <div class="dashboard-device-metric-value font-medium text-3xl leading-none">--</div>
             }
         </div>
 
         <!-- Capacity -->
-        <div class="dashboard-device-metric flex flex-col mx-6 my-3 xs:w-full">
+        <div class="dashboard-device-metric">
             <div class="dashboard-device-metric-label font-semibold text-xs text-hint uppercase tracking-wider">容量</div>
-            <div class="dashboard-device-metric-value mt-2 font-medium text-3xl leading-none">
+            <div class="dashboard-device-metric-value font-medium text-3xl leading-none">
                 {{ deviceSummary.device.capacity | fileSize : config.file_size_si_units }}
             </div>
         </div>
 
         <!-- Powered On -->
-        <div class="dashboard-device-metric flex flex-col mx-6 my-3 xs:w-full">
+        <div class="dashboard-device-metric">
             <div class="dashboard-device-metric-label font-semibold text-xs text-hint uppercase tracking-wider">通电时长</div>
 
             @if (deviceSummary.smart?.power_on_hours) {
-            <div class="dashboard-device-metric-value mt-2 font-medium text-3xl leading-none">
+            <div class="dashboard-device-metric-value font-medium text-3xl leading-none">
                 {{
                     $safeNavigationMigration(deviceSummary.smart?.power_on_hours)
                         | deviceHours
@@ -147,17 +147,17 @@
                 }}
             </div>
             } @else {
-            <div class="dashboard-device-metric-value mt-2 font-medium text-3xl leading-none">--</div>
+            <div class="dashboard-device-metric-value font-medium text-3xl leading-none">--</div>
             }
         </div>
 
         <!-- SSD Health (only shown when available) -->
         @if (getSSDHealth()) {
-        <div class="dashboard-device-metric flex flex-col mx-6 my-3 xs:w-full">
+        <div class="dashboard-device-metric">
             <div class="dashboard-device-metric-label font-semibold text-xs text-hint uppercase tracking-wider">
                 {{ getSSDHealthLabel() }}
             </div>
-            <div class="dashboard-device-metric-value mt-2 font-medium text-3xl leading-none">
+            <div class="dashboard-device-metric-value font-medium text-3xl leading-none">
                 {{ getSSDHealthDisplay() }}
             </div>
         </div>

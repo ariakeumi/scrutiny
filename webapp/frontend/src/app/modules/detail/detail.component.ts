@@ -211,7 +211,7 @@ export class DetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     /**
      * Chinese display label for the header status badge. Keeps the failure reason
-     * (smart/scrutiny) that displayedStatus may carry, e.g. "失败（smartctl）".
+     * (smart/scrutiny) that displayedStatus may carry, e.g. "警告（smartctl）".
      */
     get displayedStatusLabel(): string {
         const status = this.displayedStatus;
@@ -221,9 +221,9 @@ export class DetailComponent implements OnInit, AfterViewInit, OnDestroy {
         if (status.startsWith('failed:')) {
             const reason = status.split(':')[1]?.trim();
             const reasonLabels: Record<string, string> = { smart: 'smartctl', scrutiny: 'Scrutiny', both: '两者', override: '手动覆盖' };
-            return `失败${reasonLabels[reason] ? `（${reasonLabels[reason]}）` : ''}`;
+            return `警告${reasonLabels[reason] ? `（${reasonLabels[reason]}）` : ''}`;
         }
-        const labels: Record<string, string> = { passed: '通过', failed: '失败', unknown: '未知' };
+        const labels: Record<string, string> = { passed: '安全', failed: '警告', unknown: '未知' };
         return labels[status] ?? status;
     }
 
@@ -847,7 +847,7 @@ export class DetailComponent implements OnInit, AfterViewInit, OnDestroy {
             case 'acknowledge':
                 return `已确认当前值 ${override.pinned_value}`;
             case 'force_status':
-                return `强制状态：${override.status === 'passed' ? '通过' : override.status === 'warn' ? '警告' : '失败'}`;
+                return `强制状态：${override.status === 'passed' ? '安全' : '警告'}`;
             default:
                 return '自定义阈值';
         }

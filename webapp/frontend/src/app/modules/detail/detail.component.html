@@ -32,7 +32,7 @@
                 </button>
 
                 @if (device?.device_status !== 0) {
-                <button class="ml-2 xs:hidden" mat-stroked-button (click)="resetDeviceStatus()" matTooltip="将设备状态重置为通过">
+                <button class="ml-2 xs:hidden" mat-stroked-button (click)="resetDeviceStatus()" matTooltip="将设备状态重置为安全">
                     <mat-icon class="icon-size-20" [svgIcon]="'refresh'"></mat-icon>
                     <span class="ml-2">重置状态</span>
                 </button>
@@ -705,9 +705,9 @@
                                     </button>
                                     <button mat-menu-item (click)="forcePassedAttribute(attribute)">
                                         <mat-icon class="icon-size-20" [svgIcon]="'check_circle'"></mat-icon>
-                                        <span>强制标记为通过</span>
+                                        <span>强制标记为安全</span>
                                     </button>
-                                    <button mat-menu-item (click)="acknowledgeAttribute(attribute)" matTooltip="仅在当前值下通过；数值变化后再次失败">
+                                    <button mat-menu-item (click)="acknowledgeAttribute(attribute)" matTooltip="仅在当前值下视为安全；数值变化后再次警告">
                                         <mat-icon class="icon-size-20" [svgIcon]="'check_circle_outline'"></mat-icon>
                                         <span>确认当前值</span>
                                     </button>

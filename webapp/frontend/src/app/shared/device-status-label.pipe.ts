@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 const STATUS_LABELS: { [key: string]: string } = {
-    passed: '通过',
-    failed: '失败',
+    passed: '安全',
+    failed: '警告',
     unknown: '未知',
     warn: '警告',
 };
