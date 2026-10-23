@@ -19,23 +19,20 @@ jq -e '
         and (.default_image | type == "boolean")
     )
     and ([.[].image] | length == (unique | length))
-    and ([.[] | select(.pr_build == true)] | length > 0)
     and ([.[] | select(.apparmor_kind != null)] | length > 0)
     and all(.[]; (.pr_build == true or .apparmor_kind != null))
     and all(.[]; (.pr_build != true or .apparmor_kind == null))
     and ([.[] | select(.default_image == true)] | length == 1)
 ' "${matrix_file}" >/dev/null
 
-manifest_files=()
-while IFS= read -r path; do
-    manifest_files+=( "${path}" )
-done < <(jq -r '.[].dockerfile' "${matrix_file}" | sort)
-
-repository_files=()
-while IFS= read -r path; do
-    repository_files+=( "${path}" )
-done < <(find "${repo_root}/docker" -maxdepth 1 -type f -name 'Dockerfile*' -print | sed "s#^${repo_root}/##" | sort)
-
-diff -u <(printf '%s\n' "${repository_files[@]}") <(printf '%s\n' "${manifest_files[@]}")
+# The repository keeps Dockerfiles that are not currently part of the build
+# matrix (e.g. the collector variants). The matrix only has to reference
+# Dockerfiles that exist.
+while IFS= read -r dockerfile; do
+    if [[ ! -f "${repo_root}/${dockerfile}" ]]; then
+        echo "Matrix dockerfile missing from repository: ${dockerfile}" >&2
+        exit 1
+    fi
+done < <(jq -r '.[].dockerfile' "${matrix_file}")
 
 echo "Docker image matrix tests passed"

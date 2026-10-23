@@ -7,7 +7,6 @@
 
 # Scrutiny
 
-[![CI](https://github.com/Staros-Labs/scrutiny/workflows/CI/badge.svg?branch=master)](https://github.com/Staros-Labs/scrutiny/actions?query=workflow%3ACI)
 [![GitHub license](https://img.shields.io/github/license/Staros-Labs/scrutiny.svg?style=flat-square)](https://github.com/Staros-Labs/scrutiny/blob/master/LICENSE)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Staros-Labs/scrutiny?style=flat-square)](https://goreportcard.com/report/github.com/Staros-Labs/scrutiny)
 [![GitHub release](http://img.shields.io/github/release/Staros-Labs/scrutiny.svg?style=flat-square)](https://github.com/Staros-Labs/scrutiny/releases)
@@ -74,10 +73,11 @@ Releases are created manually, not on every commit. Track upcoming work on the [
 
 This repository also owns the testing and production deployment definitions for Scrutiny.
 
-- Testing images publish from the `develop` branch through [`Deploy Testing Stack`](./.github/workflows/deploy-testing.yml)
-- Beta images publish from the `beta` branch through [`Publish Beta Image`](./.github/workflows/deploy-beta.yml)
-- Production images publish from release tags through [`Docker`](./.github/workflows/docker-build.yaml)
-- Release tags are created by [`Release`](./.github/workflows/release.yaml) after semantic versioning completes
+- All image builds publish through [`Docker`](./.github/workflows/docker-build.yaml), which currently builds only the omnibus image:
+  - `develop` branch pushes publish `:develop` / `:develop-omnibus`
+  - `beta` branch pushes publish `:beta` / `:beta-omnibus`
+  - `v*.*.*` release tags publish `:latest` / `:latest-omnibus` plus semver tags
+- Release tags are pushed manually (the `Release` semantic-versioning workflow is currently removed)
 - `beta` is an optional pre-release channel for features that need validation before going to `master`
 - Zeus currently runs separate develop, beta, and production host appdata trees:
   - develop: `/mnt/user/appdata/scrutiny-develop`
@@ -94,15 +94,7 @@ This repository also owns the testing and production deployment definitions for 
 This repo includes a loop pilot for PR flow, issue triage, and dependency hygiene.
 
 - Control docs: [`LOOP.md`](./LOOP.md), [`STATE.md`](./STATE.md), [`loop-budget.md`](./loop-budget.md)
-- Scheduled triage: [`.github/workflows/loop-pilot-triage.yaml`](./.github/workflows/loop-pilot-triage.yaml)
-- Manual draft-only analyzers:
-  - [`.github/workflows/loop-pilot-pr-babysitter.yaml`](./.github/workflows/loop-pilot-pr-babysitter.yaml)
-  - [`.github/workflows/loop-pilot-dependency-sweeper.yaml`](./.github/workflows/loop-pilot-dependency-sweeper.yaml)
-- Actions run names:
-  - `Loop Pilot Triage`
-  - `Loop Pilot PR Babysitter`
-  - `Loop Pilot Dependency Sweeper`
-- Default-branch dispatch: available from GitHub Actions on `master`
+- The loop pilot workflows (triage, PR babysitter, dependency sweeper) are currently removed; CI/CD is temporarily reduced to the omnibus Docker build. Restore them from git history if needed.
 
 The pilot is intentionally draft-only for action loops: it can summarize blockers and produce artifacts, but it does not commit, push, merge, label, or comment on PRs.
 
