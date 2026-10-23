@@ -20,42 +20,19 @@
     height: 16px;
 }
 
-// 指标区的对齐策略:
-// - 容器够宽(≥34rem)时, 指标按内容宽度从左到右紧凑排列、间距一致, 与原版设计一致;
-// - 容器较窄一行放不下时, 退回 auto-fit 网格, 换行后各指标严格按列对齐,
-//   不会出现 flex-wrap 那样 "容量在上一行末尾、通电时长掉到下一行开头" 的错位。
-.dashboard-device-shell {
-    container-type: inline-size;
-}
-
+// 指标区使用 auto-fit 网格: 宽卡片一行容纳全部指标, 窄卡片自动减少列数,
+// 无论怎么换行, 各指标 (状态/温度/容量/通电时长…) 都按列严格对齐,
+// 不会出现 flex-wrap 那样 "容量在上一行末尾、通电时长掉到下一行开头" 的错位。
 .dashboard-device-metrics {
-    display: flex;
-    flex-wrap: wrap;
-    // 行距 1.5rem 延续原布局 my-3 的节奏
-    gap: 1.5rem 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+    gap: 1.5rem;
     // 原布局 mt-4(容器) + my-3(指标上边距) = 28px, 保持首行与标题的间距不变
     margin-top: 1.75rem;
 }
 
 .dashboard-device-metric {
-    // 指标按内容宽度排列, 不参与伸缩
-    flex: none;
-}
-
-.dashboard-device-metric-value {
-    margin-top: 0.5rem;
-}
-
-@container (width < 34rem) {
-    .dashboard-device-metrics {
-        display: grid;
-        // 最小列宽 7.5rem 保证大容量值 (如 "12.73 TB") 不在列内折行
-        grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
-    }
-
-    .dashboard-device-metric {
-        min-width: 0;
-    }
+    min-width: 0;
 }
 
 .dashboard-device-metric-value {
