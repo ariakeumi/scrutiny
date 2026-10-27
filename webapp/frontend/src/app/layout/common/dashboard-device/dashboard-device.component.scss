@@ -24,14 +24,6 @@
     height: 16px;
 }
 
-@media (min-width: 600px) {
-    // Reserve a stable slot for Capacity so Powered On does not shift with its text.
-    .dashboard-device-metrics > .dashboard-device-metric:nth-child(3) {
-        flex: 0 0 110px;
-        width: 110px;
-    }
-}
-
 .dashboard-device-shell--compact {
     padding: 0.85rem 0.75rem 0.55rem 0.6rem;
 
