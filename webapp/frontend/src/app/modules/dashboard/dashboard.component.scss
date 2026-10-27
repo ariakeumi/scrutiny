@@ -24,6 +24,10 @@ example {
     gap: 0.5rem;
 }
 
+.dashboard-host-heading {
+    width: 100%;
+}
+
 .dashboard-device-grid__item {
     // 让卡片外壳 (flex-auto) 拉伸填满网格单元格, 同一行卡片保持等高。
     display: flex;
@@ -31,6 +35,22 @@ example {
 }
 
 @media (min-width: 960px) {
+    // Keep two columns at 93.5% of the original card width (85% widened by 10%).
+    .dashboard-device-grid.dashboard-device-grid--cols-2,
+    .dashboard-host-heading.dashboard-device-grid--cols-2 {
+        width: calc(93.5% + 0.065rem);
+    }
+
+    .dashboard-device-grid.dashboard-device-grid--cols-2.dashboard-device-grid--compact,
+    .dashboard-host-heading.dashboard-device-grid--cols-2.dashboard-host-heading--compact {
+        // Compensate for widening the original 0.5rem gap to 30px.
+        width: calc(93.5% + 30px - 0.4675rem);
+    }
+
+    .dashboard-device-grid.dashboard-device-grid--cols-2.dashboard-device-grid--compact {
+        gap: 30px;
+    }
+
     .dashboard-device-grid--cols-2,
     .dashboard-device-grid--cols-3,
     .dashboard-device-grid--cols-4,

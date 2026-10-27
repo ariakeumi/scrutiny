@@ -2,6 +2,10 @@
     opacity: 0.8;
 }
 
+.dashboard-device-shell a.font-bold.text-md {
+    font-size: 15px !important;
+}
+
 .mat-icon.muted-icon {
     /* Treo is messing with the selector a little bit, so we have to assert !importance here */
     display: inline-block !important;
@@ -18,6 +22,14 @@
 .mat-icon.muted-icon {
     width: 16px;
     height: 16px;
+}
+
+@media (min-width: 600px) {
+    // Reserve a stable slot for Capacity so Powered On does not shift with its text.
+    .dashboard-device-metrics > .dashboard-device-metric:nth-child(3) {
+        flex: 0 0 110px;
+        width: 110px;
+    }
 }
 
 .dashboard-device-shell--compact {

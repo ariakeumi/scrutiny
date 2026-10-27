@@ -14,9 +14,11 @@
 
             <!-- Device Groups -->
             @for (hostId of hostGroups | keyvalue; track hostId) {
-            <div class="flex flex-wrap w-full mb-6">
+            <div class="flex flex-col items-center w-full mb-6">
                 @if (hostId.key) {
-                <div class="flex items-center ml-4 mb-2 gap-3">
+                <div class="dashboard-host-heading flex items-center mb-2 gap-3"
+                     [ngClass]="dashboardGridClass()"
+                     [class.dashboard-host-heading--compact]="isCompactDashboard()">
                     <h3 class="m-0">{{ hostId.key }}</h3>
                     @if (config?.server_version) {
                     <span class="gt-sm:hidden text-sm px-2 py-0.5 rounded-full text-white bg-gray-500"> 服务器 v{{ config.server_version }} </span>
